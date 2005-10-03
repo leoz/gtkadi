@@ -1,0 +1,154 @@
+/****************************************************************************
+ * Copyright (C) 2005 Leonid Zolotarev
+ *
+ * GTK ADI Library.
+ *
+ * $Id$
+ ***************************************************************************/
+
+body {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	background-color: #ffffff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-size: 0.8em;
+	text-decoration: none;
+}
+
+a:link {
+	color: #000000;
+	background: transparent;
+	text-decoration: none;
+}
+
+a:hover, a:visited:hover {
+	color: #000000;
+	background: transparent;
+	text-decoration: underline;
+}
+
+a:active {
+	color: #000000;
+}
+
+a:visited {
+	color: #000000;
+	background: transparent;
+	text-decoration: none;
+}
+
+#header {
+	border-bottom: dashed;
+	border-width: thin;
+	border-color: #336592;
+	font-size: 3em;
+	font-family: Verdana, sans-serif;
+	color: #336592;
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+}
+
+#left_bar {
+	border-right: dashed;
+	border-width: thin;
+	border-color: #336592;
+	float: left;
+	width: 150px;
+	margin-top: 0;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+	font-size: 1em;
+}
+
+#left_bar a:link {
+	color: #000000;
+	background: transparent;
+}
+
+#left_bar a:hover, a:visited:hover {
+	color: #000000;
+	background: transparent;
+}
+
+#left_bar a:active {
+	color: #000000;
+	background: transparent;
+}
+
+#left_bar a:visited {
+	color: #000000;
+	background: transparent;
+}
+
+#contents {
+	color: #336592;
+}
+
+#contents a:link {
+	color: #336592;
+	background: transparent;
+	text-decoration: none;
+}
+
+#contents a:hover, a:visited:hover {
+	color: #336592;
+	background: transparent;
+	text-decoration: underline;
+}
+
+#contents a:active {
+	color: #336592;
+}
+
+#contents a:visited {
+	color: #336592;
+	background: transparent;
+	text-decoration: none;
+}
+
+#main {
+	margin-left: 170px;
+	padding: 1em;
+	max-width: 50em;
+	font-size: 12px;
+}
+
+#main h2 {
+	margin: 1em;
+	font-family: Georgia, sans-serif;
+	font-size: 1.7em;
+	border-bottom: groove 1px #336592;
+}
+
+#footer {
+	border-top: dashed;
+	border-width: thin;
+	border-color: #336592;
+	font-size: .7em;
+	font-family: Verdana, sans-serif;
+	text-align: center;
+	clear: both;
+	margin: 5px;
+	padding: 5px;
+}
+
+#container {
+	width: 100%;
+	float: left;
+	margin-right: -20px;
+}
+
+#content {
+	margin-right: 20px;
+}
+
+.clearing {
+	height: 0;
+	clear: both;
+}
