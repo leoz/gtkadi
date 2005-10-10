@@ -25,22 +25,13 @@
 #include "gtkadistock.h"
 
 /* here are local prototypes */
-static void gtk_adi_title_class_init (GtkAdiTitleClass * c) G_GNUC_UNUSED;
-static void gtk_adi_title_close_button_released (GtkAdiTitle * self, GtkWidget * close_button) G_GNUC_UNUSED;
-static void gtk_adi_title_init (GtkAdiTitle * self) G_GNUC_UNUSED;
+static void gtk_adi_title_class_init (GtkAdiTitleClass *c);
+static void gtk_adi_title_close_button_released (GtkAdiTitle *self, GtkWidget *close_button);
+static void gtk_adi_title_init (GtkAdiTitle *self);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
 
-/* Short form macros */
-#define self_set_text_font gtk_adi_title_set_text_font
-#define self_set_widget_style gtk_adi_title_set_widget_style
-#define self_close_button_released gtk_adi_title_close_button_released
-#define self_new gtk_adi_title_new
-#define self_set_child gtk_adi_title_set_child
-#define self_set_parent gtk_adi_title_set_parent
-#define self_set_text gtk_adi_title_set_text
-#define self_set_icon gtk_adi_title_set_icon
 GType
 gtk_adi_title_get_type (void)
 {
@@ -69,66 +60,49 @@ gtk_adi_title_get_type (void)
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdiTitle *)g_object_new(gtk_adi_title_get_type(), NULL))
 
-/* a function for creating a new object of our type */
-#include <stdarg.h>
-static GtkAdiTitle * GET_NEW_VARG (const char *first, ...) G_GNUC_UNUSED;
-static GtkAdiTitle *
-GET_NEW_VARG (const char *first, ...)
-{
-	GtkAdiTitle *ret;
-	va_list ap;
-	va_start (ap, first);
-	ret = (GtkAdiTitle *)g_object_new_valist (gtk_adi_title_get_type (), first, ap);
-	va_end (ap);
-	return ret;
-}
-
 static void 
-gtk_adi_title_class_init (GtkAdiTitleClass * c G_GNUC_UNUSED)
+gtk_adi_title_class_init (GtkAdiTitleClass * c)
 {
 
 	parent_class = g_type_class_ref (GTK_TYPE_EVENT_BOX);
 
 }
+
 static void 
-gtk_adi_title_init (GtkAdiTitle * self G_GNUC_UNUSED)
+gtk_adi_title_init (GtkAdiTitle * self)
 {
- {
+	gtk_container_set_border_width (GTK_CONTAINER (self), 1);
 
-		gtk_container_set_border_width (GTK_CONTAINER (self), 1);
+	self->hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (self), self->hbox);
 
-        self->hbox = gtk_hbox_new (FALSE, 0);
-        gtk_container_add (GTK_CONTAINER (self), self->hbox);
+	self->image = gtk_image_new_from_pixbuf (NULL);
+	gtk_box_pack_start (GTK_BOX (self->hbox), self->image, FALSE, FALSE, 0);
+	gtk_misc_set_padding (GTK_MISC (self->image), 2, 0);
 
-        self->image = gtk_image_new_from_pixbuf (NULL);
-        gtk_box_pack_start (GTK_BOX (self->hbox), self->image, FALSE, FALSE, 0);
-        gtk_misc_set_padding (GTK_MISC (self->image), 2, 0);
+	self->label = gtk_label_new (NULL);
+	gtk_adi_title_set_widget_style (self->label);
 
-        self->label = gtk_label_new (NULL);
-		gtk_adi_title_set_widget_style (self->label);
+	self->vbox = gtk_vbox_new (TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (self->hbox), self->vbox, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (self->vbox), 2);
 
-        self->vbox = gtk_vbox_new (TRUE, 0);
-        gtk_box_pack_end (GTK_BOX (self->hbox), self->vbox, FALSE, FALSE, 0);
-        gtk_container_set_border_width (GTK_CONTAINER (self->vbox), 2);
+	self->close_button = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (self->vbox), self->close_button,
+						FALSE, FALSE, 0);
+	gtk_widget_set_size_request (self->close_button, 16, 16);
+	GTK_WIDGET_UNSET_FLAGS (self->close_button, GTK_CAN_FOCUS);
 
-        self->close_button = gtk_button_new ();
-        gtk_box_pack_start (GTK_BOX (self->vbox), self->close_button,
-                            FALSE, FALSE, 0);
-        gtk_widget_set_size_request (self->close_button, 16, 16);
-		GTK_WIDGET_UNSET_FLAGS (self->close_button, GTK_CAN_FOCUS);
-
-		/* Default GTK close icon could be used also. */
-		/*
-        self->close_image = gtk_image_new_from_stock ("gtk-close",
-                                                      GTK_ICON_SIZE_MENU);
-		*/
-        self->close_image = gtk_image_new_from_stock (
-                                GTK_ADI_STOCK_CLOSE_WINDOW,
-                                GTK_ICON_SIZE_MENU);
-        gtk_container_add (GTK_CONTAINER (self->close_button),
-                           self->close_image);
-	
- }
+	/* Default GTK close icon could be used also. */
+	/*
+	self->close_image = gtk_image_new_from_stock ("gtk-close",
+												  GTK_ICON_SIZE_MENU);
+	*/
+	self->close_image = gtk_image_new_from_stock (
+							GTK_ADI_STOCK_CLOSE_WINDOW,
+							GTK_ICON_SIZE_MENU);
+	gtk_container_add (GTK_CONTAINER (self->close_button),
+					   self->close_image);
 }
 
 
@@ -137,29 +111,27 @@ gtk_adi_title_set_text_font (GtkAdiTitle * self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
-{
 	
-    	GtkStyle *style = gtk_widget_get_style(self->label);
-		pango_font_description_set_size(style->font_desc, 8 * PANGO_SCALE);
-    	pango_font_description_set_weight(style->font_desc, PANGO_WEIGHT_BOLD);
-    	gtk_widget_modify_font(self->label, style->font_desc);
-	}}
+	GtkStyle *style = gtk_widget_get_style(self->label);
+	pango_font_description_set_size(style->font_desc, 8 * PANGO_SCALE);
+	pango_font_description_set_weight(style->font_desc, PANGO_WEIGHT_BOLD);
+	gtk_widget_modify_font(self->label, style->font_desc);
+}
 
 void 
 gtk_adi_title_set_widget_style (GtkWidget * widget)
 {
 	g_return_if_fail (widget != NULL);
-{
 	
-		GtkStyle* style = gtk_style_copy (widget->style);
+	GtkStyle* style = gtk_style_copy (widget->style);
 
-		/* Set size */
-		style->xthickness = 0;
-		style->ythickness = 0;
+	/* Set size */
+	style->xthickness = 0;
+	style->ythickness = 0;
 
-		gtk_widget_set_style (widget, style);
-		g_object_unref (G_OBJECT (style));
-	}}
+	gtk_widget_set_style (widget, style);
+	g_object_unref (G_OBJECT (style));
+}
 
 static void 
 gtk_adi_title_close_button_released (GtkAdiTitle * self, GtkWidget * close_button)
@@ -167,20 +139,16 @@ gtk_adi_title_close_button_released (GtkAdiTitle * self, GtkWidget * close_butto
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (close_button != NULL);
-{
 	
-		gtk_adi_view_remove_child (GTK_ADI_VIEW (self->adi_parent),
-                                   self->adi_child);
-	}}
-
+	gtk_adi_view_remove_child (GTK_ADI_VIEW (self->adi_parent),
+							   self->adi_child);
+}
 
 GtkWidget * 
 gtk_adi_title_new (void)
 {
-{
-	
-        return GTK_WIDGET(GET_NEW);
-	}}
+	return GTK_WIDGET(GET_NEW);
+}
 
 void 
 gtk_adi_title_set_child (GtkAdiTitle * self, GtkWidget * adi_child)
@@ -188,13 +156,12 @@ gtk_adi_title_set_child (GtkAdiTitle * self, GtkWidget * adi_child)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (adi_child != NULL);
-{
 	
-        self->adi_child = adi_child;
-        g_signal_connect_swapped ((gpointer) self->close_button, "released",
-                                  G_CALLBACK (gtk_adi_title_close_button_released),
-                                  GTK_OBJECT (self));
-	}}
+	self->adi_child = adi_child;
+	g_signal_connect_swapped ((gpointer) self->close_button, "released",
+							  G_CALLBACK (gtk_adi_title_close_button_released),
+							  GTK_OBJECT (self));
+}
 
 void 
 gtk_adi_title_set_parent (GtkAdiTitle * self, GtkWidget * adi_parent)
@@ -202,10 +169,9 @@ gtk_adi_title_set_parent (GtkAdiTitle * self, GtkWidget * adi_parent)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (adi_parent != NULL);
-{
-	
-        self->adi_parent = adi_parent;
-	}}
+
+	self->adi_parent = adi_parent;
+}
 
 void 
 gtk_adi_title_set_text (GtkAdiTitle * self, const gchar * str)
@@ -213,10 +179,9 @@ gtk_adi_title_set_text (GtkAdiTitle * self, const gchar * str)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (str != NULL);
-{
 	
-        gtk_label_set_text(GTK_LABEL(self->label), str);
-	}}
+	gtk_label_set_text(GTK_LABEL(self->label), str);
+}
 
 void 
 gtk_adi_title_set_icon (GtkAdiTitle * self, GdkPixbuf * icon)
@@ -224,7 +189,6 @@ gtk_adi_title_set_icon (GtkAdiTitle * self, GdkPixbuf * icon)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (icon != NULL);
-{
 	
-        gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
-	}}
+	gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
+}
