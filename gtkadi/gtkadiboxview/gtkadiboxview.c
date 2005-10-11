@@ -405,11 +405,10 @@ gtk_adi_box_view_activate_child (GtkAdiBoxView * self, GtkWidget * widget)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_BOX_VIEW (self));
-	g_return_if_fail (widget != NULL);
 	
 	GList* list = NULL;
 	GtkWidget* cur = GTK_ADI_CHILD(self->cur_child)->widget;
-	if (cur != widget) {
+	if (widget && cur != widget) {
 		list = g_list_find_custom (self->children, widget,
 								   gtk_adi_box_view_find_widget);
 		if (list != NULL) {

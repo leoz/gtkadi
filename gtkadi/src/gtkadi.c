@@ -21,6 +21,7 @@
  */
 
 #include "gtkadi.h"
+/* #define ADI_DO_TRACE */
 #include "gtkadicmd.h"
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
@@ -61,26 +62,53 @@ gtk_adi_get_type (void)
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdi *)g_object_new(gtk_adi_get_type(), NULL))
 
+#define ADI_TRACE_FINALIZE(msg) ADI_TRACE("ADI finalize: %s", msg)
+
 static void
 gtk_adi_finalize(GObject *obj_self)
 {
 	GtkAdi *self G_GNUC_UNUSED = GTK_ADI (obj_self);
+	
+	ADI_TRACE_FINALIZE("begin");
+	
 	if(G_OBJECT_CLASS(parent_class)->finalize) {
+		ADI_TRACE_FINALIZE("parent");
 		(* G_OBJECT_CLASS(parent_class)->finalize)(obj_self);
 	}
-	
+
+	if (self->cur_view) {
+		ADI_TRACE_FINALIZE("current");
+		if (GTK_IS_WIDGET(self->cur_view)) {
+			gtk_container_remove (GTK_CONTAINER (self), self->cur_view);
+		}
+		self->cur_view = NULL;
+	}
+
 	if(self->cmd) {
-		gtk_object_destroy(self->cmd);
+		ADI_TRACE_FINALIZE("cmd");
+		if (GTK_IS_WIDGET(self->cmd)) {
+			gtk_object_destroy(self->cmd);
+		}
 		self->cmd = NULL;
 	}
+	
 	if(self->box_view) {
-		gtk_widget_destroy(self->box_view);
+		ADI_TRACE_FINALIZE("box view");
+		if (GTK_IS_WIDGET(self->box_view)) {
+			gtk_widget_destroy(self->box_view);
+		}
 		self->box_view = NULL;
 	}
+	
 	if(self->tab_view) {
-		gtk_widget_destroy(self->tab_view);
+		ADI_TRACE_FINALIZE("tab view");
+		if (GTK_IS_WIDGET(self->tab_view)) {
+			gtk_widget_destroy(self->tab_view);
+		}
 		self->tab_view = NULL;
 	}
+	
+	ADI_TRACE_FINALIZE("end");
 }
 
 static void 
@@ -109,7 +137,7 @@ gtk_adi_init (GtkAdi * self)
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
 
-	self->cur_view = self->tab_view;
+	self->cur_view = self->box_view;
 	gtk_container_add (GTK_CONTAINER (self), self->cur_view);
 }
 

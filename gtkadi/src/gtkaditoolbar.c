@@ -27,6 +27,7 @@
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include "gtkadistock.h"
+/* #define ADI_DO_TRACE */
 #include "gtkadicmd.h"
 
 /* here are local prototypes */
@@ -71,78 +72,14 @@ static void
 gtk_adi_toolbar_finalize(GObject *obj_self)
 {
 	GtkAdiToolbar *self G_GNUC_UNUSED = GTK_ADI_TOOLBAR (obj_self);
+	
+	ADI_TRACE("Toolbar finalize: %s", "begin");
+	
 	if(G_OBJECT_CLASS(parent_class)->finalize) {
 		(* G_OBJECT_CLASS(parent_class)->finalize)(obj_self);
 	}
-	
-	if(self->btn_new) {
-		gtk_widget_destroy(self->btn_new);
-		self->btn_new = NULL;
-	}
-	if(self->btn_new_h) {
-		gtk_widget_destroy(self->btn_new_h);
-		self->btn_new_h = NULL;
-	}
-	if(self->btn_new_v) {
-		gtk_widget_destroy(self->btn_new_v);
-		self->btn_new_v = NULL;
-	}
-	if(self->sep_new) {
-		gtk_widget_destroy(self->sep_new);
-		self->sep_new = NULL;
-	}
-	if(self->btn_cls) {
-		gtk_widget_destroy(self->btn_cls);
-		self->btn_cls = NULL;
-	}
-	if(self->btn_cls_all) {
-		gtk_widget_destroy(self->btn_cls_all);
-		self->btn_cls_all = NULL;
-	}
-	if(self->sep_cls) {
-		gtk_widget_destroy(self->sep_cls);
-		self->sep_cls = NULL;
-	}
-	if(self->btn_next) {
-		gtk_widget_destroy(self->btn_next);
-		self->btn_next = NULL;
-	}
-	if(self->btn_prev) {
-		gtk_widget_destroy(self->btn_prev);
-		self->btn_prev = NULL;
-	}
-	if(self->sep_nav) {
-		gtk_widget_destroy(self->sep_nav);
-		self->sep_nav = NULL;
-	}
-	if(self->btn_tile_h) {
-		gtk_widget_destroy(self->btn_tile_h);
-		self->btn_tile_h = NULL;
-	}
-	if(self->btn_tile_v) {
-		gtk_widget_destroy(self->btn_tile_v);
-		self->btn_tile_v = NULL;
-	}
-	if(self->sep_tile) {
-		gtk_widget_destroy(self->sep_tile);
-		self->sep_tile = NULL;
-	}
-	if(self->itm_mode) {
-		gtk_widget_destroy(self->itm_mode);
-		self->itm_mode = NULL;
-	}
-	if(self->cmb_mode) {
-		gtk_widget_destroy(self->cmb_mode);
-		self->cmb_mode = NULL;
-	}
-	if(self->tgl_fix) {
-		gtk_widget_destroy(self->tgl_fix);
-		self->tgl_fix = NULL;
-	}
-	if(self->sep_mode) {
-		gtk_widget_destroy(self->sep_mode);
-		self->sep_mode = NULL;
-	}
+
+	ADI_TRACE("Toolbar finalize: %s", "end");
 }
 
 static void 

@@ -25,6 +25,7 @@
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include "gtkadistock.h"
+/* #define ADI_DO_TRACE */
 #include "gtkadicmd.h"
 
 /* here are local prototypes */
@@ -69,90 +70,14 @@ static void
 gtk_adi_menu_finalize(GObject *obj_self)
 {
 	GtkAdiMenu *self G_GNUC_UNUSED = GTK_ADI_MENU (obj_self);
+	
+	ADI_TRACE("Menu finalize: %s", "begin");
+
 	if(G_OBJECT_CLASS(parent_class)->finalize) {
 		(* G_OBJECT_CLASS(parent_class)->finalize)(obj_self);
 	}
-	
-	if(self->menu) {
-		gtk_widget_destroy(self->menu);
-		self->menu = NULL;
-	}
-	if(self->item_new) {
-		gtk_widget_destroy(self->item_new);
-		self->item_new = NULL;
-	}
-	if(self->item_new_h) {
-		gtk_widget_destroy(self->item_new_h);
-		self->item_new_h = NULL;
-	}
-	if(self->item_new_v) {
-		gtk_widget_destroy(self->item_new_v);
-		self->item_new_v = NULL;
-	}
-	if(self->sep_new) {
-		gtk_widget_destroy(self->sep_new);
-		self->sep_new = NULL;
-	}
-	if(self->item_cls) {
-		gtk_widget_destroy(self->item_cls);
-		self->item_cls = NULL;
-	}
-	if(self->item_cls_all) {
-		gtk_widget_destroy(self->item_cls_all);
-		self->item_cls_all = NULL;
-	}
-	if(self->sep_cls) {
-		gtk_widget_destroy(self->sep_cls);
-		self->sep_cls = NULL;
-	}
-	if(self->item_next) {
-		gtk_widget_destroy(self->item_next);
-		self->item_next = NULL;
-	}
-	if(self->item_prev) {
-		gtk_widget_destroy(self->item_prev);
-		self->item_prev = NULL;
-	}
-	if(self->sep_nav) {
-		gtk_widget_destroy(self->sep_nav);
-		self->sep_nav = NULL;
-	}
-	if(self->item_tile_h) {
-		gtk_widget_destroy(self->item_tile_h);
-		self->item_tile_h = NULL;
-	}
-	if(self->item_tile_v) {
-		gtk_widget_destroy(self->item_tile_v);
-		self->item_tile_v = NULL;
-	}
-	if(self->sep_tile) {
-		gtk_widget_destroy(self->sep_tile);
-		self->sep_tile = NULL;
-	}
-	if(self->item_mode) {
-		gtk_widget_destroy(self->item_mode);
-		self->item_mode = NULL;
-	}
-	if(self->menu_mode) {
-		gtk_widget_destroy(self->menu_mode);
-		self->menu_mode = NULL;
-	}
-	if(self->item_paned) {
-		gtk_widget_destroy(self->item_paned);
-		self->item_paned = NULL;
-	}
-	if(self->item_box) {
-		gtk_widget_destroy(self->item_box);
-		self->item_box = NULL;
-	}
-	if(self->item_fix) {
-		gtk_widget_destroy(self->item_fix);
-		self->item_fix = NULL;
-	}
-	if(self->sep_mode) {
-		gtk_widget_destroy(self->sep_mode);
-		self->sep_mode = NULL;
-	}
+
+	ADI_TRACE("Menu finalize: %s", "end");
 }
 
 static void 
