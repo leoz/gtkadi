@@ -20,8 +20,7 @@
  * $Id$
  */
 
-#include <string.h> /* memset() */
-
+/* #define ADI_DO_TRACE */
 #include "gtkadicmd.h"
 
 /* here are local prototypes */
@@ -67,6 +66,8 @@ gtk_adi_cmd_finalize(GObject *obj_self)
 		(* G_OBJECT_CLASS(parent_class)->finalize)(obj_self);
 	}
 	
+	ADI_TRACE("Cmd finalize: %s", "begin");
+	
 	if(self->tooltips) {
 		gtk_object_destroy(GTK_OBJECT(self->tooltips));
 		self->tooltips = NULL;
@@ -79,12 +80,14 @@ gtk_adi_cmd_finalize(GObject *obj_self)
 		gtk_widget_destroy(GTK_WIDGET(self->menu));
 		self->menu = NULL;
 	}
+	
+	ADI_TRACE("Cmd finalize: %s", "end");
 }
 
 static void 
-gtk_adi_cmd_class_init (GtkAdiCmdClass * c G_GNUC_UNUSED)
+gtk_adi_cmd_class_init (GtkAdiCmdClass * c)
 {
-	GObjectClass *g_object_class G_GNUC_UNUSED = (GObjectClass*) c;
+	GObjectClass *g_object_class = (GObjectClass*) c;
 
 	parent_class = g_type_class_ref (GTK_TYPE_OBJECT);
 
@@ -92,7 +95,7 @@ gtk_adi_cmd_class_init (GtkAdiCmdClass * c G_GNUC_UNUSED)
 }
 
 static void 
-gtk_adi_cmd_init (GtkAdiCmd * self G_GNUC_UNUSED)
+gtk_adi_cmd_init (GtkAdiCmd * self)
 {
 	self->adi = NULL;
 	self->tooltips = NULL;

@@ -21,6 +21,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <glib/gprintf.h>
 #include "gtkaditoolbar.h"
 #include "gtkadimenu.h"
 #include "gtkadi.h"
@@ -99,7 +100,13 @@ void 	gtk_adi_cmd_mode_changed	(GtkAdiCmd * self,
 					GtkAdiMode mode);
 void 	gtk_adi_cmd_fix_toggled	(GtkAdiCmd * self,
 					GtkAdiState state);
+					
+#ifdef ADI_DO_TRACE
+#define ADI_TRACE(msg,...) g_printf("ADI: "msg"\n",__VA_ARGS__);
+#else
+#define ADI_TRACE(msg,...)
+#endif /* ADI_DO_TRACE */
 
 G_END_DECLS
 
-#endif
+#endif /* __GTK_ADI_CMD_H__ */
