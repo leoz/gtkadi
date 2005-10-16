@@ -34,6 +34,7 @@
 static void gtk_adi_toolbar_class_init (GtkAdiToolbarClass * c);
 static void gtk_adi_toolbar_init (GtkAdiToolbar * self);
 static void gtk_adi_toolbar_mode_changed (GtkAdiToolbar * self, gpointer user_data);
+static void gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data);
 static void gtk_adi_toolbar_fix_toggled (GtkAdiToolbar * self, gpointer user_data);
 static void gtk_adi_toolbar_post_init (GtkAdiToolbar * self);
 
@@ -110,10 +111,15 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 	self->btn_tile_h = NULL;
 	self->btn_tile_v = NULL;
 	self->sep_tile = NULL;
+	
 	self->itm_mode = NULL;
 	self->cmb_mode = NULL;
 	self->tgl_fix = NULL;
 	self->sep_mode = NULL;
+
+	self->itm_view = NULL;
+	self->cmb_view = NULL;
+	self->sep_view = NULL;
 
 	self->btn_new = GTK_WIDGET(gtk_tool_button_new_from_stock (GTK_ADI_STOCK_NEW));
 	gtk_container_add (GTK_CONTAINER (self), self->btn_new);
@@ -154,6 +160,8 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 	self->sep_tile = (GtkWidget*) gtk_separator_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (self), self->sep_tile);
 
+	/* Mode */
+
 	self->itm_mode = (GtkWidget*) gtk_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (self), self->itm_mode);
 
@@ -169,9 +177,22 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 	gtk_container_add (GTK_CONTAINER (self), self->sep_mode);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX(self->cmb_mode),0);
+
+	/* View */
+	
+	self->itm_view = (GtkWidget*) gtk_tool_item_new ();
+	gtk_container_add (GTK_CONTAINER (self), self->itm_view);
+
+	self->cmb_view = gtk_combo_box_new_text ();
+	gtk_container_add (GTK_CONTAINER (self->itm_view), self->cmb_view);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _("Box View"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _("Tab View"));
+	
+	self->sep_view = (GtkWidget*) gtk_separator_tool_item_new ();
+	gtk_container_add (GTK_CONTAINER (self), self->sep_view);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX(self->cmb_view),0);
 }
-
-
 
 static void 
 gtk_adi_toolbar_mode_changed (GtkAdiToolbar * self, gpointer user_data)
@@ -189,6 +210,25 @@ gtk_adi_toolbar_mode_changed (GtkAdiToolbar * self, gpointer user_data)
 		break;
 	}
 	gtk_adi_cmd_mode_changed (GTK_ADI_CMD(self->cmd), mode);
+}
+
+
+static void 
+gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
+	
+	gint value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
+	GtkAdiViewType view = GTK_ADI_VIEW_BOX;
+	switch ( value ) {
+	case 1:
+		view = GTK_ADI_VIEW_TAB;
+		break;
+	default:
+		break;
+	}
+	gtk_adi_cmd_view_changed (GTK_ADI_CMD(self->cmd), view);
 }
 
 void 
@@ -275,6 +315,9 @@ gtk_adi_toolbar_post_init (GtkAdiToolbar * self)
 					self->cmd);
 	g_signal_connect_swapped ((gpointer) self->cmb_mode, "changed",
 					G_CALLBACK (gtk_adi_toolbar_mode_changed),
+					self);
+	g_signal_connect_swapped ((gpointer) self->cmb_view, "changed",
+					G_CALLBACK (gtk_adi_toolbar_view_changed),
 					self);
 	g_signal_connect_swapped ((gpointer) self->tgl_fix, "toggled",
 					G_CALLBACK (gtk_adi_toolbar_fix_toggled),

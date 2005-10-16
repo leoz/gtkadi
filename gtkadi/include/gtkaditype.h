@@ -26,6 +26,11 @@
 G_BEGIN_DECLS
 
 typedef enum {
+	GTK_ADI_VIEW_BOX,
+	GTK_ADI_VIEW_TAB
+} GtkAdiViewType;
+
+typedef enum {
 	GTK_ADI_PANED,
 	GTK_ADI_BOX
 } GtkAdiMode;

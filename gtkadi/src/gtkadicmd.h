@@ -98,6 +98,8 @@ void 	gtk_adi_cmd_tile_v_clicked	(GtkAdiCmd * self,
 					gpointer user_data);
 void 	gtk_adi_cmd_mode_changed	(GtkAdiCmd * self,
 					GtkAdiMode mode);
+void 	gtk_adi_cmd_view_changed	(GtkAdiCmd * self,
+					GtkAdiViewType view);
 void 	gtk_adi_cmd_fix_toggled	(GtkAdiCmd * self,
 					GtkAdiState state);
 					
