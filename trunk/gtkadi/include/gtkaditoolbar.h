@@ -68,10 +68,15 @@ struct _GtkAdiToolbar {
 	GtkWidget * btn_tile_h;
 	GtkWidget * btn_tile_v;
 	GtkWidget * sep_tile;
+	
 	GtkWidget * itm_mode;
 	GtkWidget * cmb_mode;
 	GtkWidget * tgl_fix;
 	GtkWidget * sep_mode;
+	
+	GtkWidget * itm_view;
+	GtkWidget * cmb_view;
+	GtkWidget * sep_view;
 };
 
 /*

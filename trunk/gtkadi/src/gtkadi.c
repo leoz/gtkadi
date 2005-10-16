@@ -322,6 +322,11 @@ gtk_adi_change_mode (GtkAdi * self, GtkAdiMode mode)
 }
 
 void 
+gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
+{
+}
+
+void 
 gtk_adi_change_state (GtkAdi * self, GtkAdiState state)
 {
 	g_return_if_fail (self != NULL);
