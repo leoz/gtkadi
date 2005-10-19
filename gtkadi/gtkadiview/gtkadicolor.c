@@ -197,8 +197,8 @@ gtk_adi_color_set (GtkAdiColor * self, GtkAdiColorType type)
 GdkColor* 
 gtk_adi_color_inactive_title (GtkAdiColor *self)
 {
-	g_return_val_if_fail (self != NULL, (GdkColor * )0);
-	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), (GdkColor * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), NULL);
 
 	return &self->title[GTK_ADI_STATE_INACTIVE];
 }
@@ -206,8 +206,8 @@ gtk_adi_color_inactive_title (GtkAdiColor *self)
 GdkColor* 
 gtk_adi_color_active_title (GtkAdiColor *self)
 {
-	g_return_val_if_fail (self != NULL, (GdkColor * )0);
-	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), (GdkColor * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), NULL);
 
 	return &self->title[GTK_ADI_STATE_ACTIVE];
 }
@@ -215,8 +215,8 @@ gtk_adi_color_active_title (GtkAdiColor *self)
 GdkColor* 
 gtk_adi_color_inactive_text (GtkAdiColor *self)
 {
-	g_return_val_if_fail (self != NULL, (GdkColor * )0);
-	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), (GdkColor * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), NULL);
 	
 	return &self->text[GTK_ADI_STATE_INACTIVE];
 }
@@ -224,8 +224,8 @@ gtk_adi_color_inactive_text (GtkAdiColor *self)
 GdkColor* 
 gtk_adi_color_active_text (GtkAdiColor *self)
 {
-	g_return_val_if_fail (self != NULL, (GdkColor * )0);
-	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), (GdkColor * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_COLOR (self), NULL);
 	
 	return &self->text[GTK_ADI_STATE_ACTIVE];
 }

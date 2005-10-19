@@ -82,10 +82,10 @@ void 	gtk_adi_title_set_child	(GtkAdiTitle * self,
 					GtkWidget * adi_child);
 void 	gtk_adi_title_set_parent	(GtkAdiTitle * self,
 					GtkWidget * adi_parent);
-void 	gtk_adi_title_set_text	(GtkAdiTitle * self,
-					const gchar * str);
-void 	gtk_adi_title_set_icon	(GtkAdiTitle * self,
-					GdkPixbuf * icon);
+void gtk_adi_title_set_text	(GtkAdiTitle *self, const gchar *str);
+const gchar* gtk_adi_title_get_text	(GtkAdiTitle *self);
+void gtk_adi_title_set_icon	(GtkAdiTitle *self, GdkPixbuf *icon);
+GdkPixbuf* gtk_adi_title_get_icon (GtkAdiTitle *self);
 
 G_END_DECLS
 

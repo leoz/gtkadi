@@ -27,6 +27,8 @@
 #include "gtkadiboxview.h"
 #include "gtkaditabview.h"
 
+#include <memory.h>
+
 /* here are local prototypes */
 static void gtk_adi_class_init (GtkAdiClass * c);
 static void gtk_adi_init (GtkAdi * self);
@@ -137,8 +139,12 @@ gtk_adi_init (GtkAdi * self)
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
 
+	gtk_widget_ref(self->box_view);
+	gtk_widget_ref(self->tab_view);
+
 	self->cur_view = self->box_view;
 	gtk_container_add (GTK_CONTAINER (self), self->cur_view);
+	gtk_widget_unref(self->cur_view);
 }
 
 GtkWidget * 
@@ -324,6 +330,62 @@ gtk_adi_change_mode (GtkAdi * self, GtkAdiMode mode)
 void 
 gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 {
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	GtkWidget* old_view = NULL;
+	
+	/* 1. Hide current view */
+	if (self->cur_view) {
+		gtk_widget_hide(self->cur_view);
+		gtk_widget_ref(self->cur_view);
+		gtk_container_remove(GTK_CONTAINER (self), self->cur_view);
+		old_view = self->cur_view;
+		self->cur_view = NULL;
+	}
+	
+	/* 2. Swap views */
+	switch ( view ) {
+	case GTK_ADI_VIEW_BOX:
+		self->cur_view = self->box_view;
+		break;
+	case GTK_ADI_VIEW_TAB:
+		self->cur_view = self->tab_view;
+		break;
+	default:
+		self->cur_view = NULL;
+		break;
+	}
+	
+	/* 3. Move child windows */
+	GtkAdiChildData data;
+
+	if (self->cur_view && old_view) {
+		memset(&data, 0, sizeof(data));
+		gtk_adi_view_remove_current_child_with_data(GTK_ADI_VIEW(old_view),
+		                                            &data);
+		
+		while (data.widget) {
+//			gtk_widget_ref (data.widget);
+			
+			data.title = g_strdup(data.title);
+			data.widget = gtk_label_new("");
+			gtk_adi_box_view_remove_current_child(GTK_ADI_VIEW(old_view));
+			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
+			                                              &data);
+//			gtk_widget_unref (data.widget);
+			memset(&data, 0, sizeof(data));
+			gtk_adi_view_remove_current_child_with_data(GTK_ADI_VIEW(old_view),
+			                                            &data);
+		}
+	}
+
+	/* 4. Show current view */
+	if (self->cur_view) {
+		gtk_container_add(GTK_CONTAINER (self), self->cur_view);
+		gtk_widget_unref(self->cur_view);
+		gtk_widget_show(self->cur_view);
+	}
 }
 
 void 
