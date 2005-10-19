@@ -180,15 +180,15 @@ void gtk_adi_tab_view_remove_current_child_with_data (GtkAdiView *self,
 	data->widget = gtk_notebook_get_nth_page(GTK_NOTEBOOK(self),
 	               gtk_notebook_get_current_page (GTK_NOTEBOOK(self)));
 
-	g_return_if_fail (data->widget != NULL);
-
-	tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), data->widget);
-
-	g_return_if_fail (tab_label != NULL);
-
-	data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
-	data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
-	data->layout = GTK_ADI_HORIZONTAL;
+	if (data->widget) {
+		tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), data->widget);
+	
+		g_return_if_fail (tab_label != NULL);
+	
+		data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
+		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
+		data->layout = GTK_ADI_HORIZONTAL;
+	}
 }
 
 gboolean 

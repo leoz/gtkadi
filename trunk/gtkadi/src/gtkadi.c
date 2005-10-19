@@ -370,7 +370,7 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 			
 			data.title = g_strdup(data.title);
 			data.widget = gtk_label_new("");
-			gtk_adi_box_view_remove_current_child(GTK_ADI_VIEW(old_view));
+			gtk_adi_view_remove_current_child(GTK_ADI_VIEW(old_view));
 			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
 			                                              &data);
 //			gtk_widget_unref (data.widget);
