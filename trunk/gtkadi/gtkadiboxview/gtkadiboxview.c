@@ -20,6 +20,7 @@
  * $Id$
  */
 
+#include "gtkadiboxtitle.h"
 #include "gtkadiboxview.h"
 #include "gtkadichild.h"
 
@@ -46,6 +47,7 @@ static void
 gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 {
 	iface->get_layout = gtk_adi_box_view_get_layout;
+	iface->add_child_with_data = gtk_adi_box_view_add_child_with_data;
 	iface->add_child_with_layout = gtk_adi_box_view_add_child_with_layout;
 	iface->set_current_child = gtk_adi_box_view_set_current_child;
 	iface->remove_child = gtk_adi_box_view_remove_child;
@@ -55,6 +57,7 @@ gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 	iface->can_tile_v = gtk_adi_box_view_can_tile_v;
 	iface->has_children = gtk_adi_box_view_has_children;
 	iface->remove_current_child = gtk_adi_box_view_remove_current_child;
+	iface->remove_current_child_with_data = gtk_adi_box_view_remove_current_child_with_data;
 	iface->remove_all_children = gtk_adi_box_view_remove_all_children;
 	iface->set_previous_child = gtk_adi_box_view_set_previous_child;
 	iface->set_next_child = gtk_adi_box_view_set_next_child;
@@ -426,6 +429,18 @@ gtk_adi_box_view_get_layout (GtkAdiView * self)
 	return GTK_ADI_BOX_VIEW(self)->layout;
 }
 
+
+void
+gtk_adi_box_view_add_child_with_data (GtkAdiView *self,
+                                      GtkAdiChildData *data)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	g_return_if_fail (data != NULL);
+
+	gtk_adi_box_view_add_child_with_layout(self, data->widget, data->icon, data->title, data->layout);
+}
+
 void 
 gtk_adi_box_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, GdkPixbuf * icon, const gchar * title, GtkAdiLayout layout)
 {
@@ -530,6 +545,30 @@ gtk_adi_box_view_remove_child (GtkAdiView * self, GtkWidget * child)
 	}
 	if ( GTK_ADI_BOX_VIEW(self)->children == NULL ) {
 		GTK_ADI_BOX_VIEW(self)->cur_child = NULL;
+	}
+}
+
+void gtk_adi_box_view_remove_current_child_with_data (GtkAdiView *self,
+                                                      GtkAdiChildData *data)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	g_return_if_fail (data != NULL);
+
+	GtkWidget *tab_label = NULL;
+	
+	if (GTK_ADI_BOX_VIEW(self)->cur_child) {
+		data->widget = GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child)->widget;
+	
+		g_return_if_fail (data->widget != NULL);
+	
+		tab_label = GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child)->title;
+	
+		g_return_if_fail (tab_label != NULL);
+	
+		data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
+		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
+		data->layout = GTK_ADI_HORIZONTAL;
 	}
 }
 

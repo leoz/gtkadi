@@ -77,6 +77,12 @@ gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child)
 }
 
 void
+gtk_adi_view_add_child_with_data (GtkAdiView *self, GtkAdiChildData *data)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->add_child_with_data (self, data);
+}
+
+void
 gtk_adi_view_add_child_with_layout (GtkAdiView *self,
 									GtkWidget *widget,
 									GdkPixbuf *icon,
@@ -124,6 +130,13 @@ void
 gtk_adi_view_remove_current_child (GtkAdiView *self)
 {
 	GTK_ADI_VIEW_GET_CLASS (self)->remove_current_child (self);
+}
+
+void
+gtk_adi_view_remove_current_child_with_data (GtkAdiView *self,
+                                             GtkAdiChildData *data)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->remove_current_child_with_data (self, data);
 }
 
 void

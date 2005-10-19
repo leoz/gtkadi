@@ -20,7 +20,7 @@
  * $Id$
  */
 
-/* #define ADI_DO_TRACE */
+#define ADI_DO_TRACE
 #include "gtkadicmd.h"
 
 /* here are local prototypes */
@@ -312,7 +312,7 @@ gtk_adi_cmd_view_changed (GtkAdiCmd * self, GtkAdiViewType view)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CMD (self));
 	
-	gtk_adi_change_mode (self->adi, view);
+	gtk_adi_change_view (self->adi, view);
 }
 
 void 

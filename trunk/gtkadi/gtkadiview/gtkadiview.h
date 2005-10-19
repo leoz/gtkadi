@@ -37,12 +37,22 @@ G_BEGIN_DECLS
 
 
 typedef struct _GtkAdiView GtkAdiView; /* dummy object */
+typedef struct _GtkAdiChildData GtkAdiChildData;
 typedef struct _GtkAdiViewIface GtkAdiViewIface;
+
+struct _GtkAdiChildData {
+	GtkWidget *widget;
+	GdkPixbuf *icon;
+	const gchar *title;
+	GtkAdiLayout layout;
+};
 
 struct _GtkAdiViewIface {
 	GTypeInterface parent;
 
 	GtkAdiLayout (*get_layout) (GtkAdiView *self);
+	void (*add_child_with_data) (GtkAdiView *self,
+		                         GtkAdiChildData *data);
 	void (*add_child_with_layout) (GtkAdiView *self,
 		                           GtkWidget *widget,
 								   GdkPixbuf *icon,
@@ -56,6 +66,8 @@ struct _GtkAdiViewIface {
 	gboolean (*can_tile_v) (GtkAdiView *self);
 	gboolean (*has_children) (GtkAdiView *self);
 	void (*remove_current_child) (GtkAdiView *self);
+	void (*remove_current_child_with_data) (GtkAdiView *self,
+	                                        GtkAdiChildData *data);
 	void (*remove_all_children) (GtkAdiView *self);
 	void (*set_previous_child) (GtkAdiView *self);
 	void (*set_next_child) (GtkAdiView *self);
@@ -67,6 +79,8 @@ struct _GtkAdiViewIface {
 GType gtk_adi_view_get_type (void);
 
 GtkAdiLayout gtk_adi_view_get_layout (GtkAdiView *self);
+void gtk_adi_view_add_child_with_data (GtkAdiView *self,
+                                       GtkAdiChildData *data);
 void gtk_adi_view_add_child_with_layout (GtkAdiView *self,
 										 GtkWidget *widget,
 										 GdkPixbuf *icon,
@@ -74,6 +88,8 @@ void gtk_adi_view_add_child_with_layout (GtkAdiView *self,
 										 GtkAdiLayout layout);
 void gtk_adi_view_set_current_child	(GtkAdiView *self, GtkWidget *child);
 void gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child);
+void gtk_adi_view_remove_current_child_with_data (GtkAdiView *self,
+                                                  GtkAdiChildData *data);
 gboolean gtk_adi_view_can_previous_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_next_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_h (GtkAdiView *self);

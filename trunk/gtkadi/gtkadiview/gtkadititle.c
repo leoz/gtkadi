@@ -174,7 +174,7 @@ gtk_adi_title_set_parent (GtkAdiTitle * self, GtkWidget * adi_parent)
 }
 
 void 
-gtk_adi_title_set_text (GtkAdiTitle * self, const gchar * str)
+gtk_adi_title_set_text (GtkAdiTitle *self, const gchar *str)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
@@ -183,12 +183,30 @@ gtk_adi_title_set_text (GtkAdiTitle * self, const gchar * str)
 	gtk_label_set_text(GTK_LABEL(self->label), str);
 }
 
+const gchar* 
+gtk_adi_title_get_text (GtkAdiTitle *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), NULL);
+	
+	return gtk_label_get_text(GTK_LABEL(self->label));
+}
+
 void 
-gtk_adi_title_set_icon (GtkAdiTitle * self, GdkPixbuf * icon)
+gtk_adi_title_set_icon (GtkAdiTitle *self, GdkPixbuf *icon)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	g_return_if_fail (icon != NULL);
 	
 	gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
+}
+
+GdkPixbuf* 
+gtk_adi_title_get_icon (GtkAdiTitle *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), NULL);
+	
+	return gtk_image_get_pixbuf(GTK_IMAGE(self->image));
 }

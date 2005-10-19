@@ -27,7 +27,7 @@
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include "gtkadistock.h"
-/* #define ADI_DO_TRACE */
+#define ADI_DO_TRACE
 #include "gtkadicmd.h"
 
 /* here are local prototypes */
@@ -221,6 +221,9 @@ gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data)
 	
 	gint value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
 	GtkAdiViewType view = GTK_ADI_VIEW_BOX;
+	
+	ADI_TRACE("Toolbar: %s", "view changed");
+	
 	switch ( value ) {
 	case 1:
 		view = GTK_ADI_VIEW_TAB;
