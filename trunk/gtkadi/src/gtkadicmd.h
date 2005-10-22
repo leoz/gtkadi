@@ -105,8 +105,10 @@ void 	gtk_adi_cmd_fix_toggled	(GtkAdiCmd * self,
 					
 #ifdef ADI_DO_TRACE
 #define ADI_TRACE(msg,...) g_printf("ADI: "msg"\n",__VA_ARGS__);
+#define ADI_TRACE_MSG(msg) g_printf("ADI: "msg"\n");
 #else
 #define ADI_TRACE(msg,...)
+#define ADI_TRACE_MSG(msg)
 #endif /* ADI_DO_TRACE */
 
 G_END_DECLS

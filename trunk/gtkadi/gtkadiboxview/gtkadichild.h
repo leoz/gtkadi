@@ -79,6 +79,7 @@ void 	gtk_adi_child_set_color	(GtkAdiChild * self,
 					GtkObject * adi_color);
 void 	gtk_adi_child_set_widget	(GtkAdiChild * self,
 					GtkWidget * widget);
+void gtk_adi_child_remove_widget (GtkAdiChild * self);
 void 	gtk_adi_child_set_parent	(GtkAdiChild * self,
 					GtkWidget * adi_parent);
 void 	gtk_adi_child_set_text	(GtkAdiChild * self,

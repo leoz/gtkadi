@@ -59,13 +59,13 @@ struct _GtkAdiViewIface {
 								   const gchar *title,
 								   GtkAdiLayout layout);
 	void (*set_current_child) (GtkAdiView *self, GtkWidget *child);
-	void (*remove_child) (GtkAdiView *self, GtkWidget *child);
+	void (*remove_child) (GtkAdiView *self, GtkWidget *child, gboolean destroy);
 	gboolean (*can_previous_child) (GtkAdiView *self);
 	gboolean (*can_next_child) (GtkAdiView *self);
 	gboolean (*can_tile_h) (GtkAdiView *self);
 	gboolean (*can_tile_v) (GtkAdiView *self);
 	gboolean (*has_children) (GtkAdiView *self);
-	void (*remove_current_child) (GtkAdiView *self);
+	void (*remove_current_child) (GtkAdiView *self, gboolean destroy);
 	void (*remove_current_child_with_data) (GtkAdiView *self,
 	                                        GtkAdiChildData *data);
 	void (*remove_all_children) (GtkAdiView *self);
@@ -86,8 +86,11 @@ void gtk_adi_view_add_child_with_layout (GtkAdiView *self,
 										 GdkPixbuf *icon,
 										 const gchar *title,
 										 GtkAdiLayout layout);
-void gtk_adi_view_set_current_child	(GtkAdiView *self, GtkWidget *child);
-void gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child);
+void gtk_adi_view_set_current_child	(GtkAdiView *self,
+                                     GtkWidget *child);
+void gtk_adi_view_remove_child (GtkAdiView *self,
+                                GtkWidget *child,
+                                gboolean destroy);
 void gtk_adi_view_remove_current_child_with_data (GtkAdiView *self,
                                                   GtkAdiChildData *data);
 gboolean gtk_adi_view_can_previous_child (GtkAdiView *self);
@@ -95,7 +98,8 @@ gboolean gtk_adi_view_can_next_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_h (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_v (GtkAdiView *self);
 gboolean gtk_adi_view_has_children (GtkAdiView *self);
-void gtk_adi_view_remove_current_child (GtkAdiView *self);
+void gtk_adi_view_remove_current_child (GtkAdiView *self,
+                                        gboolean destroy);
 void gtk_adi_view_remove_all_children (GtkAdiView *self);
 void gtk_adi_view_set_previous_child (GtkAdiView *self);
 void gtk_adi_view_set_next_child (GtkAdiView *self);

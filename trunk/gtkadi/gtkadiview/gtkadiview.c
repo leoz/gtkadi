@@ -71,9 +71,9 @@ gtk_adi_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 }
 
 void
-gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child)
+gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean destroy)
 {
-	GTK_ADI_VIEW_GET_CLASS (self)->remove_child (self, child);
+	GTK_ADI_VIEW_GET_CLASS (self)->remove_child (self, child, destroy);
 }
 
 void
@@ -127,9 +127,9 @@ gtk_adi_view_has_children (GtkAdiView *self)
 }
 
 void
-gtk_adi_view_remove_current_child (GtkAdiView *self)
+gtk_adi_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
-	GTK_ADI_VIEW_GET_CLASS (self)->remove_current_child (self);
+	GTK_ADI_VIEW_GET_CLASS (self)->remove_current_child (self, destroy);
 }
 
 void

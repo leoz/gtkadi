@@ -158,7 +158,9 @@ gtk_adi_tab_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 {}
 
 void 
-gtk_adi_tab_view_remove_child (GtkAdiView * self, GtkWidget * child)
+gtk_adi_tab_view_remove_child (GtkAdiView *self,
+	                           GtkWidget *child,
+	                           gboolean destroy)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
@@ -241,7 +243,7 @@ gtk_adi_tab_view_has_children (GtkAdiView * self)
 }
 
 void 
-gtk_adi_tab_view_remove_current_child (GtkAdiView * self)
+gtk_adi_tab_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));

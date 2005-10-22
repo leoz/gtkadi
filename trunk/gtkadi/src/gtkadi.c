@@ -21,7 +21,7 @@
  */
 
 #include "gtkadi.h"
-/* #define ADI_DO_TRACE */
+#define ADI_DO_TRACE
 #include "gtkadicmd.h"
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
@@ -288,7 +288,7 @@ gtk_adi_remove_current_child (GtkAdi * self)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	gtk_adi_view_remove_current_child (GTK_ADI_VIEW(self->cur_view));
+	gtk_adi_view_remove_current_child (GTK_ADI_VIEW(self->cur_view), TRUE);
 }
 
 void 
@@ -359,27 +359,29 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 	
 	/* 3. Move child windows */
 	GtkAdiChildData data;
-
+	
 	if (self->cur_view && old_view) {
+		ADI_TRACE_MSG("Entering change view.")
 		memset(&data, 0, sizeof(data));
 		gtk_adi_view_remove_current_child_with_data(GTK_ADI_VIEW(old_view),
 		                                            &data);
 		
 		while (data.widget) {
-//			gtk_widget_ref (data.widget);
-			
+			ADI_TRACE_MSG("Change view - iteration.")
+			gtk_widget_ref (data.widget);
 			data.title = g_strdup(data.title);
-			data.widget = gtk_label_new("");
-			gtk_adi_view_remove_current_child(GTK_ADI_VIEW(old_view));
+			gtk_adi_view_remove_current_child(GTK_ADI_VIEW(old_view), FALSE);
 			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
 			                                              &data);
-//			gtk_widget_unref (data.widget);
+			gtk_widget_unref (data.widget);
 			memset(&data, 0, sizeof(data));
 			gtk_adi_view_remove_current_child_with_data(GTK_ADI_VIEW(old_view),
 			                                            &data);
 		}
 	}
 
+	ADI_TRACE_MSG("Exit change view.")
+	
 	/* 4. Show current view */
 	if (self->cur_view) {
 		gtk_container_add(GTK_CONTAINER (self), self->cur_view);

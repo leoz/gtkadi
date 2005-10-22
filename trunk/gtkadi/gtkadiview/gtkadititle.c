@@ -141,7 +141,8 @@ gtk_adi_title_close_button_released (GtkAdiTitle * self, GtkWidget * close_butto
 	g_return_if_fail (close_button != NULL);
 	
 	gtk_adi_view_remove_child (GTK_ADI_VIEW (self->adi_parent),
-							   self->adi_child);
+							   self->adi_child,
+	                           TRUE);
 }
 
 GtkWidget * 
