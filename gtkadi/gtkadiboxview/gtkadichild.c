@@ -132,6 +132,17 @@ gtk_adi_child_set_widget (GtkAdiChild * self, GtkWidget * widget)
 }
 
 void 
+gtk_adi_child_remove_widget (GtkAdiChild * self)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_CHILD (self));
+	g_return_if_fail (self->widget != NULL);
+	
+	gtk_container_remove (GTK_CONTAINER (self->box), self->widget);
+	self->widget = NULL;
+}
+
+void 
 gtk_adi_child_set_parent (GtkAdiChild * self, GtkWidget * adi_parent)
 {
 	g_return_if_fail (self != NULL);

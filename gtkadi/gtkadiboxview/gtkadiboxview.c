@@ -493,7 +493,7 @@ gtk_adi_box_view_set_current_child (GtkAdiView * self, GtkWidget * child)
 }
 
 void 
-gtk_adi_box_view_remove_child (GtkAdiView * self, GtkWidget * child)
+gtk_adi_box_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean destroy)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
@@ -504,6 +504,11 @@ gtk_adi_box_view_remove_child (GtkAdiView * self, GtkWidget * child)
 	GtkWidget* old_container = NULL;
 	GList* last = NULL;
 	guint n = 2;
+	
+	if(!destroy) {
+		gtk_adi_child_remove_widget(GTK_ADI_CHILD(child));
+	}
+	
 	GTK_ADI_BOX_VIEW(self)->children = g_list_remove (GTK_ADI_BOX_VIEW(self)->children,
 													  child);
 	if ( child == GTK_ADI_BOX_VIEW(self)->cur_child ) {
@@ -622,14 +627,15 @@ gtk_adi_box_view_has_children (GtkAdiView * self)
 }
 
 void 
-gtk_adi_box_view_remove_current_child (GtkAdiView * self)
+gtk_adi_box_view_remove_current_child (GtkAdiView * self, gboolean destroy)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 
 	if ( GTK_ADI_BOX_VIEW(self)->cur_child != NULL ) {
 		gtk_adi_view_remove_child (self,
-								   GTK_ADI_BOX_VIEW(self)->cur_child);
+								   GTK_ADI_BOX_VIEW(self)->cur_child,
+		                           destroy);
 	}
 }
 
@@ -641,7 +647,7 @@ gtk_adi_box_view_remove_all_children (GtkAdiView * self)
 	
 	while ( GTK_ADI_BOX_VIEW(self)->cur_child != NULL ) {
 		gtk_adi_view_remove_child (self,
-								   GTK_ADI_BOX_VIEW(self)->cur_child);
+								   GTK_ADI_BOX_VIEW(self)->cur_child, TRUE);
 	}
 }
 
