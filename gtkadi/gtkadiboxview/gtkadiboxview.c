@@ -30,7 +30,7 @@ static void gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c);
 static void gtk_adi_box_view_set_space (void);
 static void gtk_adi_box_view_init (GtkAdiBoxView * self);
 static GSList * gtk_adi_box_view_get_group (GtkAdiBoxView * self);
-static GtkWidget * gtk_adi_box_view_create_child (GtkAdiBoxView * self, GtkWidget * widget, GdkPixbuf * icon, const gchar * title);
+static GtkWidget * gtk_adi_box_view_create_child (GtkAdiBoxView * self, GtkWidget * widget, GdkPixbuf * icon, const gchar * title, GtkAdiLayout layout);
 static GtkWidget * gtk_adi_box_view_create_container (GtkAdiBoxView * self, GtkAdiLayout layout, GtkAdiMode mode);
 static GtkWidget * gtk_adi_box_view_change_container (GtkAdiBoxView * self, GtkWidget * old_container, GtkAdiMode mode);
 static void gtk_adi_box_view_set_child (GtkWidget * container, GtkWidget * child, GtkAdiMode mode, guint n);
@@ -183,12 +183,17 @@ gtk_adi_box_view_get_group (GtkAdiBoxView * self)
 }
 
 static GtkWidget* 
-gtk_adi_box_view_create_child (GtkAdiBoxView * self, GtkWidget * widget, GdkPixbuf * icon, const gchar * title)
+gtk_adi_box_view_create_child (GtkAdiBoxView *self,
+                               GtkWidget *widget,
+                               GdkPixbuf *icon,
+                               const gchar *title,
+                               GtkAdiLayout layout)
 {
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI_BOX_VIEW (self), NULL);
 	
 	GtkWidget* adi_child = gtk_adi_child_new ();
+	gtk_adi_child_set_layout (GTK_ADI_CHILD(adi_child), layout);
 	gtk_adi_child_set_parent (GTK_ADI_CHILD(adi_child), GTK_WIDGET(self));
 	gtk_adi_child_set_group  (GTK_ADI_CHILD(adi_child), gtk_adi_box_view_get_group(self));
 	gtk_adi_child_set_color  (GTK_ADI_CHILD(adi_child), self->color);
@@ -451,7 +456,7 @@ gtk_adi_box_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	GtkWidget* old_child     = GTK_ADI_BOX_VIEW(self)->cur_child;
 	GtkWidget* old_container = NULL;
 
-	child = gtk_adi_box_view_create_child (GTK_ADI_BOX_VIEW(self), widget, icon, title);
+	child = gtk_adi_box_view_create_child (GTK_ADI_BOX_VIEW(self), widget, icon, title, layout);
 
 	if ( old_child == NULL ) {
 		gtk_container_add ( GTK_CONTAINER (self), child );
@@ -605,11 +610,7 @@ gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
 
 	data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
 	data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
-	
-	data->layout = GTK_ADI_HORIZONTAL;
-	if (GTK_IS_VBOX(gtk_widget_get_parent(GTK_WIDGET(child)))) {
-		data->layout = GTK_ADI_VERTICAL;
-	}
+	data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
 }
 
 void

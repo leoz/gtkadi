@@ -180,3 +180,21 @@ gtk_adi_child_get_group (GtkAdiChild * self)
 	
 	return gtk_adi_box_title_get_group (GTK_ADI_BOX_TITLE(self->title));
 }
+
+void
+gtk_adi_child_set_layout (GtkAdiChild *self, GtkAdiLayout layout)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_CHILD (self));
+	
+	gtk_adi_title_set_layout (GTK_ADI_TITLE(self->title), layout);
+}
+
+GtkAdiLayout
+gtk_adi_child_get_layout (GtkAdiChild *self)
+{
+	g_return_val_if_fail (self != NULL, GTK_ADI_HORIZONTAL);
+	g_return_val_if_fail (GTK_IS_ADI_CHILD (self), GTK_ADI_HORIZONTAL);
+	
+	return gtk_adi_title_get_layout (GTK_ADI_TITLE(self->title));
+}

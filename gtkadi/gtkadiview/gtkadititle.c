@@ -63,9 +63,7 @@ gtk_adi_title_get_type (void)
 static void 
 gtk_adi_title_class_init (GtkAdiTitleClass * c)
 {
-
 	parent_class = g_type_class_ref (GTK_TYPE_EVENT_BOX);
-
 }
 
 static void 
@@ -103,6 +101,8 @@ gtk_adi_title_init (GtkAdiTitle * self)
 							GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (self->close_button),
 					   self->close_image);
+					   
+	self->layout = GTK_ADI_HORIZONTAL;
 }
 
 
@@ -210,4 +210,22 @@ gtk_adi_title_get_icon (GtkAdiTitle *self)
 	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), NULL);
 	
 	return gtk_image_get_pixbuf(GTK_IMAGE(self->image));
+}
+
+void
+gtk_adi_title_set_layout (GtkAdiTitle *self, GtkAdiLayout layout)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_TITLE (self));
+	
+	GTK_ADI_TITLE (self)->layout = layout;
+}
+
+GtkAdiLayout
+gtk_adi_title_get_layout (GtkAdiTitle *self)
+{
+	g_return_val_if_fail (self != NULL, GTK_ADI_HORIZONTAL);
+	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), GTK_ADI_HORIZONTAL);
+	
+	return GTK_ADI_TITLE (self)->layout;
 }
