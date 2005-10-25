@@ -20,7 +20,7 @@
  * $Id$
  */
 
-#define ADI_DO_TRACE
+#include "gtkadiutils.h"
 #include "gtkadicmd.h"
 
 /* here are local prototypes */

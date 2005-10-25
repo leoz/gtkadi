@@ -74,8 +74,10 @@ void 	gtk_adi_tab_view_add_child_with_layout	(GtkAdiView * self,
 					GdkPixbuf * icon,
 					const gchar * title,
 					GtkAdiLayout layout);
-void 	gtk_adi_tab_view_set_current_child	(GtkAdiView * self,
-					GtkWidget * child);
+void gtk_adi_tab_view_set_current_child (GtkAdiView *self,
+                                         GtkWidget *child);
+void gtk_adi_tab_view_set_current_widget (GtkAdiView *self,
+                                          GtkWidget *widget);
 void gtk_adi_tab_view_remove_child (GtkAdiView *self,
                                     GtkWidget *child,
                                     gboolean destroy);

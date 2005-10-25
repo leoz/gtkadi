@@ -85,6 +85,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->add_child_with_data = gtk_adi_tab_view_add_child_with_data;
 	iface->add_child_with_layout = gtk_adi_tab_view_add_child_with_layout;
 	iface->set_current_child = gtk_adi_tab_view_set_current_child;
+	iface->set_current_widget = gtk_adi_tab_view_set_current_widget;
 	iface->remove_child = gtk_adi_tab_view_remove_child;
 	iface->can_previous_child = gtk_adi_tab_view_can_previous_child;
 	iface->can_next_child = gtk_adi_tab_view_can_next_child;
@@ -158,6 +159,17 @@ gtk_adi_tab_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 {}
 
 void 
+gtk_adi_tab_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	g_return_if_fail (widget != NULL);
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(self),
+	gtk_notebook_page_num (GTK_NOTEBOOK(self), widget));
+}
+
+	void 
 gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	                           GtkWidget *child,
 	                           gboolean destroy)

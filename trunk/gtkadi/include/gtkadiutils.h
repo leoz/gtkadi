@@ -19,6 +19,9 @@
  *
  * $Id$
  */
+ 
+#include <glib/gprintf.h>
+
 #ifndef __GTK_ADI_UTILS_H__
 #define __GTK_ADI_UTILS_H__
 
@@ -28,6 +31,16 @@ G_BEGIN_DECLS
 GLIB_VAR const guint gtk_adi_major_version;
 GLIB_VAR const guint gtk_adi_minor_version;
 GLIB_VAR const guint gtk_adi_micro_version;
+
+#define ADI_DO_TRACE
+
+#ifdef ADI_DO_TRACE
+#define ADI_TRACE(msg,...) g_printf("ADI: "msg"\n",__VA_ARGS__);
+#define ADI_TRACE_MSG(msg) g_printf("ADI: "msg"\n");
+#else
+#define ADI_TRACE(msg,...)
+#define ADI_TRACE_MSG(msg)
+#endif /* ADI_DO_TRACE */
 
 G_END_DECLS
 
