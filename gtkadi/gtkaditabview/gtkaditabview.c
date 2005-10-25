@@ -92,7 +92,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->can_tile_v = gtk_adi_tab_view_can_tile_v;
 	iface->has_children = gtk_adi_tab_view_has_children;
 	iface->remove_current_child = gtk_adi_tab_view_remove_current_child;
-	iface->remove_current_child_with_data = gtk_adi_tab_view_remove_current_child_with_data;
+	iface->get_current_child_data = gtk_adi_tab_view_get_current_child_data;
 	iface->remove_all_children = gtk_adi_tab_view_remove_all_children;
 	iface->set_previous_child = gtk_adi_tab_view_set_previous_child;
 	iface->set_next_child = gtk_adi_tab_view_set_next_child;
@@ -170,8 +170,8 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	gtk_notebook_page_num (GTK_NOTEBOOK(self), child));
 }
 
-void gtk_adi_tab_view_remove_current_child_with_data (GtkAdiView *self,
-                                                      GtkAdiChildData *data)
+void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
+                                              GtkAdiChildData *data)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
