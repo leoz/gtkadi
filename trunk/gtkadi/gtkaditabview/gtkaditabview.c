@@ -144,6 +144,7 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	
 	page_num = -1;
 	tab_label = gtk_adi_title_new ();
+	gtk_adi_title_set_layout (GTK_ADI_TITLE(tab_label), layout);
 	gtk_adi_title_set_parent (GTK_ADI_TITLE(tab_label), GTK_WIDGET(self));
 	gtk_adi_title_set_child  (GTK_ADI_TITLE(tab_label), widget);
 	gtk_adi_title_set_text   (GTK_ADI_TITLE(tab_label), title);
@@ -207,7 +208,7 @@ gtk_adi_tab_view_get_child_data (GtkAdiView *self,
 	
 		data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
 		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
-		data->layout = GTK_ADI_HORIZONTAL;
+		data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
 	}
 }
 

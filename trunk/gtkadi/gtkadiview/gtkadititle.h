@@ -20,11 +20,8 @@
  * $Id$
  */
 
-#include <glib.h>
-#include <glib-object.h>
-
-
 #include <gtk/gtk.h>
+#include "gtkaditype.h"
 
 #ifndef __GTK_ADI_TITLE_H__
 #define __GTK_ADI_TITLE_H__
@@ -52,14 +49,15 @@ typedef struct _GtkAdiTitle GtkAdiTitle;
 struct _GtkAdiTitle {
 	GtkEventBox __parent__;
 	/*< public >*/
-	GtkWidget * adi_parent;
-	GtkWidget * adi_child;
-	GtkWidget * hbox;
-	GtkWidget * image;
-	GtkWidget * label;
-	GtkWidget * vbox;
-	GtkWidget * close_button;
-	GtkWidget * close_image;
+	GtkWidget *adi_parent;
+	GtkWidget *adi_child;
+	GtkWidget *hbox;
+	GtkWidget *image;
+	GtkWidget *label;
+	GtkWidget *vbox;
+	GtkWidget *close_button;
+	GtkWidget *close_image;
+	GtkAdiLayout layout;
 };
 
 /*
@@ -86,6 +84,8 @@ void gtk_adi_title_set_text	(GtkAdiTitle *self, const gchar *str);
 const gchar* gtk_adi_title_get_text	(GtkAdiTitle *self);
 void gtk_adi_title_set_icon	(GtkAdiTitle *self, GdkPixbuf *icon);
 GdkPixbuf* gtk_adi_title_get_icon (GtkAdiTitle *self);
+void gtk_adi_title_set_layout (GtkAdiTitle *self, GtkAdiLayout layout);
+GtkAdiLayout gtk_adi_title_get_layout (GtkAdiTitle *self);
 
 G_END_DECLS
 

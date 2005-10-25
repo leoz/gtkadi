@@ -20,11 +20,8 @@
  * $Id$
  */
 
-#include <glib.h>
-#include <glib-object.h>
-
-
 #include <gtk/gtk.h>
+#include "gtkaditype.h"
 
 #ifndef __GTK_ADI_CHILD_H__
 #define __GTK_ADI_CHILD_H__
@@ -87,6 +84,8 @@ void 	gtk_adi_child_set_text	(GtkAdiChild * self,
 void 	gtk_adi_child_set_icon	(GtkAdiChild * self,
 					GdkPixbuf * icon);
 GSList * 	gtk_adi_child_get_group	(GtkAdiChild * self);
+void gtk_adi_child_set_layout (GtkAdiChild *self, GtkAdiLayout layout);
+GtkAdiLayout gtk_adi_child_get_layout (GtkAdiChild *self);
 
 G_END_DECLS
 
