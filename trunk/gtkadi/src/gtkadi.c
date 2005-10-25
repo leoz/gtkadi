@@ -363,21 +363,25 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 	
 	if (self->cur_view && old_view) {
 		ADI_TRACE_MSG("Entering change view.")
+		
 		memset(&data, 0, sizeof(data));
 		gtk_adi_view_get_current_child_data(GTK_ADI_VIEW(old_view), &data);
 		
 		current = data.widget;
 		
+		memset(&data, 0, sizeof(data));
+		gtk_adi_view_get_first_child_data(GTK_ADI_VIEW(old_view), &data);
+		
 		while (data.widget) {
 			ADI_TRACE_MSG("Change view - iteration.")
 			gtk_widget_ref (data.widget);
 			data.title = g_strdup(data.title);
-			gtk_adi_view_remove_current_child(GTK_ADI_VIEW(old_view), FALSE);
+			gtk_adi_view_remove_child(GTK_ADI_VIEW(old_view), data.child, FALSE);
 			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
 			                                              &data);
 			gtk_widget_unref (data.widget);
 			memset(&data, 0, sizeof(data));
-			gtk_adi_view_get_current_child_data(GTK_ADI_VIEW(old_view), &data);
+			gtk_adi_view_get_first_child_data(GTK_ADI_VIEW(old_view), &data);
 		}
 		
 		if (current) {

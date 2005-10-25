@@ -32,7 +32,9 @@ GLIB_VAR const guint gtk_adi_major_version;
 GLIB_VAR const guint gtk_adi_minor_version;
 GLIB_VAR const guint gtk_adi_micro_version;
 
+/*
 #define ADI_DO_TRACE
+*/
 
 #ifdef ADI_DO_TRACE
 #define ADI_TRACE(msg,...) g_printf("ADI: "msg"\n",__VA_ARGS__);
