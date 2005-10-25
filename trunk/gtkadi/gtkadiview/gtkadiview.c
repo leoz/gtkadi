@@ -133,10 +133,10 @@ gtk_adi_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 }
 
 void
-gtk_adi_view_remove_current_child_with_data (GtkAdiView *self,
-                                             GtkAdiChildData *data)
+gtk_adi_view_get_current_child_data (GtkAdiView *self,
+                                     GtkAdiChildData *data)
 {
-	GTK_ADI_VIEW_GET_CLASS (self)->remove_current_child_with_data (self, data);
+	GTK_ADI_VIEW_GET_CLASS (self)->get_current_child_data (self, data);
 }
 
 void

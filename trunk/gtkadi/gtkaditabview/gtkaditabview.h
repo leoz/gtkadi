@@ -79,8 +79,8 @@ void 	gtk_adi_tab_view_set_current_child	(GtkAdiView * self,
 void gtk_adi_tab_view_remove_child (GtkAdiView *self,
                                     GtkWidget *child,
                                     gboolean destroy);
-void gtk_adi_tab_view_remove_current_child_with_data (GtkAdiView *self,
-                                                      GtkAdiChildData *data);
+void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
+                                              GtkAdiChildData *data);
 gboolean 	gtk_adi_tab_view_can_previous_child	(GtkAdiView * self);
 gboolean 	gtk_adi_tab_view_can_next_child	(GtkAdiView * self);
 gboolean 	gtk_adi_tab_view_can_tile_h	(GtkAdiView * self);
