@@ -21,7 +21,7 @@
  */
 
 #include "gtkadi.h"
-#define ADI_DO_TRACE
+#include "gtkadiutils.h"
 #include "gtkadicmd.h"
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
@@ -334,6 +334,7 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	GtkWidget* old_view = NULL;
+	GtkWidget* current = NULL;
 	
 	/* 1. Hide current view */
 	if (self->cur_view) {
@@ -365,6 +366,8 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 		memset(&data, 0, sizeof(data));
 		gtk_adi_view_get_current_child_data(GTK_ADI_VIEW(old_view), &data);
 		
+		current = data.widget;
+		
 		while (data.widget) {
 			ADI_TRACE_MSG("Change view - iteration.")
 			gtk_widget_ref (data.widget);
@@ -375,6 +378,11 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 			gtk_widget_unref (data.widget);
 			memset(&data, 0, sizeof(data));
 			gtk_adi_view_get_current_child_data(GTK_ADI_VIEW(old_view), &data);
+		}
+		
+		if (current) {
+			gtk_adi_view_set_current_widget(GTK_ADI_VIEW(self->cur_view),
+			                                current);
 		}
 	}
 

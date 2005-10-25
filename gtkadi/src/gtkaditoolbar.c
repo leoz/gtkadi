@@ -27,7 +27,7 @@
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include "gtkadistock.h"
-#define ADI_DO_TRACE
+#include "gtkadiutils.h"
 #include "gtkadicmd.h"
 
 /* here are local prototypes */

@@ -71,6 +71,12 @@ gtk_adi_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 }
 
 void
+gtk_adi_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->set_current_widget (self, widget);
+}
+
+void
 gtk_adi_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean destroy)
 {
 	GTK_ADI_VIEW_GET_CLASS (self)->remove_child (self, child, destroy);
