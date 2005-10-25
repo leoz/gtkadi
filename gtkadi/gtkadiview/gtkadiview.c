@@ -146,6 +146,13 @@ gtk_adi_view_get_current_child_data (GtkAdiView *self,
 }
 
 void
+gtk_adi_view_get_first_child_data (GtkAdiView *self,
+                                   GtkAdiChildData *data)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->get_first_child_data (self, data);
+}
+
+void
 gtk_adi_view_remove_all_children (GtkAdiView *self)
 {
 	GTK_ADI_VIEW_GET_CLASS (self)->remove_all_children (self);

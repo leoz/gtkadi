@@ -27,6 +27,9 @@
 static void gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c);
 static void gtk_adi_tab_view_init (GtkAdiTabView *self);
 static void gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface);
+static void gtk_adi_tab_view_get_child_data (GtkAdiView *self,
+                                             GtkAdiChildData *data,
+											 gint page_num);
 
 /* pointer to the class of our parent */
 static GtkNotebookClass *parent_class = NULL;
@@ -94,6 +97,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->has_children = gtk_adi_tab_view_has_children;
 	iface->remove_current_child = gtk_adi_tab_view_remove_current_child;
 	iface->get_current_child_data = gtk_adi_tab_view_get_current_child_data;
+	iface->get_first_child_data = gtk_adi_tab_view_get_first_child_data;
 	iface->remove_all_children = gtk_adi_tab_view_remove_all_children;
 	iface->set_previous_child = gtk_adi_tab_view_set_previous_child;
 	iface->set_next_child = gtk_adi_tab_view_set_next_child;
@@ -182,8 +186,10 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	gtk_notebook_page_num (GTK_NOTEBOOK(self), child));
 }
 
-void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
-                                              GtkAdiChildData *data)
+static void
+gtk_adi_tab_view_get_child_data (GtkAdiView *self,
+                                 GtkAdiChildData *data,
+                                 gint page_num)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
@@ -191,8 +197,8 @@ void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
 
 	GtkWidget *tab_label = NULL;
 	
-	data->widget = gtk_notebook_get_nth_page(GTK_NOTEBOOK(self),
-	               gtk_notebook_get_current_page (GTK_NOTEBOOK(self)));
+	data->child = gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num);
+	data->widget = data->child;
 
 	if (data->widget) {
 		tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), data->widget);
@@ -203,6 +209,22 @@ void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
 		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
 		data->layout = GTK_ADI_HORIZONTAL;
 	}
+}
+
+void gtk_adi_tab_view_get_current_child_data (GtkAdiView *self,
+                                              GtkAdiChildData *data)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	gtk_adi_tab_view_get_child_data(self, data,
+	                        gtk_notebook_get_current_page (GTK_NOTEBOOK(self)));
+}
+
+void gtk_adi_tab_view_get_first_child_data (GtkAdiView *self,
+                                            GtkAdiChildData *data)
+{
+	gtk_adi_tab_view_get_child_data(self, data, 0);
 }
 
 gboolean 

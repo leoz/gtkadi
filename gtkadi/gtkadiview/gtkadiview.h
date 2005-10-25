@@ -41,6 +41,7 @@ typedef struct _GtkAdiChildData GtkAdiChildData;
 typedef struct _GtkAdiViewIface GtkAdiViewIface;
 
 struct _GtkAdiChildData {
+	GtkWidget *child;
 	GtkWidget *widget;
 	GdkPixbuf *icon;
 	const gchar *title;
@@ -69,6 +70,8 @@ struct _GtkAdiViewIface {
 	void (*remove_current_child) (GtkAdiView *self, gboolean destroy);
 	void (*get_current_child_data) (GtkAdiView *self,
 	                                GtkAdiChildData *data);
+	void (*get_first_child_data) (GtkAdiView *self,
+	                              GtkAdiChildData *data);
 	void (*remove_all_children) (GtkAdiView *self);
 	void (*set_previous_child) (GtkAdiView *self);
 	void (*set_next_child) (GtkAdiView *self);
@@ -96,6 +99,8 @@ void gtk_adi_view_remove_child (GtkAdiView *self,
                                 gboolean destroy);
 void gtk_adi_view_get_current_child_data (GtkAdiView *self,
                                           GtkAdiChildData *data);
+void gtk_adi_view_get_fisrt_child_data (GtkAdiView *self,
+                                        GtkAdiChildData *data);
 gboolean gtk_adi_view_can_previous_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_next_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_h (GtkAdiView *self);
