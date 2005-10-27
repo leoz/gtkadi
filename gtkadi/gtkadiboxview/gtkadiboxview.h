@@ -28,10 +28,7 @@
 #ifndef __GTK_ADI_BOX_VIEW_H__
 #define __GTK_ADI_BOX_VIEW_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 /*
  * Type checking and casting macros
@@ -114,9 +111,12 @@ void 	gtk_adi_box_view_change_state	(GtkAdiView * self,
 					GtkAdiState state);
 void 	gtk_adi_box_view_change_color	(GtkAdiView * self,
 					GtkAdiColorType color);
+void gtk_adi_box_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								            const gchar *title_text);
+void gtk_adi_box_view_set_child_close_button (GtkAdiView *self,
+                                              GtkWidget *widget,
+								              gboolean enabled);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif

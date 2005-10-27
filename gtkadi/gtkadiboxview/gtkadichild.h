@@ -86,6 +86,7 @@ void 	gtk_adi_child_set_icon	(GtkAdiChild * self,
 GSList * 	gtk_adi_child_get_group	(GtkAdiChild * self);
 void gtk_adi_child_set_layout (GtkAdiChild *self, GtkAdiLayout layout);
 GtkAdiLayout gtk_adi_child_get_layout (GtkAdiChild *self);
+void gtk_adi_child_set_close_button (GtkAdiChild *self, gboolean enabled);
 
 G_END_DECLS
 

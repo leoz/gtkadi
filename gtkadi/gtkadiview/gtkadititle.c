@@ -179,9 +179,10 @@ gtk_adi_title_set_text (GtkAdiTitle *self, const gchar *str)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
-	g_return_if_fail (str != NULL);
 	
-	gtk_label_set_text(GTK_LABEL(self->label), str);
+	if (str) {
+		gtk_label_set_text(GTK_LABEL(self->label), str);
+	}
 }
 
 const gchar* 
@@ -198,9 +199,10 @@ gtk_adi_title_set_icon (GtkAdiTitle *self, GdkPixbuf *icon)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
-	g_return_if_fail (icon != NULL);
 	
-	gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
+	if (icon) {
+		gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
+	}
 }
 
 GdkPixbuf* 
@@ -218,7 +220,7 @@ gtk_adi_title_set_layout (GtkAdiTitle *self, GtkAdiLayout layout)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	
-	GTK_ADI_TITLE (self)->layout = layout;
+	self->layout = layout;
 }
 
 GtkAdiLayout
@@ -227,5 +229,19 @@ gtk_adi_title_get_layout (GtkAdiTitle *self)
 	g_return_val_if_fail (self != NULL, GTK_ADI_HORIZONTAL);
 	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), GTK_ADI_HORIZONTAL);
 	
-	return GTK_ADI_TITLE (self)->layout;
+	return self->layout;
+}
+
+void
+gtk_adi_title_set_close_button (GtkAdiTitle *self, gboolean enabled)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_TITLE (self));
+	
+	if (enabled) {
+		gtk_widget_show(self->close_button);
+	}
+	else {
+		gtk_widget_hide(self->close_button);
+	}
 }

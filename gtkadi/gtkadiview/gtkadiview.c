@@ -187,3 +187,19 @@ gtk_adi_view_change_color (GtkAdiView *self, GtkAdiColorType color)
 {
 	GTK_ADI_VIEW_GET_CLASS (self)->change_color (self, color);
 }
+
+void
+gtk_adi_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								   const gchar *title_text)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->set_child_title_text (self, widget,
+	                                                     title_text);
+}
+
+void
+gtk_adi_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
+								     gboolean enabled)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->set_child_close_button (self, widget,
+	                                                       enabled);
+}

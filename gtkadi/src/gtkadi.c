@@ -206,8 +206,23 @@ gtk_adi_create_menu (GtkAdi * self)
 	return menu;
 }
 
+void
+gtk_adi_add (GtkAdi *self, GtkWidget *widget)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	g_return_if_fail (widget != NULL);
+	
+	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(
+										   self->cur_view),
+										   widget,
+	                                       NULL,
+										   NULL,
+	          gtk_adi_view_get_layout (GTK_ADI_VIEW(GTK_ADI(self)->cur_view)));
+}
+
 void 
-gtk_adi_user_add_child (GtkAdi * self)
+gtk_adi_user_add_child (GtkAdi *self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -217,7 +232,7 @@ gtk_adi_user_add_child (GtkAdi * self)
 }
 
 void 
-gtk_adi_user_add_child_with_layout (GtkAdi * self, GtkAdiLayout layout)
+gtk_adi_user_add_child_with_layout (GtkAdi *self, GtkAdiLayout layout)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -401,7 +416,7 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 }
 
 void 
-gtk_adi_change_state (GtkAdi * self, GtkAdiState state)
+gtk_adi_change_state (GtkAdi *self, GtkAdiState state)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -410,10 +425,32 @@ gtk_adi_change_state (GtkAdi * self, GtkAdiState state)
 }
 
 void 
-gtk_adi_change_color (GtkAdi * self, GtkAdiColorType color)
+gtk_adi_change_color (GtkAdi *self, GtkAdiColorType color)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	gtk_adi_view_change_color (GTK_ADI_VIEW(self->cur_view),color);
+}
+
+void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,
+								   const gchar *title_text)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	gtk_adi_view_set_child_title_text (GTK_ADI_VIEW(self->cur_view),
+	                                   widget,
+	                                   title_text);
+}
+
+void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
+								     gboolean enabled)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	gtk_adi_view_set_child_close_button (GTK_ADI_VIEW(self->cur_view),
+	                                     widget,
+	                                     enabled);
 }

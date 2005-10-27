@@ -104,6 +104,8 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->change_mode = gtk_adi_tab_view_change_mode;
 	iface->change_state = gtk_adi_tab_view_change_state;
 	iface->change_color = gtk_adi_tab_view_change_color;
+	iface->set_child_title_text = gtk_adi_tab_view_set_child_title_text;
+	iface->set_child_close_button = gtk_adi_tab_view_set_child_close_button;
 }
 
 /* a macro for creating a new object of our type */
@@ -343,4 +345,22 @@ gtk_adi_tab_view_change_color (GtkAdiView * self, GtkAdiColorType color)
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	
 	/*TBD*/
+}
+
+void
+gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								       const gchar *title_text)
+{
+	GtkWidget *tab_label;
+	tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
+	gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
+}
+
+void
+gtk_adi_tab_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
+								         gboolean enabled)
+{
+	GtkWidget *tab_label;
+	tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
+	gtk_adi_title_set_close_button (GTK_ADI_TITLE(tab_label), enabled);
 }

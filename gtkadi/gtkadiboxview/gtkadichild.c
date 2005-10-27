@@ -157,9 +157,10 @@ gtk_adi_child_set_text (GtkAdiChild * self, const gchar * str)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CHILD (self));
-	g_return_if_fail (str != NULL);
 	
-	gtk_adi_title_set_text (GTK_ADI_TITLE(self->title), str);
+	if (str) {
+		gtk_adi_title_set_text (GTK_ADI_TITLE(self->title), str);
+	}
 }
 
 void 
@@ -167,9 +168,10 @@ gtk_adi_child_set_icon (GtkAdiChild * self, GdkPixbuf * icon)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CHILD (self));
-	g_return_if_fail (icon != NULL);
 	
-	gtk_adi_title_set_icon (GTK_ADI_TITLE(self->title), icon);
+	if (icon) {
+		gtk_adi_title_set_icon (GTK_ADI_TITLE(self->title), icon);
+	}
 }
 
 GSList * 
@@ -197,4 +199,13 @@ gtk_adi_child_get_layout (GtkAdiChild *self)
 	g_return_val_if_fail (GTK_IS_ADI_CHILD (self), GTK_ADI_HORIZONTAL);
 	
 	return gtk_adi_title_get_layout (GTK_ADI_TITLE(self->title));
+}
+
+void
+gtk_adi_child_set_close_button (GtkAdiChild *self, gboolean enabled)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_CHILD (self));
+	
+	gtk_adi_title_set_close_button (GTK_ADI_TITLE(self->title), enabled);
 }

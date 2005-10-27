@@ -78,6 +78,10 @@ struct _GtkAdiViewIface {
 	void (*change_mode) (GtkAdiView *self, GtkAdiMode mode);
 	void (*change_state) (GtkAdiView *self, GtkAdiState state);
 	void (*change_color) (GtkAdiView *self, GtkAdiColorType color);
+	void (*set_child_title_text) (GtkAdiView *self, GtkWidget *widget,
+								  const gchar *title_text);
+	void (*set_child_close_button) (GtkAdiView *self, GtkWidget *widget,
+								    gboolean enabled);
 };
 
 GType gtk_adi_view_get_type (void);
@@ -99,7 +103,7 @@ void gtk_adi_view_remove_child (GtkAdiView *self,
                                 gboolean destroy);
 void gtk_adi_view_get_current_child_data (GtkAdiView *self,
                                           GtkAdiChildData *data);
-void gtk_adi_view_get_fisrt_child_data (GtkAdiView *self,
+void gtk_adi_view_get_first_child_data (GtkAdiView *self,
                                         GtkAdiChildData *data);
 gboolean gtk_adi_view_can_previous_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_next_child (GtkAdiView *self);
@@ -114,7 +118,10 @@ void gtk_adi_view_set_next_child (GtkAdiView *self);
 void gtk_adi_view_change_mode (GtkAdiView *self, GtkAdiMode mode);
 void gtk_adi_view_change_state (GtkAdiView *self, GtkAdiState state);
 void gtk_adi_view_change_color (GtkAdiView *self, GtkAdiColorType color);
-
+void gtk_adi_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								        const gchar *title_text);
+void gtk_adi_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
+								          gboolean enabled);
 G_END_DECLS
 
 #endif /* __GTK_ADI_VIEW_H__ */
