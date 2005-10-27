@@ -40,6 +40,8 @@ static void gtk_adi_box_view_set_child_color (gpointer data, gpointer user_data)
 static void gtk_adi_box_view_set_child_state (gpointer data, gpointer user_data);
 static gint gtk_adi_box_view_find_box (gconstpointer a, gconstpointer b);
 static gint gtk_adi_box_view_find_widget (gconstpointer a, gconstpointer b);
+static GtkAdiChild* gtk_adi_box_view_find_child (GtkAdiView *self,
+                                                 GtkWidget *widget);
 static void gtk_adi_box_view_iface_init (GtkAdiViewIface *iface);
 static void gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
                                              GtkAdiChild *child);
@@ -70,6 +72,8 @@ gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 	iface->change_mode = gtk_adi_box_view_change_mode;
 	iface->change_state = gtk_adi_box_view_change_state;
 	iface->change_color = gtk_adi_box_view_change_color;
+	iface->set_child_title_text = gtk_adi_box_view_set_child_title_text;
+	iface->set_child_close_button = gtk_adi_box_view_set_child_close_button;
 }
 
 GType
@@ -423,6 +427,35 @@ gtk_adi_box_view_find_widget (gconstpointer a, gconstpointer b)
 	return 1;
 }
 
+static GtkAdiChild*
+gtk_adi_box_view_find_child (GtkAdiView *self, GtkWidget *widget)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_BOX_VIEW (self), NULL);
+	
+	GtkAdiChild* child = NULL;
+	
+	if (widget) {
+		if (GTK_ADI_BOX_VIEW(self)->cur_child &&
+			GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child)->widget == widget)
+			{
+				child = GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child);
+			}
+			else
+			{
+				GList* list = NULL;
+				list = g_list_find_custom (GTK_ADI_BOX_VIEW(self)->children,
+				                           widget,
+										   gtk_adi_box_view_find_widget);
+				if (list != NULL) {
+					child = GTK_ADI_CHILD (list->data);
+				}
+			}
+	}
+	
+	return child;
+}
+
 GtkAdiLayout 
 gtk_adi_box_view_get_layout (GtkAdiView * self)
 {
@@ -445,7 +478,11 @@ gtk_adi_box_view_add_child_with_data (GtkAdiView *self,
 }
 
 void 
-gtk_adi_box_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, GdkPixbuf * icon, const gchar * title, GtkAdiLayout layout)
+gtk_adi_box_view_add_child_with_layout (GtkAdiView *self,
+                                        GtkWidget *widget,
+                                        GdkPixbuf *icon,
+                                        const gchar *title,
+                                        GtkAdiLayout layout)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
@@ -515,17 +552,10 @@ gtk_adi_box_view_set_current_child_widget (GtkAdiView *self, GtkWidget *widget)
 void 
 gtk_adi_box_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 {
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (GTK_IS_ADI_BOX_VIEW (self));
+	GtkAdiChild* child = gtk_adi_box_view_find_child(self, widget);
 	
-	GList* list = NULL;
-	if (widget &&
-		widget != GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child)->widget) {
-		list = g_list_find_custom (GTK_ADI_BOX_VIEW(self)->children, widget,
-								   gtk_adi_box_view_find_widget);
-		if (list != NULL) {
-			gtk_adi_child_set_active(GTK_ADI_CHILD (list->data));
-		}
+	if (child != NULL) {
+		gtk_adi_child_set_active(child);
 	}
 }
 
@@ -595,22 +625,23 @@ gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
                                  GtkAdiChild *child)
 {
 	g_return_if_fail (data != NULL);
-	g_return_if_fail (child != NULL);
-	g_return_if_fail (GTK_IS_ADI_CHILD (child));
-
-	GtkWidget *tab_label = NULL;
+	if (child ) {
+		g_return_if_fail (GTK_IS_ADI_CHILD (child));
 	
-	data->child = GTK_WIDGET(child);
-
-	data->widget = child->widget;
-	g_return_if_fail (data->widget != NULL);
-
-	tab_label = child->title;
-	g_return_if_fail (tab_label != NULL);
-
-	data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
-	data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
-	data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
+		GtkWidget *tab_label = NULL;
+		
+		data->child = GTK_WIDGET(child);
+	
+		data->widget = child->widget;
+		g_return_if_fail (data->widget != NULL);
+	
+		tab_label = child->title;
+		g_return_if_fail (tab_label != NULL);
+	
+		data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
+		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
+		data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
+	}
 }
 
 void
@@ -784,5 +815,27 @@ gtk_adi_box_view_change_color (GtkAdiView * self, GtkAdiColorType color)
 		g_list_foreach (GTK_ADI_BOX_VIEW(self)->children,
 						gtk_adi_box_view_set_child_color,
 						GTK_ADI_BOX_VIEW(self)->color);
+	}
+}
+
+void
+gtk_adi_box_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								       const gchar *title_text)
+{
+	GtkAdiChild* child = gtk_adi_box_view_find_child(self, widget);
+	
+	if (child != NULL) {
+		gtk_adi_child_set_text(child, title_text);
+	}
+}
+
+void
+gtk_adi_box_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
+								         gboolean enabled)
+{
+	GtkAdiChild* child = gtk_adi_box_view_find_child(self, widget);
+	
+	if (child != NULL) {
+		gtk_adi_child_set_close_button(child, enabled);
 	}
 }

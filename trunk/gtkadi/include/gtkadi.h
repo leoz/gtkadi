@@ -57,10 +57,10 @@ struct _GtkAdi {
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateIconFunc icon_func;
 	GtkAdiCreateTitleFunc title_func;
-	GtkObject * cmd;
-	GtkWidget * box_view;
-	GtkWidget * tab_view;
-	GtkWidget * cur_view;
+	GtkObject *cmd;
+	GtkWidget *box_view;
+	GtkWidget *tab_view;
+	GtkWidget *cur_view;
 };
 
 /*
@@ -85,27 +85,27 @@ void 	gtk_adi_set_title_func	(GtkAdi * self,
 					GtkAdiCreateTitleFunc title_func);
 GtkWidget * 	gtk_adi_create_toolbar	(GtkAdi * self);
 GtkWidget * 	gtk_adi_create_menu	(GtkAdi * self);
-void 	gtk_adi_user_add_child	(GtkAdi * self);
+void gtk_adi_add (GtkAdi *self, GtkWidget *widget);
+void 	gtk_adi_user_add_child	(GtkAdi *self);
 void 	gtk_adi_user_add_child_with_layout	(GtkAdi * self,
 					GtkAdiLayout layout);
 gboolean 	gtk_adi_can_previous_child	(GtkAdi * self);
 gboolean 	gtk_adi_can_next_child	(GtkAdi * self);
 gboolean 	gtk_adi_can_tile_h	(GtkAdi * self);
 gboolean 	gtk_adi_can_tile_v	(GtkAdi * self);
-gboolean 	gtk_adi_has_children	(GtkAdi * self);
-void 	gtk_adi_remove_current_child	(GtkAdi * self);
-void 	gtk_adi_remove_all_children	(GtkAdi * self);
-void 	gtk_adi_set_previous_child	(GtkAdi * self);
-void 	gtk_adi_set_next_child	(GtkAdi * self);
-void 	gtk_adi_change_mode	(GtkAdi * self,
-					GtkAdiMode mode);
-void 	gtk_adi_change_view	(GtkAdi * self,
-					GtkAdiViewType view);
-void 	gtk_adi_change_state	(GtkAdi * self,
-					GtkAdiState state);
-void 	gtk_adi_change_color	(GtkAdi * self,
-					GtkAdiColorType color);
-
+gboolean 	gtk_adi_has_children	(GtkAdi *self);
+void gtk_adi_remove_current_child (GtkAdi *self);
+void gtk_adi_remove_all_children (GtkAdi *self);
+void gtk_adi_set_previous_child (GtkAdi *self);
+void gtk_adi_set_next_child	(GtkAdi *self);
+void gtk_adi_change_mode (GtkAdi *self, GtkAdiMode mode);
+void gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view);
+void gtk_adi_change_state (GtkAdi *self, GtkAdiState state);
+void gtk_adi_change_color (GtkAdi *self, GtkAdiColorType color);
+void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,
+								   const gchar *title_text);
+void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
+								     gboolean enabled);
 G_END_DECLS
 
 #endif
