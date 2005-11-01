@@ -65,6 +65,12 @@ gtk_adi_view_get_layout (GtkAdiView *self)
 }
 
 void
+gtk_adi_view_set_layout (GtkAdiView *self, GtkAdiLayout layout)
+{
+	return GTK_ADI_VIEW_GET_CLASS (self)->set_layout (self, layout);
+}
+
+void
 gtk_adi_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 {
 	GTK_ADI_VIEW_GET_CLASS (self)->set_current_child (self, child);

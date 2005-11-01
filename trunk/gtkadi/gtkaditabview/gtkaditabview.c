@@ -78,6 +78,10 @@ gtk_adi_tab_view_init (GtkAdiTabView *self)
 {
 	GTK_NOTEBOOK(self)->tab_hborder = 0;
 	GTK_NOTEBOOK(self)->tab_vborder = 0;
+
+	self->layout = GTK_ADI_HORIZONTAL;
+
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
 }
 
 
@@ -85,6 +89,7 @@ static void
 gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 {
 	iface->get_layout = gtk_adi_tab_view_get_layout;
+	iface->set_layout = gtk_adi_tab_view_set_layout;
 	iface->add_child_with_data = gtk_adi_tab_view_add_child_with_data;
 	iface->add_child_with_layout = gtk_adi_tab_view_add_child_with_layout;
 	iface->set_current_child = gtk_adi_tab_view_set_current_child;
@@ -120,7 +125,26 @@ gtk_adi_tab_view_new (void)
 GtkAdiLayout 
 gtk_adi_tab_view_get_layout (GtkAdiView *self)
 {
-	return GTK_ADI_VERTICAL;
+	g_return_val_if_fail (self != NULL, (GtkAdiLayout )0);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), (GtkAdiLayout )0);
+	
+	return GTK_ADI_TAB_VIEW(self)->layout;
+}
+
+void
+gtk_adi_tab_view_set_layout (GtkAdiView *self, GtkAdiLayout layout)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	GTK_ADI_TAB_VIEW(self)->layout = layout;
+
+	if (layout == GTK_ADI_HORIZONTAL) {
+		gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
+	}
+	else {
+		gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_LEFT);
+	}
 }
 
 void
