@@ -53,6 +53,7 @@ static void
 gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 {
 	iface->get_layout = gtk_adi_box_view_get_layout;
+	iface->set_layout = gtk_adi_box_view_set_layout;
 	iface->add_child_with_data = gtk_adi_box_view_add_child_with_data;
 	iface->add_child_with_layout = gtk_adi_box_view_add_child_with_layout;
 	iface->set_current_child = gtk_adi_box_view_set_current_child;
@@ -465,6 +466,14 @@ gtk_adi_box_view_get_layout (GtkAdiView * self)
 	return GTK_ADI_BOX_VIEW(self)->layout;
 }
 
+void
+gtk_adi_box_view_set_layout (GtkAdiView *self, GtkAdiLayout layout)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	GTK_ADI_BOX_VIEW(self)->layout = layout;
+}
 
 void
 gtk_adi_box_view_add_child_with_data (GtkAdiView *self,

@@ -106,6 +106,8 @@ void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,
 								   const gchar *title_text);
 void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
 								     gboolean enabled);
+void gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout);
+
 G_END_DECLS
 
 #endif
