@@ -20,7 +20,9 @@
  * $Id$
  */
 
-#include <string.h> /* memset() */
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include "gtkaditoolbar.h"
 
@@ -29,6 +31,18 @@
 #include "gtkadistock.h"
 #include "gtkadiutils.h"
 #include "gtkadicmd.h"
+
+#ifdef HILDON_SUPPORT
+#define GTK_ADI_TOOLBAR_PAN_MODE_STR    "P"
+#define GTK_ADI_TOOLBAR_BOX_MODE_STR    "B"
+#define GTK_ADI_TOOLBAR_BOX_VIEW_STR    "B"
+#define GTK_ADI_TOOLBAR_TAB_VIEW_STR    "T"
+#else
+#define GTK_ADI_TOOLBAR_PAN_MODE_STR    "Paned"
+#define GTK_ADI_TOOLBAR_BOX_MODE_STR    "Box"
+#define GTK_ADI_TOOLBAR_BOX_VIEW_STR    "Box View"
+#define GTK_ADI_TOOLBAR_TAB_VIEW_STR    "Tab View"
+#endif /* HILDON_SUPPORT */
 
 /* here are local prototypes */
 static void gtk_adi_toolbar_class_init (GtkAdiToolbarClass * c);
@@ -161,14 +175,14 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 	gtk_container_add (GTK_CONTAINER (self), self->sep_tile);
 
 	/* Mode */
-
+	
 	self->itm_mode = (GtkWidget*) gtk_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (self), self->itm_mode);
 
 	self->cmb_mode = gtk_combo_box_new_text ();
 	gtk_container_add (GTK_CONTAINER (self->itm_mode), self->cmb_mode);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_mode), _("Paned"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_mode), _("Box"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_mode), _(GTK_ADI_TOOLBAR_PAN_MODE_STR));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_mode), _(GTK_ADI_TOOLBAR_BOX_MODE_STR));
 
 	self->tgl_fix = GTK_WIDGET(gtk_toggle_tool_button_new_from_stock (GTK_ADI_STOCK_FIX));
 	gtk_container_add (GTK_CONTAINER (self), self->tgl_fix);
@@ -185,8 +199,8 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 
 	self->cmb_view = gtk_combo_box_new_text ();
 	gtk_container_add (GTK_CONTAINER (self->itm_view), self->cmb_view);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _("Box View"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _("Tab View"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _(GTK_ADI_TOOLBAR_BOX_VIEW_STR));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _(GTK_ADI_TOOLBAR_TAB_VIEW_STR));
 	
 	self->sep_view = (GtkWidget*) gtk_separator_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (self), self->sep_view);

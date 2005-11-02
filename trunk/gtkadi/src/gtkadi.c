@@ -20,6 +20,10 @@
  * $Id$
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include "gtkadi.h"
 #include "gtkadiutils.h"
 #include "gtkadicmd.h"
@@ -29,9 +33,19 @@
 
 #include <memory.h>
 
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/gtk-infoprint.h>
+#include <hildon-widgets/hildon-app.h>
+#endif /* HILDON_SUPPORT */
+
 /* here are local prototypes */
 static void gtk_adi_class_init (GtkAdiClass * c);
 static void gtk_adi_init (GtkAdi * self);
+static void gtk_adi_add_child_notify (GtkAdi *self,
+                          GtkWidget *widget,
+                          GdkPixbuf *icon,
+                          const gchar *title,
+                          GtkAdiLayout layout);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -213,11 +227,7 @@ gtk_adi_add (GtkAdi *self, GtkWidget *widget)
 	g_return_if_fail (GTK_IS_ADI (self));
 	g_return_if_fail (widget != NULL);
 	
-	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(
-										   self->cur_view),
-										   widget,
-	                                       NULL,
-										   NULL,
+	gtk_adi_add_child_notify (self, widget, NULL, NULL,
 	          gtk_adi_view_get_layout (GTK_ADI_VIEW(GTK_ADI(self)->cur_view)));
 }
 
@@ -244,10 +254,7 @@ gtk_adi_user_add_child_with_layout (GtkAdi *self, GtkAdiLayout layout)
 		widget = self->child_func ();
 		icon = self->icon_func (widget);
 		title = self->title_func ();
-		gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(
-											   self->cur_view),
-											   widget, icon,
-											   title, layout);
+		gtk_adi_add_child_notify (self, widget, icon, title, layout);
 		g_free (title);
 	}
 }
@@ -263,6 +270,7 @@ gtk_adi_can_previous_child (GtkAdi * self)
 
 gboolean 
 gtk_adi_can_next_child (GtkAdi * self)
+
 {
 	g_return_val_if_fail (self != NULL, (gboolean )0);
 	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
@@ -462,4 +470,32 @@ gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->cur_view), layout);
+}
+
+static void
+gtk_adi_add_child_notify (GtkAdi *self,
+                          GtkWidget *widget,
+                          GdkPixbuf *icon,
+                          const gchar *title,
+                          GtkAdiLayout layout)
+{
+	#ifdef HILDON_SUPPORT
+	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
+	                                             GTK_TYPE_WINDOW);
+	if (window && GTK_IS_WINDOW(window)) {
+		/*
+		gtk_infoprint(GTK_WINDOW(window), "Opening a new window");
+		*/
+	}
+	#endif /* HILDON_SUPPORT */
+	
+	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(self->cur_view),
+	                                   widget, icon, title, layout);
+
+	#ifdef HILDON_SUPPORT
+	if (window && GTK_IS_WINDOW(window)) {
+		hildon_app_register_view(HILDON_APP(window), widget);
+		hildon_app_notify_view_changed(HILDON_APP(window), widget);
+	}
+	#endif /* HILDON_SUPPORT */
 }

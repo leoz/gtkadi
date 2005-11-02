@@ -22,6 +22,13 @@
 #include "toolbar.h"
 #include "widgets.h"
 
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/hildon-appview.h>
+#define GTK_ADI_TEST_NAME "GTK ADI Test - Maemo"
+#else
+#define GTK_ADI_TEST_NAME "GTK ADI Test"
+#endif /* HILDON_SUPPORT */
+
 extern GtkWidget *main_window;
 
 static void _activate_email (GtkAboutDialog *about,
@@ -45,11 +52,11 @@ void _about_activate (GtkWidget *window, gpointer  user_data)
 	gtk_about_dialog_set_email_hook (_activate_email, NULL, NULL);
 	gtk_about_dialog_set_url_hook (_activate_url, NULL, NULL);
 	gtk_show_about_dialog (GTK_WINDOW (main_window),
-		"name", "GTK ADI Test",
+		"name", GTK_ADI_TEST_NAME,
 		"version", vers,
 		"copyright", "(C) 2003-2005 Leonid Zolotarev",
-		"website", "http://www.???.org",
-		"comments", "Program to demonstrate GTK ADI functions.",
+		"website", "http://gtkadi.sourceforge.net/",
+		"comments", "This program is demonstrating GTK ADI functions.",
 		NULL);
 
 	g_free (vers);
@@ -94,7 +101,7 @@ void _menu_color_set (GtkAdiColorType color)
 	}
 }
 
-GtkWidget* _create_menu (GtkWidget *adi)
+GtkWidget* _create_menu (GtkWidget *adi, GtkWidget *main_window)
 {
 	GtkWidget *main_menubar;
 	GtkWidget *menuitem_edit;
@@ -113,7 +120,11 @@ GtkWidget* _create_menu (GtkWidget *adi)
 
 	tooltips = gtk_tooltips_new ();
 
+	#ifdef HILDON_SUPPORT
+	main_menubar = hildon_appview_get_menu (HILDON_APPVIEW(main_window));
+	#else
 	main_menubar = gtk_menu_bar_new ();
+	#endif /* HILDON_SUPPORT */
 
 	menuitem_edit = gtk_menu_item_new_with_mnemonic (_("_File"));
 	gtk_container_add (GTK_CONTAINER (main_menubar), menuitem_edit);

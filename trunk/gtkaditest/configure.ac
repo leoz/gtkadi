@@ -30,7 +30,19 @@ PKG_CHECK_MODULES(GTKADI, gtkadi)
 AC_SUBST(GTKADI_CFLAGS)
 AC_SUBST(GTKADI_LIBS)
 
+dnl Checks for Maemo libraries.
+
+PKG_CHECK_MODULES(HILDON, [hildon-libs],
+	[
+	 	AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])
+		hildon_support="yes"
+	],[echo 'No Hildon support.'])
+
+AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
+
 AC_OUTPUT([
 Makefile
 src/Makefile
+data/gtkaditest.desktop.in
+data/com.nokia.gtkaditest.service
 ])
