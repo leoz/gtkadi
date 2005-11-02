@@ -20,6 +20,6 @@ GtkWidget* create_adi (void);
 
 GtkWidget* create_toolbar (void);
 
-GtkWidget* create_menubar (void);
+GtkWidget* create_menubar (GtkWidget *main_window);
 
 #endif /* __WIDGETS_H__ */

@@ -19,6 +19,10 @@
 #include <gtkadi.h>
 #include <gtkadiutils.h>
 
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/hildon-app.h>
+#endif /* HILDON_SUPPORT */
+
 #include "widgets.h"
 #include "toolbar.h"
 #include "menu.h"
@@ -62,7 +66,13 @@ set_main_window_title (GtkWidget *main_window)
 	gchar* vers = get_gtk_adi_version_string ();
 	gchar* text = NULL;
 	text = g_strdup_printf (_("GTK ADI Test %s"), vers);
+	
+	#ifdef HILDON_SUPPORT
+	hildon_app_set_title (HILDON_APP (main_window), text);
+	#else
 	gtk_window_set_title (GTK_WINDOW (main_window), text);
+	#endif /* HILDON_SUPPORT */
+
 	g_free (text);
 	g_free (vers);
 }
@@ -79,11 +89,11 @@ create_adi (void)
 /***************************************************************************/
 
 GtkWidget*
-create_menubar (void)
+create_menubar (GtkWidget *main_window)
 {
 	GtkWidget* menubar = NULL;
 	_init_adi ();
-	menubar = _create_menu (_adi);
+	menubar = _create_menu (_adi, main_window);
 	gtk_widget_show_all (menubar);
 	return menubar;
 }

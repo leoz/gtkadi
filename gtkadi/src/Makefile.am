@@ -26,7 +26,8 @@ libgtkadi_la_CPPFLAGS = \
 	-I$(top_srcdir)/gtkadiview \
 	-I$(top_srcdir)/gtkadiboxview \
 	-I$(top_srcdir)/gtkaditabview \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(HILDON_CFLAGS)
 
 AM_CFLAGS = \
 	-DGTK_ADI_MAJOR_VERSION=$(GTK_ADI_MAJOR_VERSION) \
@@ -64,4 +65,5 @@ libgtkadi_la_LIBADD = \
 	$(top_srcdir)/gtkaditabview/libgtkaditabview.la
 
 libgtkadi_la_LDFLAGS = \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(HILDON_LIBS)

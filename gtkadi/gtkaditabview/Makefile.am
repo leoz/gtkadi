@@ -23,7 +23,8 @@
 libgtkaditabview_la_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/gtkadiview \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(HILDON_CFLAGS)
 
 AM_CFLAGS = \
 	-Wall \
@@ -38,4 +39,5 @@ noinst_HEADERS = \
 	gtkaditabview.h
 
 libgtkaditabview_la_LDFLAGS = \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(HILDON_LIBS)

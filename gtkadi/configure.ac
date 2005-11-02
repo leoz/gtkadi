@@ -24,7 +24,7 @@ AC_INIT(configure.ac)
 
 GTK_ADI_MAJOR_VERSION=0
 GTK_ADI_MINOR_VERSION=0
-GTK_ADI_MICRO_VERSION=30
+GTK_ADI_MICRO_VERSION=31
 GTK_ADI_VERSION=$GTK_ADI_MAJOR_VERSION.$GTK_ADI_MINOR_VERSION.$GTK_ADI_MICRO_VERSION
 
 AC_SUBST(GTK_ADI_MAJOR_VERSION)
@@ -48,6 +48,24 @@ dnl Checks for libraries.
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0)
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
+
+dnl Checks for Maemo libraries.
+
+PKG_CHECK_MODULES(HILDON, [hildon-libs],
+	[
+	 	AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])
+		hildon_support="yes"
+	],[echo 'No Hildon support.'])
+
+AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
+
+PKG_CHECK_MODULES(OSSO, [libosso],
+	[
+	 	AC_DEFINE(OSSO_SUPPORT, [], [Support the libosso library])
+		osso_support="yes"
+	],[echo 'No libosso support.'])
+
+AM_CONDITIONAL(OSSO_SUPPORT, [test "${osso_support}" = "yes"])
 
 dnl get the pixbuf source creation script
 dnl This is installed from GTK+ 2.0's gdk-pixbuf

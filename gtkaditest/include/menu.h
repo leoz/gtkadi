@@ -10,7 +10,7 @@
 #ifndef __MENU_H__
 #define __MENU_H__
 
-GtkWidget* _create_menu (GtkWidget *adi);
+GtkWidget* _create_menu (GtkWidget *adi, GtkWidget *main_window);
 void _menu_color_set (GtkAdiColorType color);
 
 #endif /* __MENU_H__ */

@@ -11,7 +11,8 @@
 INCLUDES = \
 	-I../include \
 	$(GTK_CFLAGS) \
-	$(GTKADI_CFLAGS)
+	$(GTKADI_CFLAGS) \
+	$(HILDON_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -36,4 +37,5 @@ gtkaditest_SOURCES = \
 
 gtkaditest_LDADD = \
 	$(GTK_LIBS) \
-	$(GTKADI_LIBS)
+	$(GTKADI_LIBS) \
+	$(HILDON_LIBS)

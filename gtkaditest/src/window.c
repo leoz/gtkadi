@@ -15,10 +15,16 @@
 #include "widgets.h"
 #include "window.h"
 
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/hildon-app.h>
+#include <hildon-widgets/hildon-appview.h>
+#endif /* HILDON_SUPPORT */
+
 /***************************************************************************/
 
 GtkWidget* create_main_window (void)
 {
+	GtkWidget *app = NULL;
 	GtkWidget *main_window;
 	GtkWidget *main_vbox;
 	GtkWidget *main_menubar;
@@ -27,22 +33,40 @@ GtkWidget* create_main_window (void)
 	static const gchar* style = "style \"scrolled\" {GtkScrolledWindow::scrollbar-spacing = 0} class \"GtkScrolledWindow\" style \"scrolled\"";
 	gtk_rc_parse_string (style);
 
+	#ifdef HILDON_SUPPORT
+	app = hildon_app_new ();
+	main_window = hildon_appview_new (NULL);
+	hildon_app_set_appview (HILDON_APP(app), HILDON_APPVIEW(main_window));
+	set_main_window_title (app);
+	gtk_widget_show (app);
+	#else
 	main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	set_main_window_title (main_window);
+	gtk_widget_show (main_window);
+	#endif /* HILDON_SUPPORT */
 
 	main_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (main_vbox);
 	gtk_container_add (GTK_CONTAINER (main_window), main_vbox);
 
-	main_menubar = create_menubar ();
-	gtk_widget_show (main_menubar);
+	main_menubar = create_menubar (main_window);
+	gtk_widget_show_all (main_menubar);
+	#ifndef HILDON_SUPPORT
 	gtk_box_pack_start (GTK_BOX (main_vbox), main_menubar, FALSE, FALSE, 0);
+	#endif /* HILDON_SUPPORT */
 	GTK_WIDGET_UNSET_FLAGS (main_menubar, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_menubar, GTK_CAN_DEFAULT);
 
 	main_toolbar = create_toolbar ();
 	gtk_widget_show (main_toolbar);
+	
+	#ifdef HILDON_SUPPORT
+	gtk_widget_show (HILDON_APPVIEW(main_window)->vbox);
+	gtk_box_pack_start (GTK_BOX (HILDON_APPVIEW(main_window)->vbox), main_toolbar, TRUE, TRUE, 0);
+	#else
 	gtk_box_pack_start (GTK_BOX (main_vbox), main_toolbar, FALSE, FALSE, 0);
+	#endif /* HILDON_SUPPORT */
+
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_DEFAULT);
 
