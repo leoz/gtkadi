@@ -101,7 +101,9 @@ gtk_adi_title_init (GtkAdiTitle * self)
 							GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (self->close_button),
 					   self->close_image);
-					   
+	
+	gtk_widget_set_style(self->close_button, gtk_widget_get_style (self->close_button));				   
+	
 	self->layout = GTK_ADI_HORIZONTAL;
 }
 
