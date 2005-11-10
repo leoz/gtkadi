@@ -27,6 +27,7 @@
 
 enum {
     CLOSE_CHILD,
+    FOCUS_CHILD,
     LAST_SIGNAL
 };
 
@@ -161,6 +162,15 @@ gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c)
                         g_cclosure_marshal_VOID__OBJECT,
                         G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
 
+        gtk_adi_box_view_signals[FOCUS_CHILD]
+            = g_signal_new ("focus_child",
+                        G_TYPE_FROM_CLASS (c),
+                        G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+                        G_STRUCT_OFFSET (GtkAdiBoxViewClass, focus_child),
+                        NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
+
 }
 static void 
 gtk_adi_box_view_init (GtkAdiBoxView * self)
@@ -225,6 +235,9 @@ gtk_adi_box_view_create_child (GtkAdiBoxView *self,
 	gtk_adi_child_set_widget (GTK_ADI_CHILD(adi_child), widget);
 	gtk_adi_child_set_text   (GTK_ADI_CHILD(adi_child), title);
 	gtk_adi_child_set_icon   (GTK_ADI_CHILD(adi_child), icon);
+	g_signal_connect_swapped ((gpointer) adi_child, "set_focus_child",
+	G_CALLBACK (gtk_adi_box_view_set_current_child_widget),
+	GTK_OBJECT (self));
 	g_signal_connect_swapped ((gpointer) adi_child, "set_focus_child",
 	G_CALLBACK (gtk_adi_box_view_set_current_child_widget),
 	GTK_OBJECT (self));
@@ -557,8 +570,8 @@ gtk_adi_box_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
-	
 	GTK_ADI_BOX_VIEW(self)->cur_child = child;
+	g_signal_emit(self, gtk_adi_box_view_signals[FOCUS_CHILD], 0, child);
 }
 
 void 
@@ -601,7 +614,7 @@ gtk_adi_box_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean dest
 	GList* last = NULL;
 	guint n = 2;
 	
-	gtk_adi_box_view_remove_child_notify(self, GTK_ADI_CHILD(child));
+	gtk_adi_box_view_remove_child_notify(self, child);
 	
 	if(!destroy) {
 		gtk_adi_child_remove_widget(GTK_ADI_CHILD(child));

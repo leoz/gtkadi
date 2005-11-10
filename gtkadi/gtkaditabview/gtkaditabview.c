@@ -32,6 +32,7 @@
 #endif /* HILDON_SUPPORT */
 
 enum {
+    FOCUS_CHILD,
     CLOSE_CHILD,
     LAST_SIGNAL
 };
@@ -47,6 +48,8 @@ static void gtk_adi_tab_view_get_child_data (GtkAdiView *self,
 											 gint page_num);
 static void gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
+
+void on_switch_page (GtkAdiTabView *self, gint page_num, gpointer user_data);
 
 /* pointer to the class of our parent */
 static GtkNotebookClass *parent_class = NULL;
@@ -99,7 +102,24 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
                         g_cclosure_marshal_VOID__OBJECT,
                         G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
 
+        gtk_adi_tab_view_signals[FOCUS_CHILD]
+    	    = g_signal_new ("focus_child",
+                        G_TYPE_FROM_CLASS (c),
+                        G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+                        G_STRUCT_OFFSET (GtkAdiTabViewClass, focus_child),
+                        NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
+
 }
+
+void
+on_switch_page(GtkAdiTabView *self, gint page_num, gpointer user_data)
+{
+	g_signal_emit(self, gtk_adi_tab_view_signals[FOCUS_CHILD], 0, gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
+}
+
+
 static void 
 gtk_adi_tab_view_init (GtkAdiTabView *self)
 {
@@ -109,6 +129,7 @@ gtk_adi_tab_view_init (GtkAdiTabView *self)
 	self->layout = GTK_ADI_HORIZONTAL;
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
+	g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), NULL);
 }
 
 
@@ -215,7 +236,8 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 
 void 
 gtk_adi_tab_view_set_current_child (GtkAdiView *self, GtkWidget *child)
-{}
+{
+}
 
 void 
 gtk_adi_tab_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
@@ -226,6 +248,7 @@ gtk_adi_tab_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(self),
 	gtk_notebook_page_num (GTK_NOTEBOOK(self), widget));
+
 }
 
 void 
