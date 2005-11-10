@@ -105,9 +105,10 @@ void gtk_adi_tab_view_change_color	(GtkAdiView * self,
 					GtkAdiColorType color);
 void gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 								            const gchar *title_text);
-void gtk_adi_tab_view_set_child_close_button (GtkAdiView *self,
-                                              GtkWidget *widget,
-								              gboolean enabled);
+void gtk_adi_tab_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
+
+void gtk_adi_tab_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
+
 
 G_END_DECLS
 

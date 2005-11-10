@@ -1,0 +1,15 @@
+libgtkadi (0.31-1) unstable; urgency=low
+
+  * Initial Maemo support. 
+
+ -- Oleg Romashin <romaxa@gmail.com>  Sat,  5 Nov 2005 11:54:25 +0300
+
+libgtkadi (0.1-2) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Oleg Romashin <romaxa@gmail.com>  Sun, 29 Oct 2000 00:39:24 -0500
+
+Local variables:
+mode: debian-changelog
+End:

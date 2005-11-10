@@ -53,6 +53,7 @@ struct _GtkAdiChild {
 	GtkWidget * title;
 	GtkWidget * separator;
 	GtkWidget * widget;
+	gboolean show_tab;
 };
 
 /*

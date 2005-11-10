@@ -463,6 +463,17 @@ void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
 	                                     enabled);
 }
 
+void gtk_adi_set_child_tab (GtkAdi *self, GtkWidget *widget,
+								     gboolean enabled)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	gtk_adi_view_set_child_tab (GTK_ADI_VIEW(self->cur_view),
+	                                     widget,
+	                                     enabled);
+}
+
+
 void
 gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 {
