@@ -1,3 +1,10 @@
+libgtkadi (0.32-1) unstable; urgency=low
+
+  * Has been added notification signals about closing and changing window
+    "close-child", "focus-child"
+
+ -- Oleg Romashin <romaxa@gmail.com>  Thu, 10 Nov 2005 21:44:23 +0300
+
 libgtkadi (0.31-1) unstable; urgency=low
 
   * Initial Maemo support. 
