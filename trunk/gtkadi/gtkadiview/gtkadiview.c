@@ -209,3 +209,10 @@ gtk_adi_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 	GTK_ADI_VIEW_GET_CLASS (self)->set_child_close_button (self, widget,
 	                                                       enabled);
 }
+
+void
+gtk_adi_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->set_child_tab (self, widget, enabled);
+}
+

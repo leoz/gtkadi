@@ -67,11 +67,32 @@ gtk_adi_child_class_init (GtkAdiChildClass * c)
 	parent_class = g_type_class_ref (GTK_TYPE_FRAME);
 }
 
+void
+on_tab_elem_show (GtkWidget *widget, GtkAdiChild * self)
+{
+    if (!self->show_tab)
+    {
+	if (GTK_WIDGET_VISIBLE(widget))
+	{
+	    gtk_widget_hide(widget);
+	}
+    }
+    else
+    {
+	if (!GTK_WIDGET_VISIBLE(widget))
+	{
+	    gtk_widget_show(widget);
+	}
+    }
+}
+
 static void 
 gtk_adi_child_init (GtkAdiChild * self)
 {
 	gtk_frame_set_label_align (GTK_FRAME (self), 0, 0);
 	GTK_WIDGET_SET_FLAGS (self, GTK_CAN_FOCUS);
+	
+	self->show_tab = TRUE;
 	
 	self->box = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (self), self->box);
@@ -82,6 +103,9 @@ gtk_adi_child_init (GtkAdiChild * self)
 	
 	self->separator = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (self->box), self->separator, FALSE, FALSE, 0);
+	
+	g_signal_connect(GTK_WIDGET(self->separator), "show", on_tab_elem_show, self);
+	g_signal_connect(GTK_WIDGET(self->title), "show", on_tab_elem_show, self);
 }
 
 
@@ -209,3 +233,16 @@ gtk_adi_child_set_close_button (GtkAdiChild *self, gboolean enabled)
 	
 	gtk_adi_title_set_close_button (GTK_ADI_TITLE(self->title), enabled);
 }
+
+void
+gtk_adi_child_set_tab (GtkAdiChild *self, gboolean enabled)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_CHILD (self));
+	
+	self->show_tab = enabled;
+	on_tab_elem_show(self->separator, self);
+	on_tab_elem_show(self->title, self);
+}
+
+

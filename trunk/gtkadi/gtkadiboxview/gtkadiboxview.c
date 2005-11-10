@@ -75,6 +75,7 @@ gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 	iface->change_color = gtk_adi_box_view_change_color;
 	iface->set_child_title_text = gtk_adi_box_view_set_child_title_text;
 	iface->set_child_close_button = gtk_adi_box_view_set_child_close_button;
+	iface->set_child_tab = gtk_adi_box_view_set_child_tab;
 }
 
 GType
@@ -848,3 +849,15 @@ gtk_adi_box_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 		gtk_adi_child_set_close_button(child, enabled);
 	}
 }
+
+void
+gtk_adi_box_view_set_child_tab (GtkAdiView *self, GtkWidget *widget,
+								         gboolean enabled)
+{
+	GtkAdiChild* child = gtk_adi_box_view_find_child(self, widget);
+	
+	if (child != NULL) {
+	    gtk_adi_child_set_tab(child, enabled);
+	}
+}
+
