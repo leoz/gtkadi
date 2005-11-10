@@ -25,6 +25,13 @@
 #include "gtkadichild.h"
 #include "gtkadiutils.h"
 
+enum {
+    CLOSE_CHILD,
+    LAST_SIGNAL
+};
+
+static gint gtk_adi_box_view_signals[LAST_SIGNAL] = {0};
+
 /* here are local prototypes */
 static void gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c);
 static void gtk_adi_box_view_set_space (void);
@@ -45,6 +52,8 @@ static GtkAdiChild* gtk_adi_box_view_find_child (GtkAdiView *self,
 static void gtk_adi_box_view_iface_init (GtkAdiViewIface *iface);
 static void gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
                                              GtkAdiChild *child);
+
+static void gtk_adi_box_view_remove_child_notify (GtkAdiView *self, GtkWidget *child);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -142,6 +151,16 @@ gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c)
 	parent_class = g_type_class_ref (GTK_TYPE_EVENT_BOX);
 
 	g_object_class->finalize = gtk_adi_box_view_finalize;
+
+        gtk_adi_box_view_signals[CLOSE_CHILD]
+            = g_signal_new ("close_child",
+                        G_TYPE_FROM_CLASS (c),
+                        G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+                        G_STRUCT_OFFSET (GtkAdiBoxViewClass, close_child),
+                        NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
+
 }
 static void 
 gtk_adi_box_view_init (GtkAdiBoxView * self)
@@ -582,6 +601,8 @@ gtk_adi_box_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean dest
 	GList* last = NULL;
 	guint n = 2;
 	
+	gtk_adi_box_view_remove_child_notify(self, GTK_ADI_CHILD(child));
+	
 	if(!destroy) {
 		gtk_adi_child_remove_widget(GTK_ADI_CHILD(child));
 	}
@@ -738,6 +759,7 @@ gtk_adi_box_view_remove_current_child (GtkAdiView * self, gboolean destroy)
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 
 	if ( GTK_ADI_BOX_VIEW(self)->cur_child != NULL ) {
+		gtk_adi_box_view_remove_child_notify(self, GTK_ADI_BOX_VIEW(self)->cur_child);
 		gtk_adi_view_remove_child (self,
 								   GTK_ADI_BOX_VIEW(self)->cur_child,
 		                           destroy);
@@ -751,6 +773,7 @@ gtk_adi_box_view_remove_all_children (GtkAdiView * self)
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	
 	while ( GTK_ADI_BOX_VIEW(self)->cur_child != NULL ) {
+		gtk_adi_box_view_remove_child_notify(self, GTK_ADI_BOX_VIEW(self)->cur_child);
 		gtk_adi_view_remove_child (self,
 								   GTK_ADI_BOX_VIEW(self)->cur_child, TRUE);
 	}
@@ -861,3 +884,16 @@ gtk_adi_box_view_set_child_tab (GtkAdiView *self, GtkWidget *widget,
 	}
 }
 
+static void
+gtk_adi_box_view_remove_child_notify (GtkAdiView *self,
+                                      GtkWidget *child)
+{
+        g_signal_emit(self, gtk_adi_box_view_signals[CLOSE_CHILD], 0, child);
+/*        #ifdef HILDON_SUPPORT
+        GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
+                                                     GTK_TYPE_WINDOW);
+        if (window && GTK_IS_WINDOW(window)) {
+                hildon_app_unregister_view(HILDON_APP(window), child);
+        }
+        #endif*/ /* HILDON_SUPPORT */
+}
