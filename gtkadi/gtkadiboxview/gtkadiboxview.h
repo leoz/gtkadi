@@ -66,6 +66,7 @@ struct _GtkAdiBoxView {
 typedef struct _GtkAdiBoxViewClass GtkAdiBoxViewClass;
 struct _GtkAdiBoxViewClass {
 	GtkEventBoxClass __parent__;
+	void (* close_child) (GtkAdiBoxView * view);
 };
 
 
