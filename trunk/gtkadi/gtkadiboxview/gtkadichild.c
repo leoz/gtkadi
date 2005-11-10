@@ -29,6 +29,7 @@
 /* here are local prototypes */
 static void gtk_adi_child_class_init (GtkAdiChildClass * c);
 static void gtk_adi_child_init (GtkAdiChild * self);
+void on_tab_elem_show (GtkWidget *widget, GtkAdiChild * self);
 
 /* pointer to the class of our parent */
 static GtkFrameClass *parent_class = NULL;
@@ -67,24 +68,6 @@ gtk_adi_child_class_init (GtkAdiChildClass * c)
 	parent_class = g_type_class_ref (GTK_TYPE_FRAME);
 }
 
-void
-on_tab_elem_show (GtkWidget *widget, GtkAdiChild * self)
-{
-    if (!self->show_tab)
-    {
-	if (GTK_WIDGET_VISIBLE(widget))
-	{
-	    gtk_widget_hide(widget);
-	}
-    }
-    else
-    {
-	if (!GTK_WIDGET_VISIBLE(widget))
-	{
-	    gtk_widget_show(widget);
-	}
-    }
-}
 
 static void 
 gtk_adi_child_init (GtkAdiChild * self)
@@ -245,4 +228,21 @@ gtk_adi_child_set_tab (GtkAdiChild *self, gboolean enabled)
 	on_tab_elem_show(self->title, self);
 }
 
-
+void
+on_tab_elem_show (GtkWidget *widget, GtkAdiChild * self)
+{
+    if (!self->show_tab)
+    {
+	if (GTK_WIDGET_VISIBLE(widget))
+	{
+	    gtk_widget_hide(widget);
+	}
+    }
+    else
+    {
+	if (!GTK_WIDGET_VISIBLE(widget))
+	{
+	    gtk_widget_show(widget);
+	}
+    }
+}

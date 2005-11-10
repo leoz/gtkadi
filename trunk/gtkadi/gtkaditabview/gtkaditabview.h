@@ -60,6 +60,7 @@ struct _GtkAdiTabView {
 typedef struct _GtkAdiTabViewClass GtkAdiTabViewClass;
 struct _GtkAdiTabViewClass {
 	GtkNotebookClass __parent__;
+	void (* close_child) (GtkAdiTabView * view);
 };
 
 

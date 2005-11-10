@@ -31,6 +31,13 @@
 #include <hildon-widgets/hildon-app.h>
 #endif /* HILDON_SUPPORT */
 
+enum {
+    CLOSE_CHILD,
+    LAST_SIGNAL
+};
+
+static gint gtk_adi_tab_view_signals[LAST_SIGNAL] = {0};
+
 /* here are local prototypes */
 static void gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c);
 static void gtk_adi_tab_view_init (GtkAdiTabView *self);
@@ -82,6 +89,16 @@ static void
 gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 {
 	parent_class = g_type_class_ref (GTK_TYPE_NOTEBOOK);
+	
+        gtk_adi_tab_view_signals[CLOSE_CHILD]
+    	    = g_signal_new ("close_child",
+                        G_TYPE_FROM_CLASS (c),
+                        G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+                        G_STRUCT_OFFSET (GtkAdiTabViewClass, close_child),
+                        NULL, NULL,
+                        g_cclosure_marshal_VOID__OBJECT,
+                        G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
+
 }
 static void 
 gtk_adi_tab_view_init (GtkAdiTabView *self)
@@ -414,6 +431,7 @@ static void
 gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
+	g_signal_emit(self, gtk_adi_tab_view_signals[CLOSE_CHILD], 0, child);
 	#ifdef HILDON_SUPPORT
 	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
 	                                             GTK_TYPE_WINDOW);
