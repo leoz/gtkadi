@@ -202,7 +202,6 @@ gtk_adi_box_title_set_active (GtkAdiBoxTitle * self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_BOX_TITLE (self));
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->radiobutton), TRUE);
 }
 

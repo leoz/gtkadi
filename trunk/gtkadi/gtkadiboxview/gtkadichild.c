@@ -104,7 +104,6 @@ gtk_adi_child_set_active (GtkAdiChild * self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CHILD (self));
-	
 	gtk_adi_box_title_set_active (GTK_ADI_BOX_TITLE(self->title));
 }
 
