@@ -49,7 +49,7 @@ static void gtk_adi_tab_view_get_child_data (GtkAdiView *self,
 static void gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
 
-void on_switch_page (GtkAdiTabView *self, gint page_num, gpointer user_data);
+void on_switch_page (GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data);
 
 /* pointer to the class of our parent */
 static GtkNotebookClass *parent_class = NULL;
@@ -114,7 +114,7 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 }
 
 void
-on_switch_page(GtkAdiTabView *self, gint page_num, gpointer user_data)
+on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data)
 {
 	g_signal_emit(self, gtk_adi_tab_view_signals[FOCUS_CHILD], 0, gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 }
@@ -160,6 +160,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->set_child_title_text = gtk_adi_tab_view_set_child_title_text;
 	iface->set_child_close_button = gtk_adi_tab_view_set_child_close_button;
 	iface->set_child_tab = gtk_adi_tab_view_set_child_tab;
+	iface->get_childs_count = gtk_adi_tab_view_get_childs_count;
 }
 
 /* a macro for creating a new object of our type */
@@ -245,10 +246,8 @@ gtk_adi_tab_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (widget != NULL);
-
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(self),
 	gtk_notebook_page_num (GTK_NOTEBOOK(self), widget));
-
 }
 
 void 
@@ -259,7 +258,6 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (child != NULL);
-	
 	gtk_adi_tab_view_remove_child_notify(self, child);
 	gtk_notebook_remove_page (GTK_NOTEBOOK(self),
 	gtk_notebook_page_num (GTK_NOTEBOOK(self), child));
@@ -462,4 +460,13 @@ gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
 		hildon_app_unregister_view(HILDON_APP(window), child);
 	}
 	#endif /* HILDON_SUPPORT */
+}
+
+gint
+gtk_adi_tab_view_get_childs_count (GtkAdiView *self)
+{
+    g_return_val_if_fail (self != NULL, FALSE);
+    g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+	
+    return gtk_notebook_get_n_pages(GTK_NOTEBOOK(self));
 }

@@ -305,6 +305,22 @@ gtk_adi_has_children (GtkAdi * self)
 	return gtk_adi_view_has_children (GTK_ADI_VIEW(self->cur_view));
 }
 
+void
+gtk_adi_set_current_child (GtkAdi *self, GtkWidget *child)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	gtk_adi_view_set_current_child (GTK_ADI_VIEW(self->cur_view), child);
+}
+
+void
+gtk_adi_set_current_widget (GtkAdi *self, GtkWidget *widget)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	gtk_adi_view_set_current_widget (GTK_ADI_VIEW(self->cur_view), widget);
+}
+
 void 
 gtk_adi_remove_current_child (GtkAdi * self)
 {
@@ -481,6 +497,15 @@ gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->cur_view), layout);
+}
+
+gint
+gtk_adi_get_childs_count (GtkAdi *self)
+{
+    g_return_val_if_fail (self != NULL, (gboolean )0);
+    g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+
+    return gtk_adi_view_get_childs_count (self->cur_view);
 }
 
 static void

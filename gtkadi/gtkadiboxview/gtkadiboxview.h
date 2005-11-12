@@ -122,7 +122,7 @@ void gtk_adi_box_view_set_child_close_button (GtkAdiView *self,
 void gtk_adi_box_view_set_child_tab (GtkAdiView *self,
                                               GtkWidget *widget,
 								              gboolean enabled);
-
+gint gtk_adi_box_view_get_childs_count (GtkAdiView *self);
 
 G_END_DECLS
 
