@@ -24,7 +24,7 @@ AC_INIT(configure.ac)
 
 GTK_ADI_MAJOR_VERSION=0
 GTK_ADI_MINOR_VERSION=0
-GTK_ADI_MICRO_VERSION=32
+GTK_ADI_MICRO_VERSION=33
 GTK_ADI_VERSION=$GTK_ADI_MAJOR_VERSION.$GTK_ADI_MINOR_VERSION.$GTK_ADI_MICRO_VERSION
 
 AC_SUBST(GTK_ADI_MAJOR_VERSION)
@@ -51,13 +51,30 @@ AC_SUBST(GTK_LIBS)
 
 dnl Checks for Maemo libraries.
 
-PKG_CHECK_MODULES(HILDON, [hildon-libs],
+AC_ARG_ENABLE(hildon, [ --enable-hildon=[yes|no] ], [hildon_support=$enableval ])
+
+if test "$hildon_support" != "no"; then
+
+    PKG_CHECK_MODULES(HILDON, [hildon-libs],
 	[
-	 	AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])
-		hildon_support="yes"
-	],[echo 'No Hildon support.'])
+            hildon_support="yes"
+	],
+	[
+    	    hildon_support="no"
+    	    echo 'No HILDON Library!!!!.'
+	]
+    )
+
+    if test "$hildon_support" = "yes"; then
+        AC_SUBST(HILDON_LIBS)
+        AC_SUBST(HILDON_CFLAGS)
+
+        AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])	
+    fi
+fi
 
 AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
+
 
 PKG_CHECK_MODULES(OSSO, [libosso],
 	[
