@@ -94,6 +94,8 @@ gboolean 	gtk_adi_can_next_child	(GtkAdi * self);
 gboolean 	gtk_adi_can_tile_h	(GtkAdi * self);
 gboolean 	gtk_adi_can_tile_v	(GtkAdi * self);
 gboolean 	gtk_adi_has_children	(GtkAdi *self);
+void gtk_adi_set_current_child (GtkAdi *self, GtkWidget *child);
+void gtk_adi_set_current_widget (GtkAdi *self, GtkWidget *widget);
 void gtk_adi_remove_current_child (GtkAdi *self);
 void gtk_adi_remove_all_children (GtkAdi *self);
 void gtk_adi_set_previous_child (GtkAdi *self);
@@ -111,6 +113,8 @@ void gtk_adi_set_child_tab (GtkAdi *self, GtkWidget *widget,
 								     gboolean enabled);
 
 void gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout);
+
+gint gtk_adi_get_childs_count (GtkAdi *self);
 
 G_END_DECLS
 

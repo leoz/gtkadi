@@ -84,6 +84,8 @@ void 	gtk_adi_child_set_text	(GtkAdiChild * self,
 					const gchar * str);
 void 	gtk_adi_child_set_icon	(GtkAdiChild * self,
 					GdkPixbuf * icon);
+void
+	gtk_adi_child_set_tab (GtkAdiChild *self, gboolean enabled);
 GSList * 	gtk_adi_child_get_group	(GtkAdiChild * self);
 void gtk_adi_child_set_layout (GtkAdiChild *self, GtkAdiLayout layout);
 GtkAdiLayout gtk_adi_child_get_layout (GtkAdiChild *self);
