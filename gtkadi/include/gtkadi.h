@@ -102,6 +102,7 @@ void gtk_adi_set_previous_child (GtkAdi *self);
 void gtk_adi_set_next_child	(GtkAdi *self);
 void gtk_adi_change_mode (GtkAdi *self, GtkAdiMode mode);
 void gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view);
+GtkAdiViewType gtk_adi_get_view (GtkAdi *self);
 void gtk_adi_change_state (GtkAdi *self, GtkAdiState state);
 void gtk_adi_change_color (GtkAdi *self, GtkAdiColorType color);
 void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,

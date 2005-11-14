@@ -367,13 +367,18 @@ gtk_adi_change_mode (GtkAdi * self, GtkAdiMode mode)
 }
 
 void 
-gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
+gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	GtkWidget* old_view = NULL;
 	GtkWidget* current = NULL;
+	
+	/* 0. Check if the change is needed */
+	if (gtk_adi_get_view(self) == view) {
+		return;
+	}
 	
 	/* 1. Hide current view */
 	if (self->cur_view) {
@@ -439,6 +444,18 @@ gtk_adi_change_view (GtkAdi * self, GtkAdiViewType view)
 	}
 }
 
+GtkAdiViewType
+gtk_adi_get_view (GtkAdi *self)
+{
+	g_return_val_if_fail (self != NULL, GTK_ADI_VIEW_BOX);
+	g_return_val_if_fail (GTK_IS_ADI (self), GTK_ADI_VIEW_BOX);
+	
+	if (self->cur_view && self->cur_view == self->tab_view) {
+		return GTK_ADI_VIEW_TAB;
+	}
+	return GTK_ADI_VIEW_BOX;
+}
+
 void 
 gtk_adi_change_state (GtkAdi *self, GtkAdiState state)
 {
@@ -502,10 +519,10 @@ gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 gint
 gtk_adi_get_childs_count (GtkAdi *self)
 {
-    g_return_val_if_fail (self != NULL, (gboolean )0);
-    g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+    g_return_val_if_fail (self != NULL, 0);
+    g_return_val_if_fail (GTK_IS_ADI (self), 0);
 
-    return gtk_adi_view_get_childs_count (self->cur_view);
+    return gtk_adi_view_get_childs_count (GTK_ADI_VIEW(self->cur_view));
 }
 
 static void

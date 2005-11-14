@@ -46,6 +46,7 @@ struct _GtkAdiChildData {
 	GdkPixbuf *icon;
 	const gchar *title;
 	GtkAdiLayout layout;
+	gboolean show_close;
 };
 
 struct _GtkAdiViewIface {

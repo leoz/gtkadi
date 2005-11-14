@@ -206,6 +206,7 @@ gtk_adi_tab_view_add_child_with_data (GtkAdiView *self,
 	g_return_if_fail (data != NULL);
 
 	gtk_adi_tab_view_add_child_with_layout(self, data->widget, data->icon, data->title, data->layout);
+	gtk_adi_tab_view_set_child_close_button(self, data->widget, data->show_close);
 }
 
 void 
@@ -285,6 +286,7 @@ gtk_adi_tab_view_get_child_data (GtkAdiView *self,
 		data->icon = gtk_adi_title_get_icon(GTK_ADI_TITLE(tab_label));
 		data->title = gtk_adi_title_get_text(GTK_ADI_TITLE(tab_label));
 		data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
+		data->show_close = gtk_adi_title_get_close_button(GTK_ADI_TITLE(tab_label));
 	}
 }
 
