@@ -87,6 +87,7 @@ GdkPixbuf* gtk_adi_title_get_icon (GtkAdiTitle *self);
 void gtk_adi_title_set_layout (GtkAdiTitle *self, GtkAdiLayout layout);
 GtkAdiLayout gtk_adi_title_get_layout (GtkAdiTitle *self);
 void gtk_adi_title_set_close_button (GtkAdiTitle *self, gboolean enabled);
+gboolean gtk_adi_title_get_close_button (GtkAdiTitle *self);
 
 G_END_DECLS
 

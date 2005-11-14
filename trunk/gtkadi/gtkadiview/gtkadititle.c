@@ -20,9 +20,13 @@
  * $Id$
  */
 
+/*
+#define ADI_DO_TRACE
+*/
 #include "gtkadititle.h"
 #include "gtkadiview.h"
 #include "gtkadistock.h"
+#include "gtkadiutils.h"
 
 /* here are local prototypes */
 static void gtk_adi_title_class_init (GtkAdiTitleClass *c);
@@ -104,6 +108,10 @@ gtk_adi_title_init (GtkAdiTitle * self)
 	
 	gtk_widget_set_style(self->close_button, gtk_widget_get_style (self->close_button));				   
 	
+	g_signal_connect_swapped ((gpointer) self->close_button, "released",
+							  G_CALLBACK (gtk_adi_title_close_button_released),
+							  GTK_OBJECT (self));
+
 	self->layout = GTK_ADI_HORIZONTAL;
 }
 
@@ -161,9 +169,6 @@ gtk_adi_title_set_child (GtkAdiTitle * self, GtkWidget * adi_child)
 	g_return_if_fail (adi_child != NULL);
 	
 	self->adi_child = adi_child;
-	g_signal_connect_swapped ((gpointer) self->close_button, "released",
-							  G_CALLBACK (gtk_adi_title_close_button_released),
-							  GTK_OBJECT (self));
 }
 
 void 
@@ -240,10 +245,28 @@ gtk_adi_title_set_close_button (GtkAdiTitle *self, gboolean enabled)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	
+	ADI_TRACE("ADI title close button set to : %d", enabled)
+	
 	if (enabled) {
-		gtk_widget_show(self->close_button);
+		if (!gtk_widget_get_parent(self->close_button)) {
+			gtk_box_pack_start (GTK_BOX (self->vbox), self->close_button,
+								FALSE, FALSE, 0);
+			gtk_widget_show(self->close_button);
+			g_object_unref(self->close_button);
+		}
 	}
 	else {
+		g_object_ref(self->close_button);
 		gtk_widget_hide(self->close_button);
+		gtk_container_remove(GTK_CONTAINER(self->vbox), self->close_button);
 	}
+}
+
+gboolean gtk_adi_title_get_close_button (GtkAdiTitle *self)
+{
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_TITLE (self), FALSE);
+	g_return_val_if_fail (self->close_button != NULL, FALSE);
+	
+	return GTK_WIDGET_VISIBLE(self->close_button);
 }
