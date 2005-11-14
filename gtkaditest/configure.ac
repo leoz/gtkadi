@@ -43,6 +43,4 @@ AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
 AC_OUTPUT([
 Makefile
 src/Makefile
-data/gtkaditest.desktop.in
-data/com.nokia.gtkaditest.service
 ])
