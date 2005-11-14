@@ -8,7 +8,7 @@
 ## $Id$
 ##
 
-SUBDIRS = src data
+SUBDIRS = src
 
 EXTRA_DIST = \
 	autogen.sh
