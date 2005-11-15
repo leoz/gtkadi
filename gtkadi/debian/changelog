@@ -1,3 +1,9 @@
+libgtkadi (0.34-1) unstable; urgency=low
+
+  * Has been fixed memory leaks with adding two and more box views 
+
+ -- Oleg Romashin <romaxa@romaxa.universe.dart.spb>  Tue, 15 Nov 2005 15:33:55 +0300
+
 libgtkadi (0.33-1) unstable; urgency=low
 
   * Has been added enable-hildon argument for configure

@@ -78,6 +78,7 @@ gtk_adi_child_init (GtkAdiChild * self)
 	self->show_tab = TRUE;
 	
 	self->box = gtk_vbox_new (FALSE, 0);
+	
 	gtk_container_add (GTK_CONTAINER (self), self->box);
 	
 	self->title = gtk_adi_box_title_new ();
