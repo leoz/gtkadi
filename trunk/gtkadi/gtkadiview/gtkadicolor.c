@@ -151,6 +151,8 @@ gtk_adi_color_init_gtk (GtkAdiColor * self)
 
 	gtk_widget_destroy(item);
 	gtk_widget_destroy(menu);
+	//Fixed memory leak on X86
+	g_free(menu);
 	gtk_widget_destroy(invis);
 }
 

@@ -150,23 +150,26 @@ gtk_adi_box_title_set_widget_color (GtkAdiBoxTitle * self, GtkWidget * widget, g
 		}
 	}
 
-	if ( color == NULL ) {
-		return;
-	}
-
 	/* Set size */
 	style->xthickness = 0;
 	style->ythickness = 0;
 
+
+	if ( color != NULL ) {
+	    style->bg[GTK_STATE_NORMAL  ] = *color;
+	    style->bg[GTK_STATE_ACTIVE  ] = *color;
+	    style->bg[GTK_STATE_PRELIGHT] = *color;
+//		return;
+
+
 	/* Set colors */
-	style->bg[GTK_STATE_NORMAL  ] = *color;
-	style->bg[GTK_STATE_ACTIVE  ] = *color;
-	style->bg[GTK_STATE_PRELIGHT] = *color;
 
-	style->fg[GTK_STATE_NORMAL  ] = style->bg[GTK_STATE_NORMAL  ];
-	style->fg[GTK_STATE_ACTIVE  ] = style->bg[GTK_STATE_ACTIVE  ];
-	style->fg[GTK_STATE_PRELIGHT] = style->bg[GTK_STATE_PRELIGHT];
+	    style->fg[GTK_STATE_NORMAL  ] = style->bg[GTK_STATE_NORMAL  ];
+	    style->fg[GTK_STATE_ACTIVE  ] = style->bg[GTK_STATE_ACTIVE  ];
+	    style->fg[GTK_STATE_PRELIGHT] = style->bg[GTK_STATE_PRELIGHT];
 
+	}
+	
 	gtk_widget_set_style (widget, style);
 	g_object_unref (G_OBJECT (style));
 }
