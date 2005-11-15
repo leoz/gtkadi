@@ -129,6 +129,7 @@ gtk_adi_tab_view_init (GtkAdiTabView *self)
 	self->layout = GTK_ADI_HORIZONTAL;
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (self), FALSE);
 	g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), NULL);
 }
 

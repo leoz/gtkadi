@@ -265,6 +265,7 @@ gtk_adi_box_view_create_container (GtkAdiBoxView * self, GtkAdiLayout layout, Gt
 			container = gtk_hbox_new   ( FALSE, self->space );
 		}
 	}
+
 	return container;
 }
 
