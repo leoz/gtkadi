@@ -12,6 +12,10 @@
 <h2>News</h2>
 
 <p>
+2005-11-21: Version 0.1.0 released.
+</p>
+
+<p>
 2005-11-10: <a href="http://sourceforge.net/users/romaxa_xz/">Oleg Romashin</a>
 joined the project as a new developer.
 Welcome!

@@ -4,6 +4,10 @@
 
 <?php include("contents.php"); ?>
 
+<h3>Download</h3>
+
+<?php include("download.php"); ?>
+
 <h3><a href="mailto:leoz.2005@gmail.com">Contact</a></h3>
 
 <h3>Hosted by</h3>
