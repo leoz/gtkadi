@@ -3,7 +3,8 @@
 <?php 
 $contents = array(
 	'index.php' => 'News',
-	'http://sourceforge.net/projects/gtkadi' => 'Summary'
+	'http://sourceforge.net/projects/gtkadi' => 'Summary',
+	'http://cvs.sourceforge.net/viewcvs.py/gtkadi/' => 'ViewCVS'
 );
 function get_page_link($page, $name)
 {
