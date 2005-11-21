@@ -9,25 +9,15 @@
 <?php include("frames/left_bar.php"); ?>
 <div id="main">
 
-<h2>News</h2>
+<h2>Screen Shots</h2>
 
 <p>
-2005-11-22: Screen shots were added.
+<h3>Box View</h3>
+<img src="images/boxview.png" alt="boxview"/>
 </p>
-
 <p>
-2005-11-21: Version 0.1.0 released.
-</p>
-
-<p>
-2005-11-10: <a href="http://sourceforge.net/users/romaxa_xz/">Oleg Romashin</a>
-joined the project as a new developer.
-Welcome!
-</p>
-
-<p>
-2005-10-04: Initial web page setup. No files are published.
-Use CVS to get latest sources.
+<h3>Tab View</h3>
+<img src="images/tabview.png" alt="tabview"/>
 </p>
 
 </div>	

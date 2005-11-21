@@ -3,6 +3,7 @@
 <?php 
 $contents = array(
 	'index.php' => 'News',
+	'shots.php' => 'Screen Shots',
 	'http://sourceforge.net/projects/gtkadi' => 'Summary',
 	'http://cvs.sourceforge.net/viewcvs.py/gtkadi/' => 'ViewCVS'
 );
