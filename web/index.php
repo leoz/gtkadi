@@ -12,6 +12,12 @@
 <h2>News</h2>
 
 <p>
+2005-11-10: <a href="http://sourceforge.net/users/romaxa_xz/">Oleg Romashin</a>
+joined the project as a new developer.
+Welcome!
+</p>
+
+<p>
 2005-10-04: Initial web page setup. No files are published.
 Use CVS to get latest sources.
 </p>
