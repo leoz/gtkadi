@@ -106,9 +106,9 @@ install-arch:
 binary-common:
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs
-	dh_installdocs
-	dh_installexamples
+#	dh_installchangelogs
+#	dh_installdocs
+#	dh_installexamples
 #	dh_installmenu
 #	dh_installdebconf
 #	dh_installlogrotate
@@ -118,7 +118,7 @@ binary-common:
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
-	dh_installman
+#	dh_installman
 	dh_link
 	dh_strip
 	dh_compress

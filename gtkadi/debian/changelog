@@ -1,3 +1,9 @@
+libgtkadi (0.34-2) unstable; urgency=low
+
+  * Has been fixed missing libgtkadi.so symlink in package
+
+ -- Oleg Romashin <romaxa@gmail.com>  Sat, 26 Nov 2005 23:18:48 +0300
+
 libgtkadi (0.34-1) unstable; urgency=low
 
   * Has been fixed memory leaks with adding two and more box views 
