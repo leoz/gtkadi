@@ -24,7 +24,7 @@ AC_INIT(configure.ac)
 
 GTK_ADI_MAJOR_VERSION=0
 GTK_ADI_MINOR_VERSION=1
-GTK_ADI_MICRO_VERSION=34
+GTK_ADI_MICRO_VERSION=35
 GTK_ADI_VERSION=$GTK_ADI_MAJOR_VERSION.$GTK_ADI_MINOR_VERSION.$GTK_ADI_MICRO_VERSION
 
 AC_SUBST(GTK_ADI_MAJOR_VERSION)
@@ -75,6 +75,14 @@ fi
 
 AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
 
+
+AC_ARG_ENABLE(widgets, [ --enable-widgets=[yes|no] ], [widgets_support=$enableval ])
+
+if test "$widgets_support" = "yes"; then
+    AC_DEFINE(WIDGETS_SUPPORT, [], [Build with additional widgets Menu,Toolbar])
+fi
+
+AM_CONDITIONAL(WIDGETS_SUPPORT, [test "${widgets_support}" = "yes"])
 
 PKG_CHECK_MODULES(OSSO, [libosso],
 	[

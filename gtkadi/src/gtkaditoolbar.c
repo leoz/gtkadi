@@ -24,7 +24,7 @@
 #  include <config.h>
 #endif
 
-#include "gtkaditoolbar.h"
+#include "../include/gtkaditoolbar.h"
 
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>

@@ -26,7 +26,9 @@
 
 #include "gtkadi.h"
 #include "gtkadiutils.h"
+#ifdef WIDGETS_SUPPORT
 #include "gtkadicmd.h"
+#endif
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
 #include "gtkaditabview.h"
@@ -99,7 +101,7 @@ gtk_adi_finalize(GObject *obj_self)
 		}
 		self->cur_view = NULL;
 	}
-
+#ifdef WIDGETS_SUPPORT
 	if(self->cmd) {
 		ADI_TRACE_FINALIZE("cmd");
 		if (GTK_IS_WIDGET(self->cmd)) {
@@ -107,7 +109,7 @@ gtk_adi_finalize(GObject *obj_self)
 		}
 		self->cmd = NULL;
 	}
-	
+#endif
 	if(self->box_view) {
 		ADI_TRACE_FINALIZE("box view");
 		if (GTK_IS_WIDGET(self->box_view)) {
@@ -143,13 +145,17 @@ gtk_adi_init (GtkAdi * self)
 	self->child_func = NULL;
 	self->icon_func = NULL;
 	self->title_func = NULL;
+#ifdef WIDGETS_SUPPORT
 	self->cmd = NULL;
+#endif
 	self->box_view = NULL;
 	self->tab_view = NULL;
 	self->cur_view = NULL;
 
 	gtk_adi_stock_init ();
+#ifdef WIDGETS_SUPPORT
 	self->cmd = gtk_adi_cmd_new (self);
+#endif
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
 
@@ -194,6 +200,7 @@ gtk_adi_set_title_func (GtkAdi * self, GtkAdiCreateTitleFunc title_func)
 	self->title_func = title_func;
 }
 
+#ifdef WIDGETS_SUPPORT
 GtkWidget * 
 gtk_adi_create_toolbar (GtkAdi * self)
 {
@@ -219,6 +226,7 @@ gtk_adi_create_menu (GtkAdi * self)
 	}
 	return menu;
 }
+#endif
 
 void
 gtk_adi_add (GtkAdi *self, GtkWidget *widget)

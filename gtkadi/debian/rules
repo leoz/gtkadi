@@ -37,7 +37,7 @@ configure-stamp:
 
 	# change ../configure to ../autogen.sh for CVS build
 	./autogen.sh
-	./configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=no
+	./configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=no --enable-widgets=no
 
 	touch configure-stamp
 

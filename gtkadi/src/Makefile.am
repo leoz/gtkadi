@@ -38,24 +38,21 @@ AM_CFLAGS = \
 
 lib_LTLIBRARIES = libgtkadi.la
 
+if WIDGETS_SUPPORT
+    ADD_TOOLKITC = gtkadicmd.c gtkaditoolbar.c gtkadimenu.c
+endif
+
 libgtkadi_la_SOURCES = \
 	gtkadi.c \
-	gtkadicmd.c \
-	gtkadimenu.c \
-	gtkaditoolbar.c \
+	$(ADD_TOOLKITC) \
 	gtkadistock.c \
 	gtkadiutils.c
-
-noinst_HEADERS = \
-	gtkadicmd.h
 
 libgtkadi_includedir = $(includedir)/gtkadi
 
 libgtkadi_include_HEADERS = \
 	$(top_srcdir)/include/gtkaditype.h \
 	$(top_srcdir)/include/gtkadi.h \
-	$(top_srcdir)/include/gtkadimenu.h \
-	$(top_srcdir)/include/gtkaditoolbar.h \
 	$(top_srcdir)/include/gtkadistock.h \
 	$(top_srcdir)/include/gtkadiutils.h
 	

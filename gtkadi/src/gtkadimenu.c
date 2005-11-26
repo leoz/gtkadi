@@ -20,7 +20,7 @@
  * $Id$
  */
 
-#include "gtkadimenu.h"
+#include "../include/gtkadimenu.h"
 
 #define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
