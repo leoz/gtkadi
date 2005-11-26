@@ -57,7 +57,9 @@ struct _GtkAdi {
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateIconFunc icon_func;
 	GtkAdiCreateTitleFunc title_func;
+#ifdef WIDGETS_SUPPORT
 	GtkObject *cmd;
+#endif
 	GtkWidget *box_view;
 	GtkWidget *tab_view;
 	GtkWidget *cur_view;
@@ -83,8 +85,10 @@ void 	gtk_adi_set_icon_func	(GtkAdi * self,
 					GtkAdiCreateIconFunc icon_func);
 void 	gtk_adi_set_title_func	(GtkAdi * self,
 					GtkAdiCreateTitleFunc title_func);
+#ifdef WIDGETS_SUPPORT
 GtkWidget * 	gtk_adi_create_toolbar	(GtkAdi * self);
 GtkWidget * 	gtk_adi_create_menu	(GtkAdi * self);
+#endif
 void gtk_adi_add (GtkAdi *self, GtkWidget *widget);
 void 	gtk_adi_user_add_child	(GtkAdi *self);
 void 	gtk_adi_user_add_child_with_layout	(GtkAdi * self,

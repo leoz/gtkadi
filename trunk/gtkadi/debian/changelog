@@ -1,3 +1,10 @@
+libgtkadi (0.35-1) unstable; urgency=low
+
+  * Has been added enabling of toolbar and menu by "--enable-widgets"
+    configure argument
+
+ -- Oleg Romashin <romaxa@gmail.com>  Sun, 27 Nov 2005 01:01:22 +0300
+
 libgtkadi (0.34-2) unstable; urgency=low
 
   * Has been fixed missing libgtkadi.so symlink in package
