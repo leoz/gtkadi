@@ -20,4 +20,14 @@ width="88" height="31" border="0"
 alt="SourceForge.net Logo"/>
 </a>
 
+<h3>Links</h3>
+
+<a href="http://www.gnomefiles.org/app.php?soft_id=1193"
+title="This application is recommended by GnomeFiles.org">
+<img
+src="http://www.gnomefiles.org/shots/gnomefiles.gif"
+width="88" height="31" border="0"
+alt="This application is recommended by GnomeFiles.org"/>
+</a>
+
 </div>

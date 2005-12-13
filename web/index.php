@@ -12,6 +12,14 @@
 <h2>News</h2>
 
 <p>
+2005-12-12: <a href="about.php">About page</a> was added.
+</p>
+
+<p>
+2005-11-29: Version 0.1.2 released.
+</p>
+
+<p>
 2005-11-22: Screen shots were added.
 </p>
 
