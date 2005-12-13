@@ -2,6 +2,7 @@
 <ul>
 <?php 
 $contents = array(
+	'about.php' => 'About',
 	'index.php' => 'News',
 	'shots.php' => 'Screen Shots',
 	'http://sourceforge.net/projects/gtkadi' => 'Summary',
