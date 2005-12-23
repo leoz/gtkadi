@@ -26,6 +26,7 @@ libgtkadi_la_CPPFLAGS = \
 	-I$(top_srcdir)/gtkadiview \
 	-I$(top_srcdir)/gtkadiboxview \
 	-I$(top_srcdir)/gtkaditabview \
+	-I$(top_srcdir)/gtkadiwinview \
 	$(GTK_CFLAGS) \
 	$(HILDON_CFLAGS)
 
@@ -66,7 +67,8 @@ libgtkadi_include_HEADERS = \
 libgtkadi_la_LIBADD = \
 	$(top_srcdir)/gtkadiview/libgtkadiview.la \
 	$(top_srcdir)/gtkadiboxview/libgtkadiboxview.la \
-	$(top_srcdir)/gtkaditabview/libgtkaditabview.la
+	$(top_srcdir)/gtkaditabview/libgtkaditabview.la \
+	$(top_srcdir)/gtkadiwinview/libgtkadiwinview.la
 
 libgtkadi_la_LDFLAGS = \
 	$(GTK_LIBS) \
