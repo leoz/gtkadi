@@ -25,6 +25,7 @@ SUBDIRS = \
 	gtkadiview \
 	gtkadiboxview \
 	gtkaditabview \
+	gtkadiwinview \
 	src
 
 pkgconfigdir = $(libdir)/pkgconfig

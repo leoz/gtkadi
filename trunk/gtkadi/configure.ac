@@ -24,7 +24,7 @@ AC_INIT(configure.ac)
 
 GTK_ADI_MAJOR_VERSION=0
 GTK_ADI_MINOR_VERSION=1
-GTK_ADI_MICRO_VERSION=3
+GTK_ADI_MICRO_VERSION=4
 GTK_ADI_VERSION=$GTK_ADI_MAJOR_VERSION.$GTK_ADI_MINOR_VERSION.$GTK_ADI_MICRO_VERSION
 
 AC_SUBST(GTK_ADI_MAJOR_VERSION)
@@ -122,5 +122,6 @@ icons/Makefile
 gtkadiview/Makefile
 gtkadiboxview/Makefile
 gtkaditabview/Makefile
+gtkadiwinview/Makefile
 src/Makefile
 ])
