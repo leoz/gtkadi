@@ -12,6 +12,10 @@
 <h2>News</h2>
 
 <p>
+2005-12-27: Freshmeat link was added.
+</p>
+
+<p>
 2005-12-21: Version 0.1.3 released.
 </p>
 
