@@ -30,4 +30,12 @@ width="88" height="31" border="0"
 alt="This application is recommended by GnomeFiles.org"/>
 </a>
 
+<a href="http://freshmeat.net/projects/gtkadi/"
+title="freshmeat.net">
+<img
+src="http://images.freshmeat.net/img/link_button_1.gif"
+width="88" height="31" border="0"
+alt="freshmeat.net"/>
+</a>
+
 </div>
