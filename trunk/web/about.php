@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
           "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html lang="en">
-<?php include("frames/head.php"); ?>
+<?php include("head.php"); ?>
 <body>
-<?php include("frames/header.php"); ?>
+<?php include("header.php"); ?>
 <div id="container">
 <div id="content">
-<?php include("frames/left_bar.php"); ?>
+<?php include("left_bar.php"); ?>
 <div id="main">
 
 <h2>About</h2>
