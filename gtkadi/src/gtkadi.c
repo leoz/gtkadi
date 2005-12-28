@@ -32,6 +32,7 @@
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
 #include "gtkaditabview.h"
+#include "gtkadiwinview.h"
 
 #include <memory.h>
 
@@ -126,6 +127,14 @@ gtk_adi_finalize(GObject *obj_self)
 		self->tab_view = NULL;
 	}
 	
+	if(self->win_view) {
+		ADI_TRACE_FINALIZE("win view");
+		if (GTK_IS_WIDGET(self->win_view)) {
+			gtk_widget_destroy(self->win_view);
+		}
+		self->win_view = NULL;
+	}
+	
 	ADI_TRACE_FINALIZE("end");
 }
 
@@ -150,6 +159,7 @@ gtk_adi_init (GtkAdi * self)
 #endif
 	self->box_view = NULL;
 	self->tab_view = NULL;
+	self->win_view = NULL;
 	self->cur_view = NULL;
 
 	gtk_adi_stock_init ();
@@ -158,9 +168,11 @@ gtk_adi_init (GtkAdi * self)
 #endif
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
+	self->win_view = gtk_adi_win_view_new ();
 
 	gtk_widget_ref(self->box_view);
 	gtk_widget_ref(self->tab_view);
+	gtk_widget_ref(self->win_view);
 
 	self->cur_view = self->box_view;
 	gtk_container_add (GTK_CONTAINER (self), self->cur_view);
@@ -405,6 +417,9 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	case GTK_ADI_VIEW_TAB:
 		self->cur_view = self->tab_view;
 		break;
+	case GTK_ADI_VIEW_WIN:
+		self->cur_view = self->win_view;
+		break;
 	default:
 		self->cur_view = NULL;
 		break;
@@ -460,6 +475,9 @@ gtk_adi_get_view (GtkAdi *self)
 	
 	if (self->cur_view && self->cur_view == self->tab_view) {
 		return GTK_ADI_VIEW_TAB;
+	}
+	if (self->cur_view && self->cur_view == self->win_view) {
+		return GTK_ADI_VIEW_WIN;
 	}
 	return GTK_ADI_VIEW_BOX;
 }

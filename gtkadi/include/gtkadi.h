@@ -62,6 +62,7 @@ struct _GtkAdi {
 #endif
 	GtkWidget *box_view;
 	GtkWidget *tab_view;
+	GtkWidget *win_view;
 	GtkWidget *cur_view;
 };
 

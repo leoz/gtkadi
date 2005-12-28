@@ -29,7 +29,88 @@
 
 G_BEGIN_DECLS
 
-/* TBD */
+/*
+ * Type checking and casting macros
+ */
+#define GTK_TYPE_ADI_WIN_VIEW	(gtk_adi_win_view_get_type())
+#define GTK_ADI_WIN_VIEW(obj)	G_TYPE_CHECK_INSTANCE_CAST((obj), gtk_adi_win_view_get_type(), GtkAdiWinView)
+#define GTK_ADI_WIN_VIEW_CONST(obj)	G_TYPE_CHECK_INSTANCE_CAST((obj), gtk_adi_win_view_get_type(), GtkAdiWinView const)
+#define GTK_ADI_WIN_VIEW_CLASS(klass)	G_TYPE_CHECK_CLASS_CAST((klass), gtk_adi_win_view_get_type(), GtkAdiWinViewClass)
+#define GTK_IS_ADI_WIN_VIEW(obj)	G_TYPE_CHECK_INSTANCE_TYPE((obj), gtk_adi_win_view_get_type ())
+
+#define GTK_ADI_WIN_VIEW_GET_CLASS(obj)	G_TYPE_INSTANCE_GET_CLASS((obj), gtk_adi_win_view_get_type(), GtkAdiWinViewClass)
+
+/*
+ * Main object structure
+ */
+#ifndef __TYPEDEF_GTK_ADI_WIN_VIEW__
+#define __TYPEDEF_GTK_ADI_WIN_VIEW__
+typedef struct _GtkAdiWinView GtkAdiWinView;
+#endif
+struct _GtkAdiWinView {
+	GtkEventBox __parent__;
+	/*< public >*/
+	GtkAdiLayout layout;
+};
+
+/*
+ * Class definition
+ */
+typedef struct _GtkAdiWinViewClass GtkAdiWinViewClass;
+struct _GtkAdiWinViewClass {
+	GtkEventBoxClass __parent__;
+	void (* close_child) (GtkAdiWinView * view);
+	void (* focus_child) (GtkAdiWinView * view);
+};
+
+
+/*
+ * Public methods
+ */
+GType	gtk_adi_win_view_get_type	(void);
+GtkWidget * 	gtk_adi_win_view_new	(void);
+GtkAdiLayout gtk_adi_win_view_get_layout	(GtkAdiView * self);
+void gtk_adi_win_view_set_layout (GtkAdiView *self, GtkAdiLayout layout);
+void gtk_adi_win_view_add_child_with_data (GtkAdiView *self,
+                                           GtkAdiChildData *data);
+void 	gtk_adi_win_view_add_child_with_layout	(GtkAdiView * self,
+					GtkWidget * widget,
+					GdkPixbuf * icon,
+					const gchar * title,
+					GtkAdiLayout layout);
+void gtk_adi_win_view_set_current_child (GtkAdiView *self,
+                                         GtkWidget *child);
+void gtk_adi_win_view_set_current_widget (GtkAdiView *self,
+                                          GtkWidget *widget);
+void gtk_adi_win_view_remove_child (GtkAdiView *self,
+                                    GtkWidget *child,
+                                    gboolean destroy);
+void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
+                                              GtkAdiChildData *data);
+void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
+                                            GtkAdiChildData *data);
+gboolean 	gtk_adi_win_view_can_previous_child	(GtkAdiView * self);
+gboolean 	gtk_adi_win_view_can_next_child	(GtkAdiView * self);
+gboolean 	gtk_adi_win_view_can_tile_h	(GtkAdiView * self);
+gboolean 	gtk_adi_win_view_can_tile_v	(GtkAdiView * self);
+gboolean 	gtk_adi_win_view_has_children	(GtkAdiView * self);
+void gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy);
+void 	gtk_adi_win_view_remove_all_children	(GtkAdiView * self);
+void 	gtk_adi_win_view_set_previous_child	(GtkAdiView * self);
+void gtk_adi_win_view_set_next_child	(GtkAdiView * self);
+void gtk_adi_win_view_change_mode	(GtkAdiView * self,
+					GtkAdiMode mode);
+void gtk_adi_win_view_change_state	(GtkAdiView * self,
+					GtkAdiState state);
+void gtk_adi_win_view_change_color	(GtkAdiView * self,
+					GtkAdiColorType color);
+void gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
+								            const gchar *title_text);
+void gtk_adi_win_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
+
+void gtk_adi_win_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
+
+gint gtk_adi_win_view_get_childs_count (GtkAdiView *self);
 
 G_END_DECLS
 

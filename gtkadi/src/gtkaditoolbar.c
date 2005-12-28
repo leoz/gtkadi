@@ -37,11 +37,13 @@
 #define GTK_ADI_TOOLBAR_BOX_MODE_STR    "B"
 #define GTK_ADI_TOOLBAR_BOX_VIEW_STR    "B"
 #define GTK_ADI_TOOLBAR_TAB_VIEW_STR    "T"
+#define GTK_ADI_TOOLBAR_WIN_VIEW_STR    "W"
 #else
 #define GTK_ADI_TOOLBAR_PAN_MODE_STR    "Paned"
 #define GTK_ADI_TOOLBAR_BOX_MODE_STR    "Box"
 #define GTK_ADI_TOOLBAR_BOX_VIEW_STR    "Box View"
 #define GTK_ADI_TOOLBAR_TAB_VIEW_STR    "Tab View"
+#define GTK_ADI_TOOLBAR_WIN_VIEW_STR    "Win View"
 #endif /* HILDON_SUPPORT */
 
 /* here are local prototypes */
@@ -201,6 +203,7 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 	gtk_container_add (GTK_CONTAINER (self->itm_view), self->cmb_view);
 	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _(GTK_ADI_TOOLBAR_BOX_VIEW_STR));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _(GTK_ADI_TOOLBAR_TAB_VIEW_STR));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (self->cmb_view), _(GTK_ADI_TOOLBAR_WIN_VIEW_STR));
 	
 	self->sep_view = (GtkWidget*) gtk_separator_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (self), self->sep_view);
@@ -241,6 +244,9 @@ gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data)
 	switch ( value ) {
 	case 1:
 		view = GTK_ADI_VIEW_TAB;
+		break;
+	case 2:
+		view = GTK_ADI_VIEW_WIN;
 		break;
 	default:
 		break;
