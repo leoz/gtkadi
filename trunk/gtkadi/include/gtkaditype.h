@@ -27,7 +27,8 @@ G_BEGIN_DECLS
 
 typedef enum {
 	GTK_ADI_VIEW_BOX,
-	GTK_ADI_VIEW_TAB
+	GTK_ADI_VIEW_TAB,
+	GTK_ADI_VIEW_WIN
 } GtkAdiViewType;
 
 typedef enum {
