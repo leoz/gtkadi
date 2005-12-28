@@ -25,6 +25,9 @@
 #endif
 
 #include "gtkadiwinview.h"
+#include "gtkadiwinchild.h"
+#define ADI_DO_TRACE
+#include "gtkadiutils.h"
 
 enum {
     FOCUS_CHILD,
@@ -109,7 +112,7 @@ gtk_adi_win_view_class_init (GtkAdiWinViewClass *c)
 static void 
 gtk_adi_win_view_init (GtkAdiWinView *self)
 {
-	/*TBD*/
+	self->own_widget = NULL;
 }
 
 
@@ -179,7 +182,25 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
                                         const gchar *title,
                                         GtkAdiLayout layout)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	ADI_TRACE("%s", __FUNCTION__);
+
+	if ( !GTK_ADI_WIN_VIEW(self)->own_widget ) {
+		GTK_ADI_WIN_VIEW(self)->own_widget = widget;
+		gtk_container_add (GTK_CONTAINER (self),
+		                   GTK_ADI_WIN_VIEW(self)->own_widget);
+		gtk_widget_show_all (GTK_WIDGET(self));
+	}
+	else {
+		GtkWidget *window;
+		window = gtk_adi_win_child_new ();
+		gtk_container_add (GTK_CONTAINER(window), widget);
+		gtk_window_set_icon (GTK_WINDOW (window), icon);
+		gtk_window_set_title (GTK_WINDOW (window), title);
+		gtk_widget_show_all (window);
+	}
 }
 
 void 
@@ -253,8 +274,10 @@ gtk_adi_win_view_can_tile_v (GtkAdiView * self)
 gboolean 
 gtk_adi_win_view_has_children (GtkAdiView * self)
 {
-	/*TBD*/
-	return FALSE;
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+	
+	return (GTK_ADI_WIN_VIEW(self)->own_widget != NULL);
 }
 
 void 
@@ -264,9 +287,34 @@ gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 }
 
 void 
-gtk_adi_win_view_remove_all_children (GtkAdiView * self)
+gtk_adi_win_view_remove_all_children (GtkAdiView *self)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	ADI_TRACE("%s", __FUNCTION__);
+
+	GList* list;
+	
+	list = gtk_window_list_toplevels ();
+	g_list_foreach(list, (GFunc)g_object_ref, NULL);
+	list = g_list_first(list);
+	while (list) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data)) {
+			ADI_TRACE("Delete child: %s",
+			          gtk_window_get_title(GTK_WINDOW(list->data)));
+			gtk_widget_destroy(GTK_WIDGET(list->data));
+		}
+		list = g_list_next(list);
+	}
+	g_list_foreach (list, (GFunc)g_object_unref, NULL);
+	g_list_free (list);
+	
+	if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
+		gtk_container_remove (GTK_CONTAINER (self),
+		                      GTK_ADI_WIN_VIEW(self)->own_widget);
+		GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
+	}
 }
 
 void 

@@ -50,7 +50,7 @@ typedef struct _GtkAdiWinView GtkAdiWinView;
 struct _GtkAdiWinView {
 	GtkEventBox __parent__;
 	/*< public >*/
-	GtkAdiLayout layout;
+	GtkWidget *own_widget;
 };
 
 /*

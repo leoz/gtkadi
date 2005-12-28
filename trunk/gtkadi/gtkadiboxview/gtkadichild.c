@@ -20,9 +20,6 @@
  * $Id$
  */
 
-
-#include <string.h> /* memset() */
-
 #include "gtkadichild.h"
 #include "gtkadiboxtitle.h"
 
