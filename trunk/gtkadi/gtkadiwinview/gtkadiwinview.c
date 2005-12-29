@@ -283,7 +283,48 @@ gtk_adi_win_view_has_children (GtkAdiView * self)
 void 
 gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	ADI_TRACE("%s", __FUNCTION__);
+
+	GList* list;
+	GtkWidget* window = NULL;
+	
+	list = gtk_window_list_toplevels ();
+	g_list_foreach(list, (GFunc)g_object_ref, NULL);
+	list = g_list_first(list);
+	while (list) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data)) {
+			if (gtk_window_has_toplevel_focus(GTK_WINDOW(list->data))) {
+				/* This case will never be executed if the function called
+				   from some other window.*/
+				ADI_TRACE("Delete child: %s",
+						  gtk_window_get_title(GTK_WINDOW(list->data)));
+				gtk_widget_destroy(GTK_WIDGET(list->data));
+				window = NULL;
+				break;
+			}
+			else {
+				window = GTK_WIDGET(list->data);
+			}
+		}
+		list = g_list_next(list);
+	}
+	g_list_foreach (list, (GFunc)g_object_unref, NULL);
+	g_list_free (list);
+	
+	if (window) {
+		gtk_widget_destroy(window);
+		window = NULL;
+	}
+	else {
+		if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
+			gtk_container_remove (GTK_CONTAINER (self),
+								  GTK_ADI_WIN_VIEW(self)->own_widget);
+			GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
+		}
+	}
 }
 
 void 
@@ -361,7 +402,9 @@ gtk_adi_win_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 	/*TBD*/
 }
 
-void gtk_adi_win_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled)
+void gtk_adi_win_view_set_child_tab (GtkAdiView *self,
+                                     GtkWidget *widget,
+                                     gboolean enabled)
 {
 	/*TBD*/
 }
@@ -376,6 +419,23 @@ gtk_adi_win_view_remove_child_notify (GtkAdiView *self,
 gint
 gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 {
-	/*TBD*/
-	return 0;
+	gint count = 0;
+	
+	GList* list;
+
+	if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
+		count++;
+	}
+
+	list = gtk_window_list_toplevels ();
+	list = g_list_first(list);
+	while (list) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data)) {
+			count++;
+		}
+		list = g_list_next(list);
+	}
+	g_list_free (list);
+	
+	return count;
 }
