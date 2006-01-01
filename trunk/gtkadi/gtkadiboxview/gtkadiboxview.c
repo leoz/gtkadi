@@ -534,6 +534,7 @@ gtk_adi_box_view_add_child_with_layout (GtkAdiView *self,
 	GtkWidget* container     = NULL;
 	GtkWidget* old_child     = GTK_ADI_BOX_VIEW(self)->cur_child;
 	GtkWidget* old_container = NULL;
+	GtkAdiLayout own_layout  = GTK_ADI_BOX_VIEW(self)->layout;
 
 	child = gtk_adi_box_view_create_child (GTK_ADI_BOX_VIEW(self), widget, icon, title, layout);
 
@@ -542,6 +543,31 @@ gtk_adi_box_view_add_child_with_layout (GtkAdiView *self,
 	}
 	else {
 		old_container = gtk_widget_get_parent ( old_child );
+		
+		if (layout == own_layout) {
+			if (layout == GTK_ADI_VERTICAL) {
+				while (GTK_IS_HPANED(old_container)) {
+					old_container = gtk_widget_get_parent (old_container);
+				}
+			}
+			else {
+				while (GTK_IS_VPANED(old_container)) {
+					old_container = gtk_widget_get_parent (old_container);
+				}
+			}
+			if ((layout == GTK_ADI_VERTICAL   && GTK_IS_VPANED(old_container)) ||
+				(layout == GTK_ADI_HORIZONTAL && GTK_IS_HPANED(old_container))) {
+				old_child = gtk_paned_get_child2(GTK_PANED(old_container));
+				GTK_ADI_BOX_VIEW(self)->cur_child = old_child;
+			}
+			else if (GTK_IS_ADI_BOX_VIEW(old_container)) {
+				old_child = gtk_bin_get_child(GTK_BIN(old_container));
+				GTK_ADI_BOX_VIEW(self)->cur_child = old_child;
+			}
+			else {
+				old_container = gtk_widget_get_parent ( old_child );
+			}
+		}
 		
 		gtk_widget_ref ( old_child );
 
