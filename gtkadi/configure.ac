@@ -1,6 +1,6 @@
 dnl GTK ADI Library
 dnl Process this file with automake to produce Makefile.in
-dnl Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+dnl Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
 dnl
 dnl This library is free software; you can redistribute it and/or
 dnl modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,7 @@ AC_INIT(configure.ac)
 
 GTK_ADI_MAJOR_VERSION=0
 GTK_ADI_MINOR_VERSION=1
-GTK_ADI_MICRO_VERSION=7
+GTK_ADI_MICRO_VERSION=8
 GTK_ADI_VERSION=$GTK_ADI_MAJOR_VERSION.$GTK_ADI_MINOR_VERSION.$GTK_ADI_MICRO_VERSION
 
 AC_SUBST(GTK_ADI_MAJOR_VERSION)
