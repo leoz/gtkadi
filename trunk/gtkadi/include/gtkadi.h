@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadi.h: ADI Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -60,6 +60,7 @@ struct _GtkAdi {
 #ifdef WIDGETS_SUPPORT
 	GtkObject *cmd;
 #endif
+	GtkObject *flex;
 	GtkWidget *box_view;
 	GtkWidget *tab_view;
 	GtkWidget *win_view;

@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadi.c: ADI Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,6 +29,7 @@
 #ifdef WIDGETS_SUPPORT
 #include "gtkadicmd.h"
 #endif
+#include "gtkadiflex.h"
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
 #include "gtkaditabview.h"
@@ -111,6 +112,13 @@ gtk_adi_finalize(GObject *obj_self)
 		self->cmd = NULL;
 	}
 #endif
+	if(self->flex) {
+		ADI_TRACE_FINALIZE("flex");
+		if (GTK_IS_WIDGET(self->flex)) {
+			gtk_object_destroy(self->flex);
+		}
+		self->flex = NULL;
+	}
 	if(self->box_view) {
 		ADI_TRACE_FINALIZE("box view");
 		if (GTK_IS_WIDGET(self->box_view)) {
@@ -157,6 +165,7 @@ gtk_adi_init (GtkAdi * self)
 #ifdef WIDGETS_SUPPORT
 	self->cmd = NULL;
 #endif
+	self->flex = NULL;
 	self->box_view = NULL;
 	self->tab_view = NULL;
 	self->win_view = NULL;
@@ -166,6 +175,7 @@ gtk_adi_init (GtkAdi * self)
 #ifdef WIDGETS_SUPPORT
 	self->cmd = gtk_adi_cmd_new (self);
 #endif
+	self->flex = gtk_adi_flex_new (self);
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
 	self->win_view = gtk_adi_win_view_new ();
@@ -248,7 +258,7 @@ gtk_adi_add (GtkAdi *self, GtkWidget *widget)
 	g_return_if_fail (widget != NULL);
 	
 	gtk_adi_add_child_notify (self, widget, NULL, NULL,
-	          gtk_adi_view_get_layout (GTK_ADI_VIEW(GTK_ADI(self)->cur_view)));
+	gtk_adi_flex_add_layout (GTK_ADI_FLEX(self->flex)));
 }
 
 void 
@@ -258,7 +268,7 @@ gtk_adi_user_add_child (GtkAdi *self)
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	gtk_adi_user_add_child_with_layout (self,
-	gtk_adi_view_get_layout (GTK_ADI_VIEW(self->cur_view)));
+	gtk_adi_flex_add_layout (GTK_ADI_FLEX(self->flex)));
 }
 
 void 
