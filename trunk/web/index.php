@@ -12,6 +12,10 @@
 <h2>News</h2>
 
 <p>
+2006-01-21: <a href="install.php">Install page</a> was added.
+</p>
+
+<p>
 2005-12-27: Freshmeat link was added.
 </p>
 
@@ -51,7 +55,7 @@ Use CVS to get latest sources.
 </div>
 <div class="clearing"> </div>
 <div id="footer">
-	&copy; 2005 Leonid Zolotarev. All rights reserved.
+	&copy; 2005 - 2006 Leonid Zolotarev. All rights reserved.
 	<br/>
 	$Id$
 </div>

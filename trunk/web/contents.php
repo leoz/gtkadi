@@ -5,6 +5,7 @@ $contents = array(
 	'about.php' => 'About',
 	'index.php' => 'News',
 	'shots.php' => 'Screen Shots',
+	'install.php' => 'Install',
 	'http://sourceforge.net/projects/gtkadi' => 'Summary',
 	'http://cvs.sourceforge.net/viewcvs.py/gtkadi/' => 'ViewCVS'
 );
