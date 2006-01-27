@@ -405,6 +405,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	GtkWidget* old_view = NULL;
 	GtkWidget* current = NULL;
 	
+	gtk_adi_cmd_set_view(GTK_ADI_CMD(self->cmd), view);
+	
 	/* 0. Check if the change is needed */
 	if (gtk_adi_get_view(self) == view) {
 		return;

@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadicmd.h: ADI Cmd Object
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -98,6 +98,8 @@ void 	gtk_adi_cmd_tile_v_clicked	(GtkAdiCmd * self,
 void 	gtk_adi_cmd_mode_changed	(GtkAdiCmd * self,
 					GtkAdiMode mode);
 void 	gtk_adi_cmd_view_changed	(GtkAdiCmd * self,
+					GtkAdiViewType view);
+void 	gtk_adi_cmd_set_view	(GtkAdiCmd * self,
 					GtkAdiViewType view);
 void 	gtk_adi_cmd_fix_toggled	(GtkAdiCmd * self,
 					GtkAdiState state);
