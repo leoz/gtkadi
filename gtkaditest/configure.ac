@@ -1,6 +1,6 @@
 dnl GTK ADI Library Test
 dnl
-dnl Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+dnl Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
 dnl
 dnl Licensed under the terms of the BSD license, see file COPYING
 dnl for details.
@@ -9,7 +9,7 @@ dnl $Id$
 dnl
 
 AC_INIT(configure.ac)
-AM_INIT_AUTOMAKE(gtkaditest, 0.1.0)
+AM_INIT_AUTOMAKE(gtkaditest, 0.1.1)
 AM_CONFIG_HEADER(config.h)
 
 AC_ISC_POSIX

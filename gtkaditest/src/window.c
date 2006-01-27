@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * window.c
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -11,6 +11,8 @@
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
+
+#include <gtkadi.h>
 
 #include "widgets.h"
 #include "window.h"
@@ -24,7 +26,9 @@
 
 GtkWidget* create_main_window (void)
 {
+	#ifdef HILDON_SUPPORT
 	GtkWidget *app = NULL;
+	#endif /* HILDON_SUPPORT */
 	GtkWidget *main_window;
 	GtkWidget *main_vbox;
 	GtkWidget *main_menubar;
@@ -71,6 +75,7 @@ GtkWidget* create_main_window (void)
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_DEFAULT);
 
 	main_adi = create_adi ();
+	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_WIN);
 	gtk_widget_show (main_adi);
 	gtk_box_pack_start (GTK_BOX (main_vbox), main_adi, TRUE, TRUE, 0);
 	gtk_widget_set_size_request (main_adi, 640, 480);

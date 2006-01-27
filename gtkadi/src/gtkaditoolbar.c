@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkaditoolbar.c: ADI Toolbar Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -265,6 +265,26 @@ gtk_adi_toolbar_mode_set (GtkAdiToolbar * self, GtkAdiMode mode)
 		num = 1;
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX(self->cmb_mode),num);
+}
+
+void
+gtk_adi_toolbar_view_set (GtkAdiToolbar *self, GtkAdiViewType view)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
+	
+	gint num = 0;
+	switch (view) {
+	case GTK_ADI_VIEW_TAB:
+		num = 1;
+		break;
+	case GTK_ADI_VIEW_WIN:
+		num = 2;
+		break;
+	default:
+		break;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX(self->cmb_view),num);
 }
 
 static void 

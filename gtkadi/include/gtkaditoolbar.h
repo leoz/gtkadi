@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkaditoolbar.h: ADI Toolbar Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +19,6 @@
  *
  * $Id$
  */
-
-#include <glib.h>
-#include <glib-object.h>
-
 
 #include <gtk/gtk.h>
 #include "gtkadi.h"
@@ -92,18 +88,17 @@ G_END_DECLS
 /*
  * Public methods
  */
-GType	gtk_adi_toolbar_get_type	(void);
-void 	gtk_adi_toolbar_mode_set	(GtkAdiToolbar * self,
-					GtkAdiMode mode);
-void 	gtk_adi_toolbar_fix_set	(GtkAdiToolbar * self,
-					GtkAdiState state);
-GtkWidget * 	gtk_adi_toolbar_new	(GtkObject * cmd);
-void 	gtk_adi_toolbar_set_close_buttons	(GtkAdiToolbar * self,
-					gboolean enable);
-void 	gtk_adi_toolbar_set_nav_buttons	(GtkAdiToolbar * self,
+GType gtk_adi_toolbar_get_type (void);
+GtkWidget* 	gtk_adi_toolbar_new	(GtkObject *cmd);
+
+void gtk_adi_toolbar_mode_set (GtkAdiToolbar *self, GtkAdiMode mode);
+void gtk_adi_toolbar_view_set (GtkAdiToolbar *self, GtkAdiViewType view);
+void gtk_adi_toolbar_fix_set (GtkAdiToolbar *self, GtkAdiState state);
+void gtk_adi_toolbar_set_close_buttons (GtkAdiToolbar *self, gboolean enable);
+void gtk_adi_toolbar_set_nav_buttons (GtkAdiToolbar *self,
 					gboolean next,
 					gboolean prev);
-void 	gtk_adi_toolbar_set_tile_buttons	(GtkAdiToolbar * self,
+void gtk_adi_toolbar_set_tile_buttons (GtkAdiToolbar *self,
 					gboolean tile_h,
 					gboolean tile_v);
 
