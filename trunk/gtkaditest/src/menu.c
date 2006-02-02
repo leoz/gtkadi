@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * menu.c
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -54,7 +54,7 @@ void _about_activate (GtkWidget *window, gpointer  user_data)
 	gtk_show_about_dialog (GTK_WINDOW (main_window),
 		"name", GTK_ADI_TEST_NAME,
 		"version", vers,
-		"copyright", "(C) 2003-2005 Leonid Zolotarev",
+		"copyright", "(C) 2003-2006 Leonid Zolotarev",
 		"website", "http://gtkadi.sourceforge.net/",
 		"comments", "This program is demonstrating GTK ADI functions.",
 		NULL);

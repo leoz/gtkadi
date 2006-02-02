@@ -9,7 +9,7 @@ dnl $Id$
 dnl
 
 AC_INIT(configure.ac)
-AM_INIT_AUTOMAKE(gtkaditest, 0.1.1)
+AM_INIT_AUTOMAKE(gtkaditest, 0.1.2)
 AM_CONFIG_HEADER(config.h)
 
 AC_ISC_POSIX

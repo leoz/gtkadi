@@ -318,8 +318,8 @@ gtk_adi_user_add_child_with_layout (GtkAdi *self, GtkAdiLayout layout)
 gboolean 
 gtk_adi_can_previous_child (GtkAdi * self)
 {
-	g_return_val_if_fail (self != NULL, (gboolean )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
 	
 	return gtk_adi_view_can_previous_child (GTK_ADI_VIEW(self->cur_view));
 }
@@ -328,8 +328,8 @@ gboolean
 gtk_adi_can_next_child (GtkAdi * self)
 
 {
-	g_return_val_if_fail (self != NULL, (gboolean )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
 	
 	return gtk_adi_view_can_next_child (GTK_ADI_VIEW(self->cur_view));
 }
@@ -337,8 +337,8 @@ gtk_adi_can_next_child (GtkAdi * self)
 gboolean 
 gtk_adi_can_tile_h (GtkAdi * self)
 {
-	g_return_val_if_fail (self != NULL, (gboolean )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
 	
 	return gtk_adi_view_can_tile_h (GTK_ADI_VIEW(self->cur_view));
 }
@@ -346,19 +346,28 @@ gtk_adi_can_tile_h (GtkAdi * self)
 gboolean 
 gtk_adi_can_tile_v (GtkAdi * self)
 {
-	g_return_val_if_fail (self != NULL, (gboolean )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
 	
 	return gtk_adi_view_can_tile_v (GTK_ADI_VIEW(self->cur_view));
 }
 
 gboolean 
-gtk_adi_has_children (GtkAdi * self)
+gtk_adi_has_children (GtkAdi *self)
 {
-	g_return_val_if_fail (self != NULL, (gboolean )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (gboolean )0);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
 	
 	return gtk_adi_view_has_children (GTK_ADI_VIEW(self->cur_view));
+}
+
+gboolean 
+gtk_adi_can_exit (GtkAdi *self)
+{
+	g_return_val_if_fail (self != NULL, TRUE);
+	g_return_val_if_fail (GTK_IS_ADI (self), TRUE);
+	
+	return gtk_adi_view_can_exit (GTK_ADI_VIEW(self->cur_view));
 }
 
 void

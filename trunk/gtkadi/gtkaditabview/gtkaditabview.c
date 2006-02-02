@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkaditabview.c: ADI Tab View
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -149,6 +149,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->can_tile_h = gtk_adi_tab_view_can_tile_h;
 	iface->can_tile_v = gtk_adi_tab_view_can_tile_v;
 	iface->has_children = gtk_adi_tab_view_has_children;
+	iface->can_exit = gtk_adi_tab_view_can_exit;
 	iface->remove_current_child = gtk_adi_tab_view_remove_current_child;
 	iface->get_current_child_data = gtk_adi_tab_view_get_current_child_data;
 	iface->get_first_child_data = gtk_adi_tab_view_get_first_child_data;
@@ -354,6 +355,12 @@ gtk_adi_tab_view_has_children (GtkAdiView * self)
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
 	
 	return (gtk_notebook_get_n_pages (GTK_NOTEBOOK(self)) > 0);
+}
+
+gboolean 
+gtk_adi_tab_view_can_exit (GtkAdiView * self)
+{
+	return TRUE;
 }
 
 void 

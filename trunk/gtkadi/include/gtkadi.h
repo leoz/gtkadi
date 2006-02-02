@@ -97,11 +97,12 @@ void gtk_adi_add (GtkAdi *self, GtkWidget *widget);
 void 	gtk_adi_user_add_child	(GtkAdi *self);
 void 	gtk_adi_user_add_child_with_layout	(GtkAdi * self,
 					GtkAdiLayout layout);
-gboolean 	gtk_adi_can_previous_child	(GtkAdi * self);
-gboolean 	gtk_adi_can_next_child	(GtkAdi * self);
-gboolean 	gtk_adi_can_tile_h	(GtkAdi * self);
-gboolean 	gtk_adi_can_tile_v	(GtkAdi * self);
-gboolean 	gtk_adi_has_children	(GtkAdi *self);
+gboolean gtk_adi_can_previous_child (GtkAdi *self);
+gboolean gtk_adi_can_next_child (GtkAdi *self);
+gboolean gtk_adi_can_tile_h (GtkAdi *self);
+gboolean gtk_adi_can_tile_v (GtkAdi *self);
+gboolean gtk_adi_has_children (GtkAdi *self);
+gboolean gtk_adi_can_exit (GtkAdi *self);
 void gtk_adi_set_current_child (GtkAdi *self, GtkWidget *child);
 void gtk_adi_set_current_widget (GtkAdi *self, GtkWidget *widget);
 void gtk_adi_remove_current_child (GtkAdi *self);

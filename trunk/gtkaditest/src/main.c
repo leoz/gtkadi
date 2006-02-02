@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * main.c
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -31,8 +31,8 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     
     main_window = create_main_window ();
-    g_signal_connect ((gpointer) main_window,
-                      "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect (G_OBJECT (main_window), "destroy",
+	                  G_CALLBACK (gtk_main_quit), NULL);
     
     gtk_main ();
     
