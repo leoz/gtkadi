@@ -88,9 +88,11 @@ void 	gtk_adi_set_icon_func	(GtkAdi * self,
 void 	gtk_adi_set_title_func	(GtkAdi * self,
 					GtkAdiCreateTitleFunc title_func);
 #ifdef WIDGETS_SUPPORT
-GtkWidget * 	gtk_adi_create_toolbar	(GtkAdi * self);
-GtkWidget * 	gtk_adi_create_menu	(GtkAdi * self);
+GtkWidget* gtk_adi_create_toolbar (GtkAdi *self);
+GtkWidget* gtk_adi_create_menu (GtkAdi *self);
 #endif
+GtkWidget* gtk_adi_get_toolbar (GtkAdi *self);
+GtkWidget* gtk_adi_get_menu (GtkAdi *self);
 void gtk_adi_add (GtkAdi *self, GtkWidget *widget);
 void 	gtk_adi_user_add_child	(GtkAdi *self);
 void 	gtk_adi_user_add_child_with_layout	(GtkAdi * self,

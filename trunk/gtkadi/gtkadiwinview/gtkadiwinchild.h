@@ -48,6 +48,7 @@ typedef struct _GtkAdiWinChild GtkAdiWinChild;
 struct _GtkAdiWinChild {
 	GtkWindow __parent__;
 	/*< public >*/
+	GtkWidget *widget;
 };
 
 /*
@@ -63,7 +64,7 @@ struct _GtkAdiWinChildClass {
  * Public methods
  */
 GType gtk_adi_win_child_get_type (void);
-GtkWidget* gtk_adi_win_child_new (void);
+GtkWidget* gtk_adi_win_child_new (GtkWidget *widget);
 
 G_END_DECLS
 

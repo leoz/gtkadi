@@ -157,7 +157,7 @@ gtk_adi_class_init (GtkAdiClass * c)
 }
 
 static void 
-gtk_adi_init (GtkAdi * self)
+gtk_adi_init (GtkAdi *self)
 {
 	self->child_func = NULL;
 	self->icon_func = NULL;
@@ -178,7 +178,7 @@ gtk_adi_init (GtkAdi * self)
 	self->flex = gtk_adi_flex_new (self);
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
-	self->win_view = gtk_adi_win_view_new ();
+	self->win_view = gtk_adi_win_view_new (self);
 
 	gtk_widget_ref(self->box_view);
 	gtk_widget_ref(self->tab_view);
@@ -223,11 +223,11 @@ gtk_adi_set_title_func (GtkAdi * self, GtkAdiCreateTitleFunc title_func)
 }
 
 #ifdef WIDGETS_SUPPORT
-GtkWidget * 
-gtk_adi_create_toolbar (GtkAdi * self)
+GtkWidget* 
+gtk_adi_create_toolbar (GtkAdi *self)
 {
-	g_return_val_if_fail (self != NULL, (GtkWidget * )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (GtkWidget * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
 	GtkWidget* toolbar = NULL;
 	if ( self->cmd ) {
@@ -236,11 +236,11 @@ gtk_adi_create_toolbar (GtkAdi * self)
 	return toolbar;
 }
 
-GtkWidget * 
-gtk_adi_create_menu (GtkAdi * self)
+GtkWidget* 
+gtk_adi_create_menu (GtkAdi *self)
 {
-	g_return_val_if_fail (self != NULL, (GtkWidget * )0);
-	g_return_val_if_fail (GTK_IS_ADI (self), (GtkWidget * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
 	GtkWidget* menu = NULL;
 	if ( self->cmd ) {
@@ -249,6 +249,32 @@ gtk_adi_create_menu (GtkAdi * self)
 	return menu;
 }
 #endif
+
+GtkWidget*
+gtk_adi_get_toolbar (GtkAdi *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
+	
+	GtkWidget* toolbar = NULL;
+	if ( self->cmd ) {
+		toolbar = GTK_WIDGET(gtk_adi_cmd_get_toolbar (GTK_ADI_CMD(self->cmd)));
+	}
+	return toolbar;
+}
+
+GtkWidget*
+gtk_adi_get_menu (GtkAdi *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
+	
+	GtkWidget* menu = NULL;
+	if ( self->cmd ) {
+		menu = GTK_WIDGET(gtk_adi_cmd_get_menu (GTK_ADI_CMD(self->cmd)));
+	}
+	return menu;
+}
 
 void
 gtk_adi_add (GtkAdi *self, GtkWidget *widget)
