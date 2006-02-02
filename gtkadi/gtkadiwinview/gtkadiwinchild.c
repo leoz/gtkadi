@@ -72,9 +72,7 @@ gtk_adi_win_child_init (GtkAdiWinChild *self)
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
 GtkWidget* 
-gtk_adi_win_child_new (GtkWidget *widget)
+gtk_adi_win_child_new (void)
 {
-	GtkWidget *self = GTK_WIDGET(GET_NEW);
-	GTK_ADI_WIN_CHILD(self)->widget = widget;
-	return self;
+	return GTK_WIDGET(GET_NEW);
 }

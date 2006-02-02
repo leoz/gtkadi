@@ -24,6 +24,18 @@
 
 /***************************************************************************/
 
+static gboolean delete_main_window (GtkWidget *widget,
+                                    GdkEvent  *event,
+									gpointer data)
+{
+    if (data && GTK_IS_ADI(data)) {
+		return ( ! gtk_adi_can_exit (GTK_ADI(data)) );
+	}
+	return FALSE;
+}
+
+/***************************************************************************/
+
 GtkWidget* create_main_window (void)
 {
 	#ifdef HILDON_SUPPORT
@@ -81,6 +93,9 @@ GtkWidget* create_main_window (void)
 	gtk_widget_set_size_request (main_adi, 640, 480);
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_DEFAULT);
+
+	g_signal_connect (G_OBJECT (main_window), "delete_event",
+	                  G_CALLBACK (delete_main_window), main_adi);
 
 	return main_window;
 }

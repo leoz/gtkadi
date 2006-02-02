@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadiview.h: ADI View
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -69,6 +69,7 @@ struct _GtkAdiViewIface {
 	gboolean (*can_tile_h) (GtkAdiView *self);
 	gboolean (*can_tile_v) (GtkAdiView *self);
 	gboolean (*has_children) (GtkAdiView *self);
+	gboolean (*can_exit) (GtkAdiView *self);
 	void (*remove_current_child) (GtkAdiView *self, gboolean destroy);
 	void (*get_current_child_data) (GtkAdiView *self,
 	                                GtkAdiChildData *data);
@@ -116,6 +117,7 @@ gboolean gtk_adi_view_can_next_child (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_h (GtkAdiView *self);
 gboolean gtk_adi_view_can_tile_v (GtkAdiView *self);
 gboolean gtk_adi_view_has_children (GtkAdiView *self);
+gboolean gtk_adi_view_can_exit (GtkAdiView *self);
 void gtk_adi_view_remove_current_child (GtkAdiView *self,
                                         gboolean destroy);
 void gtk_adi_view_remove_all_children (GtkAdiView *self);

@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadiview.c: ADI View
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -136,6 +136,12 @@ gboolean
 gtk_adi_view_has_children (GtkAdiView *self)
 {
 	return GTK_ADI_VIEW_GET_CLASS (self)->has_children (self);
+}
+
+gboolean
+gtk_adi_view_can_exit (GtkAdiView *self)
+{
+	return GTK_ADI_VIEW_GET_CLASS (self)->can_exit (self);
 }
 
 void
