@@ -127,11 +127,11 @@ gtk_adi_cmd_get_tooltips (GtkAdiCmd * self)
 	return self->tooltips;
 }
 
-GtkAdiToolbar * 
+GtkAdiToolbar* 
 gtk_adi_cmd_create_toolbar (GtkAdiCmd * self)
 {
-	g_return_val_if_fail (self != NULL, (GtkAdiToolbar * )0);
-	g_return_val_if_fail (GTK_IS_ADI_CMD (self), (GtkAdiToolbar * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_CMD (self), NULL);
 	
 	if ( ! self->toolbar ) {
 		self->toolbar = GTK_ADI_TOOLBAR(gtk_adi_toolbar_new (GTK_OBJECT(self)));
@@ -140,17 +140,35 @@ gtk_adi_cmd_create_toolbar (GtkAdiCmd * self)
 	return self->toolbar;
 }
 
-GtkAdiMenu * 
+GtkAdiMenu* 
 gtk_adi_cmd_create_menu (GtkAdiCmd * self)
 {
-	g_return_val_if_fail (self != NULL, (GtkAdiMenu * )0);
-	g_return_val_if_fail (GTK_IS_ADI_CMD (self), (GtkAdiMenu * )0);
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_CMD (self), NULL);
 	
 	if ( ! self->menu ) {
 		self->menu = GTK_ADI_MENU(gtk_adi_menu_new (GTK_OBJECT(self)));
 		gtk_adi_cmd_set_close_buttons (self);
 	}
 	return self->menu;
+}
+
+GtkWidget*
+gtk_adi_cmd_get_toolbar (GtkAdiCmd *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_CMD (self), NULL);
+	
+	return GTK_WIDGET(self->toolbar); // FIX ME
+}
+
+GtkWidget*
+gtk_adi_cmd_get_menu (GtkAdiCmd *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_CMD (self), NULL);
+	
+	return GTK_WIDGET(self->menu); // FIX ME
 }
 
 void 

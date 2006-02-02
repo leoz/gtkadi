@@ -69,11 +69,13 @@ struct _GtkAdiCmdClass {
 /*
  * Public methods
  */
-GType	gtk_adi_cmd_get_type	(void);
-GtkObject * 	gtk_adi_cmd_new	(GtkAdi * adi);
-GtkTooltips * 	gtk_adi_cmd_get_tooltips	(GtkAdiCmd * self);
-GtkAdiToolbar * 	gtk_adi_cmd_create_toolbar	(GtkAdiCmd * self);
-GtkAdiMenu * 	gtk_adi_cmd_create_menu	(GtkAdiCmd * self);
+GType gtk_adi_cmd_get_type (void);
+GtkObject* gtk_adi_cmd_new (GtkAdi *adi);
+GtkTooltips* gtk_adi_cmd_get_tooltips (GtkAdiCmd *self);
+GtkAdiToolbar* gtk_adi_cmd_create_toolbar (GtkAdiCmd *self);
+GtkAdiMenu* gtk_adi_cmd_create_menu	(GtkAdiCmd *self);
+GtkWidget* gtk_adi_cmd_get_toolbar (GtkAdiCmd *self);
+GtkWidget* gtk_adi_cmd_get_menu (GtkAdiCmd *self);
 void 	gtk_adi_cmd_set_nav_buttons	(GtkAdiCmd * self);
 void 	gtk_adi_cmd_set_close_buttons	(GtkAdiCmd * self);
 void 	gtk_adi_cmd_set_tile_buttons	(GtkAdiCmd * self);

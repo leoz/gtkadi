@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadiwinview.h: ADI Window View
- * Copyright (C) 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2005 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,6 +51,7 @@ struct _GtkAdiWinView {
 	GtkEventBox __parent__;
 	/*< public >*/
 	GtkWidget *own_widget;
+	GtkAdi* adi;
 };
 
 /*
@@ -67,8 +68,8 @@ struct _GtkAdiWinViewClass {
 /*
  * Public methods
  */
-GType	gtk_adi_win_view_get_type	(void);
-GtkWidget * 	gtk_adi_win_view_new	(void);
+GType gtk_adi_win_view_get_type (void);
+GtkWidget* gtk_adi_win_view_new	(GtkAdi* adi);
 GtkAdiLayout gtk_adi_win_view_get_layout	(GtkAdiView * self);
 void gtk_adi_win_view_set_layout (GtkAdiView *self, GtkAdiLayout layout);
 void gtk_adi_win_view_add_child_with_data (GtkAdiView *self,

@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadiwinchild.c: ADI Window Child
- * Copyright (C) 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2005 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  */
 
 #include "gtkadiwinchild.h"
+#define ADI_DO_TRACE
+#include "gtkadiutils.h"
 
 /* here are local prototypes */
 static void gtk_adi_win_child_class_init (GtkAdiWinChildClass *c);
@@ -70,7 +72,9 @@ gtk_adi_win_child_init (GtkAdiWinChild *self)
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
 GtkWidget* 
-gtk_adi_win_child_new (void)
+gtk_adi_win_child_new (GtkWidget *widget)
 {
-	return GTK_WIDGET(GET_NEW);
+	GtkWidget *self = GTK_WIDGET(GET_NEW);
+	GTK_ADI_WIN_CHILD(self)->widget = widget;
+	return self;
 }
