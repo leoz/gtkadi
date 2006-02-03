@@ -31,8 +31,6 @@ int main (int argc, char *argv[])
     gtk_init (&argc, &argv);
     
     main_window = create_main_window ();
-    g_signal_connect (G_OBJECT (main_window), "destroy",
-	                  G_CALLBACK (gtk_main_quit), NULL);
     
     gtk_main ();
     

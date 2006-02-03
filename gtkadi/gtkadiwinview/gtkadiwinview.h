@@ -51,7 +51,8 @@ struct _GtkAdiWinView {
 	GtkEventBox __parent__;
 	/*< public >*/
 	GtkWidget *own_widget;
-	GtkAdi* adi;
+	GtkWidget *orig_window;
+	GtkAdi *adi;
 };
 
 /*

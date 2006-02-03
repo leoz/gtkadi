@@ -24,14 +24,11 @@
 
 /***************************************************************************/
 
-static gboolean delete_main_window (GtkWidget *widget,
-                                    GdkEvent  *event,
-									gpointer data)
+static void destroy_main_window (GtkWidget *widget, gpointer data)
 {
-    if (data && GTK_IS_ADI(data)) {
-		return ( ! gtk_adi_can_exit (GTK_ADI(data)) );
+    if (gtk_adi_can_exit (GTK_ADI(data))) {
+		gtk_main_quit ();
 	}
-	return FALSE;
 }
 
 /***************************************************************************/
@@ -94,8 +91,8 @@ GtkWidget* create_main_window (void)
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_DEFAULT);
 
-	g_signal_connect (G_OBJECT (main_window), "delete_event",
-	                  G_CALLBACK (delete_main_window), main_adi);
+	g_signal_connect (G_OBJECT (main_window), "destroy",
+	                  G_CALLBACK (destroy_main_window), main_adi);
 
 	return main_window;
 }

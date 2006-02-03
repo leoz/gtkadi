@@ -46,6 +46,10 @@ static void gtk_adi_win_view_get_child_data (GtkAdiView *self,
 											 gint page_num);
 static void gtk_adi_win_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
+static void
+gtk_adi_win_view_swap_child_windows (GtkWidget *old_window,
+                                     GtkWidget *window,
+                                     GtkAdiView *self);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -113,6 +117,7 @@ static void
 gtk_adi_win_view_init (GtkAdiWinView *self)
 {
 	self->own_widget = NULL;
+	self->orig_window = NULL;
 }
 
 
@@ -178,25 +183,20 @@ gtk_adi_win_view_add_child_with_data (GtkAdiView *self,
 	/*TBD*/
 }
 
-static gboolean
-gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
-                                       GdkEventFocus *event,
-                                       GtkAdiView *self)
-{		
-	GtkWidget *old_window = NULL;
-	
-	g_return_val_if_fail (window != NULL, FALSE);
-	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
-	
-	old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
-		
+static void
+gtk_adi_win_view_swap_child_windows (GtkWidget *old_window,
+                                     GtkWidget *window,
+                                     GtkAdiView *self)
+{
+	g_return_if_fail (old_window != NULL);
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+
 	if (window != old_window) {
-		ADI_TRACE("W1: %d, W2: %d", (int) window, (int) old_window);
 		GtkWidget *vbox;
 		GtkWidget *widget;
 		
-		/* 1. Reparent ADI widgets. */
 		vbox = gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi));
 		widget = gtk_bin_get_child(GTK_BIN(window));
 		
@@ -216,11 +216,64 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
 
 		g_object_unref (vbox);
 		g_object_unref (widget);
+	}
+}
+
+static gboolean
+gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
+                                       GdkEventFocus *event,
+                                       GtkAdiView *self)
+{		
+	GtkWidget *old_window = NULL;
+	
+	g_return_val_if_fail (window != NULL, FALSE);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+	
+	old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+		
+	if (window != old_window) {
+		ADI_TRACE("Focus - W1: %d, W2: %d", (int) window, (int) old_window);
+		
+		gtk_adi_win_view_swap_child_windows (old_window, window, self);
 
 		gtk_widget_show_all (old_window);
 		gtk_widget_show_all (window);
 	}
 
+	return FALSE;
+}
+
+static gboolean
+gtk_adi_win_view_child_event_delete (GtkWidget *window,
+                                     GdkEvent *event,
+                                     GtkAdiView *self)
+{
+	GList* list;
+	GtkWidget *new_window = NULL;
+
+	g_return_val_if_fail (window != NULL, FALSE);
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+		
+	list = gtk_window_list_toplevels ();
+	list = g_list_first(list);
+	while (list) {
+		if ((GTK_IS_ADI_WIN_CHILD(list->data) ||
+			list->data == GTK_ADI_WIN_VIEW(self)->orig_window) &&
+		    list->data != window) {
+				new_window = GTK_WIDGET(list->data);
+				break;
+		}
+		list = g_list_next(list);
+	}
+	g_list_free (list);
+	
+	if (new_window) {
+		gtk_adi_win_view_swap_child_windows (window, new_window, self);
+		gtk_widget_show_all (new_window);
+	}
+	
 	return FALSE;
 }
 
@@ -237,6 +290,11 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	
 	ADI_TRACE("%s", __FUNCTION__);
+	
+	/* This data will be stored once. */
+	if ( !GTK_ADI_WIN_VIEW(self)->orig_window ) {
+		GTK_ADI_WIN_VIEW(self)->orig_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+	}
 
 	if ( !GTK_ADI_WIN_VIEW(self)->own_widget ) {
 		window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
@@ -273,6 +331,9 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	
 	g_signal_connect (window, "focus_in_event",
 					  G_CALLBACK (gtk_adi_win_view_child_event_focus_in),
+					  self);
+	g_signal_connect (window, "delete_event",
+					  G_CALLBACK (gtk_adi_win_view_child_event_delete),
 					  self);
 
 	gtk_widget_show_all (window);
@@ -504,14 +565,12 @@ gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 	
 	GList* list;
 
-	if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
-		count++;
-	}
-
 	list = gtk_window_list_toplevels ();
 	list = g_list_first(list);
 	while (list) {
-		if (GTK_IS_ADI_WIN_CHILD(list->data)) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data) ||
+			(list->data == GTK_ADI_WIN_VIEW(self)->orig_window &&
+		     GTK_ADI_WIN_VIEW(self)->own_widget)) {
 			count++;
 		}
 		list = g_list_next(list);
