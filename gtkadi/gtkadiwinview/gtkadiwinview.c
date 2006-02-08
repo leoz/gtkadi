@@ -366,7 +366,38 @@ gtk_adi_win_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 void 
 gtk_adi_win_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 {
-	/*### 1. TBD*/
+	GList* list;
+	GtkWidget *window = NULL;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+		
+	ADI_TRACE("%s", __FUNCTION__);
+	
+	list = gtk_window_list_toplevels ();
+	list = g_list_first(list);
+	while (list) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data) ||
+		    (list->data == GTK_ADI_WIN_VIEW(self)->orig_window &&
+		     GTK_ADI_WIN_VIEW(self)->own_widget)	
+		   ) {
+			if ( ! gtk_window_has_toplevel_focus(GTK_WINDOW(list->data)) &&
+				   gtk_bin_get_child(GTK_BIN(list->data)) == widget) {
+				window = GTK_WIDGET(list->data);
+				break;
+			}
+		}
+		list = g_list_next(list);
+	}
+	g_list_free (list);
+		
+	if (window) {
+		ADI_TRACE("Current window is: %s",
+				  gtk_window_get_title(GTK_WINDOW(window)));
+		/* It does not work. :-( */
+		gtk_window_present(GTK_WINDOW(window));
+	}
 }
 
 void 
