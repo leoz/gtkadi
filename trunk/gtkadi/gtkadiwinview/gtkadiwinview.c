@@ -180,7 +180,12 @@ void
 gtk_adi_win_view_add_child_with_data (GtkAdiView *self,
                                       GtkAdiChildData *data)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	g_return_if_fail (data != NULL);
+
+	gtk_adi_win_view_add_child_with_layout(self, data->widget, data->icon, data->title, data->layout);
+	gtk_adi_win_view_set_child_close_button(self, data->widget, data->show_close);
 }
 
 static void
@@ -361,7 +366,7 @@ gtk_adi_win_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 void 
 gtk_adi_win_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 {
-	/*TBD*/
+	/*### 1. TBD*/
 }
 
 void 
@@ -369,7 +374,7 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 	                           GtkWidget *child,
 	                           gboolean destroy)
 {
-	/*TBD*/
+	/*### TBD*/
 }
 
 static void
@@ -383,13 +388,13 @@ gtk_adi_win_view_get_child_data (GtkAdiView *self,
 void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
                                               GtkAdiChildData *data)
 {
-	/*TBD*/
+	/*### TBD*/
 }
 
 void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
                                             GtkAdiChildData *data)
 {
-	/*TBD*/
+	/*### TBD*/
 }
 
 gboolean 
