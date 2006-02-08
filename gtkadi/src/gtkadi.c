@@ -472,7 +472,13 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		break;
 	}
 	
-	/* 3. Move child windows */
+	/* 3. Add current view */
+	if (self->cur_view) {
+		gtk_container_add(GTK_CONTAINER (self), self->cur_view);
+		gtk_widget_unref(self->cur_view);
+	}
+
+	/* 4. Move child windows */
 	GtkAdiChildData data;
 	
 	if (self->cur_view && old_view) {
@@ -506,10 +512,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 
 	ADI_TRACE_MSG("Exit change view.")
 	
-	/* 4. Show current view */
+	/* 5. Show current view */
 	if (self->cur_view) {
-		gtk_container_add(GTK_CONTAINER (self), self->cur_view);
-		gtk_widget_unref(self->cur_view);
 		gtk_widget_show(self->cur_view);
 	}
 }
