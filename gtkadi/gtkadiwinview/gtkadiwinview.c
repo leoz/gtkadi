@@ -41,9 +41,6 @@ static gint gtk_adi_win_view_signals[LAST_SIGNAL] = {0};
 static void gtk_adi_win_view_class_init (GtkAdiWinViewClass *c);
 static void gtk_adi_win_view_init (GtkAdiWinView *self);
 static void gtk_adi_win_view_iface_init (GtkAdiViewIface *iface);
-static void gtk_adi_win_view_get_child_data (GtkAdiView *self,
-                                             GtkAdiChildData *data,
-											 gint page_num);
 static void gtk_adi_win_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
 static void
@@ -325,11 +322,9 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 		gtk_window_get_size (GTK_WINDOW (old_window), &width, &height);
 		ADI_TRACE("%d:%d", width, height);
 
-		/* 1. Create new window, set size, icon and title. */
+		/* 1. Create new window and set size. */
 		window = gtk_adi_win_child_new ();
 		gtk_widget_set_size_request (window, width, height);
-		gtk_window_set_icon (GTK_WINDOW (window), icon);
-		gtk_window_set_title (GTK_WINDOW (window), title);
 		
 		/* 2. Reparent ADI widgets. */
 		vbox = gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi));
@@ -339,7 +334,9 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 		gtk_widget_reparent (GTK_ADI_WIN_VIEW(self)->own_widget, old_window);
 	}
 	
-	/* Common stuff. */
+	/* Common: set icon, title and widget. */
+	gtk_window_set_icon (GTK_WINDOW (window), icon);
+	gtk_window_set_title (GTK_WINDOW (window), title);
 	GTK_ADI_WIN_VIEW(self)->own_widget = widget;
 	gtk_container_add (GTK_CONTAINER (self),
 					   GTK_ADI_WIN_VIEW(self)->own_widget);
@@ -376,6 +373,7 @@ gtk_adi_win_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 	ADI_TRACE("%s", __FUNCTION__);
 	
 	list = gtk_window_list_toplevels ();
+	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
 	while (list) {
 		if (GTK_IS_ADI_WIN_CHILD(list->data) ||
@@ -390,6 +388,7 @@ gtk_adi_win_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 		}
 		list = g_list_next(list);
 	}
+	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 		
 	if (window) {
@@ -408,14 +407,6 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 	/*### TBD*/
 }
 
-static void
-gtk_adi_win_view_get_child_data (GtkAdiView *self,
-                                 GtkAdiChildData *data,
-                                 gint page_num)
-{
-	/*TBD*/
-}
-
 void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
                                               GtkAdiChildData *data)
 {
@@ -425,7 +416,7 @@ void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
 void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
                                             GtkAdiChildData *data)
 {
-	/*### TBD*/
+	gtk_adi_win_view_get_current_child_data(self, data);
 }
 
 gboolean 
