@@ -697,7 +697,7 @@ gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
                                  GtkAdiChild *child)
 {
 	g_return_if_fail (data != NULL);
-	if (child ) {
+	if (child) {
 		g_return_if_fail (GTK_IS_ADI_CHILD (child));
 	
 		GtkWidget *tab_label = NULL;

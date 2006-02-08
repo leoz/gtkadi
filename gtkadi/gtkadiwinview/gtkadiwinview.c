@@ -404,13 +404,83 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 	                           GtkWidget *child,
 	                           gboolean destroy)
 {
-	/*### TBD*/
+	g_return_if_fail (child != NULL);
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+
+	if (child && (gtk_adi_win_view_get_childs_count(self) > 1)) {
+		ADI_TRACE("Delete child: %s",
+				  gtk_window_get_title(GTK_WINDOW(child)));
+		gtk_adi_win_view_child_event_delete(child, NULL, self);
+		if (!destroy) {
+			g_object_ref(gtk_bin_get_child(GTK_BIN(child)));
+		}
+		gtk_widget_destroy(child);
+	}
+	else {
+		if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
+			if (destroy) {
+				gtk_container_remove (GTK_CONTAINER (self),
+									  GTK_ADI_WIN_VIEW(self)->own_widget);
+				GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
+			}
+		}
+	}
 }
 
 void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
                                               GtkAdiChildData *data)
 {
-	/*### TBD*/
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	ADI_TRACE("%s", __FUNCTION__);
+
+	GList* list;
+	GtkWidget* window = NULL;
+	GtkWidget* widget = NULL;
+	
+	list = gtk_window_list_toplevels ();
+	g_list_foreach(list, (GFunc)g_object_ref, NULL);
+	list = g_list_first(list);
+	while (list) {
+		if (GTK_IS_ADI_WIN_CHILD(list->data) ||
+		    (list->data == GTK_ADI_WIN_VIEW(self)->orig_window &&
+		     GTK_ADI_WIN_VIEW(self)->own_widget)	
+		   ) {
+			if (gtk_window_has_toplevel_focus(GTK_WINDOW(list->data))) {
+				window = GTK_WIDGET(list->data);
+				break;
+			}
+			else {
+				window = GTK_WIDGET(list->data);
+			}
+		}
+		list = g_list_next(list);
+	}
+	g_list_foreach (list, (GFunc)g_object_unref, NULL);
+	g_list_free (list);
+	
+	if (window) {
+		if (gtk_window_has_toplevel_focus(GTK_WINDOW(window))) {
+			/* ??? */
+		}
+		else {
+			widget = gtk_bin_get_child(GTK_BIN(window));
+		}
+		if (widget) {
+			/* Set data. */
+			data->child = window;
+			data->widget = widget;
+			data->icon = gtk_window_get_icon(GTK_WINDOW(window));
+			data->title = gtk_window_get_title(GTK_WINDOW(window));
+		//	data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
+		//	data->show_close = gtk_adi_title_get_close_button(GTK_ADI_TITLE(tab_label));
+	
+		}
+	}
+	
 }
 
 void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
@@ -494,20 +564,7 @@ gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 	
-	if (window && (gtk_adi_win_view_get_childs_count(self) > 1)) {
-		ADI_TRACE("Delete child: %s",
-				  gtk_window_get_title(GTK_WINDOW(window)));
-		gtk_adi_win_view_child_event_delete(window, NULL, self);
-		gtk_widget_destroy(window);
-		window = NULL;
-	}
-	else {
-		if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
-			gtk_container_remove (GTK_CONTAINER (self),
-								  GTK_ADI_WIN_VIEW(self)->own_widget);
-			GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
-		}
-	}
+	gtk_adi_win_view_remove_child (self, window, destroy);
 }
 
 void 
