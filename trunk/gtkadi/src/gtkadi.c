@@ -24,6 +24,7 @@
 #  include <config.h>
 #endif
 
+#define ADI_DO_TRACE
 #include "gtkadi.h"
 #include "gtkadiutils.h"
 #ifdef WIDGETS_SUPPORT
@@ -493,7 +494,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		gtk_adi_view_get_first_child_data(GTK_ADI_VIEW(old_view), &data);
 		
 		while (data.widget) {
-			ADI_TRACE_MSG("Change view - iteration.")
+			ADI_TRACE_MSG("Change view - iteration.\n------------\n")
 			gtk_widget_ref (data.widget);
 			data.title = g_strdup(data.title);
 			gtk_adi_view_remove_child(GTK_ADI_VIEW(old_view), data.child, FALSE);
