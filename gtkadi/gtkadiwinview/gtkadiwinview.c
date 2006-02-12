@@ -201,12 +201,14 @@ gtk_adi_win_view_swap_child_windows (GtkWidget *old_window,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 
+	ADI_TRACE("%s", __FUNCTION__);
+
 	if (window != old_window) {
 		GtkWidget *vbox;
 		GtkWidget *widget;
 		
 		vbox = gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi));
-		widget = gtk_bin_get_child(GTK_BIN(window));
+		widget = gtk_adi_win_view_get_child_widget(window, self);
 		
 		g_object_ref (vbox);
 		g_object_ref (widget);
@@ -267,7 +269,9 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
 	
-	if (GTK_WIDGET_VISIBLE (self)) {
+	ADI_TRACE("%s", __FUNCTION__);
+
+//	if (GTK_WIDGET_VISIBLE (self)) {
 		list = gtk_window_list_toplevels ();
 		list = g_list_first(list);
 		while (list) {
@@ -280,12 +284,14 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 		}
 		g_list_free (list);
 		
+		ADI_TRACE("Exit loop. New win: %d, Old win: %d, Win: %d", new_window, old_window, window);
+		
 		old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
-		if (new_window && old_window == window) {
+		if (new_window && (old_window == window || ! old_window)) {
 			gtk_adi_win_view_swap_child_windows (window, new_window, self);
 			gtk_widget_show_all (new_window);
 		}
-	}
+//	}
 	
 	if (window == GTK_ADI_WIN_VIEW(self)->orig_window) {
 		GTK_ADI_WIN_VIEW(self)->orig_widget = NULL;
@@ -428,11 +434,13 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 		gtk_widget_destroy(child);
 	}
 	else {
+		ADI_TRACE_MSG("Delete last child.");
 		if ( GTK_ADI_WIN_VIEW(self)->cur_widget ) {
 			if (GTK_ADI_WIN_VIEW(self)->cur_widget ==
 				GTK_ADI_WIN_VIEW(self)->orig_widget ) {
 				GTK_ADI_WIN_VIEW(self)->orig_widget = NULL;
 			}
+			ADI_TRACE("Widget is: %d.", GTK_ADI_WIN_VIEW(self)->cur_widget)
 			gtk_container_remove (GTK_CONTAINER (self),
 								  GTK_ADI_WIN_VIEW(self)->cur_widget);
 			GTK_ADI_WIN_VIEW(self)->cur_widget = NULL;
@@ -658,7 +666,11 @@ gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 		g_list_free (list);
 	}
 	
-	ADI_TRACE("Count %d", count);
+	if (!GTK_ADI_WIN_VIEW(self)->cur_widget) {
+		count = 0;
+	}
+	
+	ADI_TRACE("Win. View. Count %d", count);
 
 	return count;
 }
@@ -677,18 +689,23 @@ gtk_adi_win_view_is_child_window (GtkWidget *window, GtkAdiView *self)
 static GtkWidget*
 gtk_adi_win_view_get_child_widget (GtkWidget *window, GtkAdiView *self)
 {
+	GtkWidget* widget = NULL;
+	
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), NULL);
 	
 	if (window) {
 		if (GTK_IS_ADI_WIN_CHILD(window)) {
-			return GTK_ADI_WIN_CHILD(window)->widget;
+			widget = GTK_ADI_WIN_CHILD(window)->widget;
 		}
-		
-		if (window == GTK_ADI_WIN_VIEW(self)->orig_window) {
-			return GTK_ADI_WIN_VIEW(self)->orig_widget;
+		else if (window == GTK_ADI_WIN_VIEW(self)->orig_window) {
+			widget = GTK_ADI_WIN_VIEW(self)->orig_widget;
 		}
 	}
+	
+	if (widget) {
+		ADI_TRACE("widget: %s", g_type_name(GTK_OBJECT_TYPE(widget)));
+	}
 		
-	return NULL;
+	return widget;
 }
