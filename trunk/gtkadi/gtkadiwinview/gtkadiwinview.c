@@ -232,15 +232,17 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
 	
-	old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
-		
-	if (window != old_window) {
-		ADI_TRACE("Focus - W1: %d, W2: %d", (int) window, (int) old_window);
-		
-		gtk_adi_win_view_swap_child_windows (old_window, window, self);
-
-		gtk_widget_show_all (old_window);
-		gtk_widget_show_all (window);
+	if (GTK_WIDGET_VISIBLE (self)) {
+		old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+			
+		if (window != old_window) {
+			ADI_TRACE("Focus - W1: %d, W2: %d", (int) window, (int) old_window);
+			
+			gtk_adi_win_view_swap_child_windows (old_window, window, self);
+	
+			gtk_widget_show_all (old_window);
+			gtk_widget_show_all (window);
+		}
 	}
 
 	return FALSE;
@@ -258,24 +260,26 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 	g_return_val_if_fail (window != NULL, FALSE);
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
-		
-	list = gtk_window_list_toplevels ();
-	list = g_list_first(list);
-	while (list) {
-		if ((GTK_IS_ADI_WIN_CHILD(list->data) ||
-			list->data == GTK_ADI_WIN_VIEW(self)->orig_window) &&
-		    list->data != window) {
-				new_window = GTK_WIDGET(list->data);
-				break;
-		}
-		list = g_list_next(list);
-	}
-	g_list_free (list);
 	
-	old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
-	if (new_window && old_window == window) {
-		gtk_adi_win_view_swap_child_windows (window, new_window, self);
-		gtk_widget_show_all (new_window);
+	if (GTK_WIDGET_VISIBLE (self)) {
+		list = gtk_window_list_toplevels ();
+		list = g_list_first(list);
+		while (list) {
+			if ((GTK_IS_ADI_WIN_CHILD(list->data) ||
+				list->data == GTK_ADI_WIN_VIEW(self)->orig_window) &&
+				list->data != window) {
+					new_window = GTK_WIDGET(list->data);
+					break;
+			}
+			list = g_list_next(list);
+		}
+		g_list_free (list);
+		
+		old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+		if (new_window && old_window == window) {
+			gtk_adi_win_view_swap_child_windows (window, new_window, self);
+			gtk_widget_show_all (new_window);
+		}
 	}
 	
 	return FALSE;
@@ -419,11 +423,9 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 	}
 	else {
 		if ( GTK_ADI_WIN_VIEW(self)->own_widget ) {
-			if (destroy) {
-				gtk_container_remove (GTK_CONTAINER (self),
-									  GTK_ADI_WIN_VIEW(self)->own_widget);
-				GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
-			}
+			gtk_container_remove (GTK_CONTAINER (self),
+								  GTK_ADI_WIN_VIEW(self)->own_widget);
+			GTK_ADI_WIN_VIEW(self)->own_widget = NULL;
 		}
 	}
 }
