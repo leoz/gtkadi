@@ -445,6 +445,12 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 								  GTK_ADI_WIN_VIEW(self)->cur_widget);
 			GTK_ADI_WIN_VIEW(self)->cur_widget = NULL;
 		}
+		else {
+			ADI_TRACE_MSG("Cur. widget is zero");
+		}
+		if (child && GTK_IS_ADI_WIN_CHILD(child)) {
+			GTK_ADI_WIN_CHILD(child)->widget = NULL;
+		}
 	}
 }
 
