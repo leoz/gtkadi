@@ -66,13 +66,16 @@ static void
 gtk_adi_win_child_init (GtkAdiWinChild *self)
 {
 	GTK_WINDOW(self)->type = GTK_WINDOW_TOPLEVEL;
+	GTK_ADI_WIN_CHILD(self)->widget = NULL;
 }
 
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
 GtkWidget* 
-gtk_adi_win_child_new (void)
+gtk_adi_win_child_new (GtkWidget *widget)
 {
-	return GTK_WIDGET(GET_NEW);
+	GtkWidget *self = GTK_WIDGET(GET_NEW);
+	GTK_ADI_WIN_CHILD(self)->widget = widget;
+	return self;
 }
