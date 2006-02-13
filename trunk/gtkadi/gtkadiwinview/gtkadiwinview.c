@@ -26,7 +26,7 @@
 
 #include "gtkadiwinview.h"
 #include "gtkadiwinchild.h"
-#define ADI_DO_TRACE
+/* #define ADI_DO_TRACE */
 #include "gtkadiutils.h"
 
 enum {
@@ -53,6 +53,12 @@ gtk_adi_win_view_is_child_window (GtkWidget *window, GtkAdiView *self);
 
 static GtkWidget*
 gtk_adi_win_view_get_child_widget (GtkWidget *window, GtkAdiView *self);
+
+static GtkAdiLayout
+gtk_adi_win_view_get_child_layout (GtkWidget *window, GtkAdiView *self);
+
+static gboolean
+gtk_adi_win_view_get_child_show_close (GtkWidget *window, GtkAdiView *self);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -284,7 +290,8 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 		}
 		g_list_free (list);
 		
-		ADI_TRACE("Exit loop. New win: %d, Old win: %d, Win: %d", new_window, old_window, window);
+		ADI_TRACE("Exit loop. New win: %d, Old win: %d, Win: %d",
+		           (gint) new_window, (gint) old_window, (gint) window);
 		
 		old_window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 		if (new_window && (old_window == window)) {
@@ -329,6 +336,8 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 
 	if ( !GTK_ADI_WIN_VIEW(self)->cur_widget ) {
 		GTK_ADI_WIN_VIEW(self)->orig_widget = widget;
+		GTK_ADI_WIN_VIEW(self)->layout = layout;
+		GTK_ADI_WIN_VIEW(self)->show_close = TRUE;		
 		window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 	}
 	else {
@@ -343,7 +352,7 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 		ADI_TRACE("%d:%d", width, height);
 
 		/* 1. Create new window and set size. */
-		window = gtk_adi_win_child_new (widget);
+		window = gtk_adi_win_child_new (widget, layout);
 		gtk_widget_set_size_request (window, width, height);
 		
 		/* 2. Reparent ADI widgets. */
@@ -446,7 +455,7 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 				GTK_ADI_WIN_VIEW(self)->orig_widget ) {
 				GTK_ADI_WIN_VIEW(self)->orig_widget = NULL;
 			}
-			ADI_TRACE("Widget is: %d.", GTK_ADI_WIN_VIEW(self)->cur_widget)
+			ADI_TRACE("Widget is: %d.", (gint) GTK_ADI_WIN_VIEW(self)->cur_widget)
 			gtk_container_remove (GTK_CONTAINER (self),
 								  GTK_ADI_WIN_VIEW(self)->cur_widget);
 			GTK_ADI_WIN_VIEW(self)->cur_widget = NULL;
@@ -491,25 +500,23 @@ void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
 	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 	
-	ADI_TRACE("window: %d", window);
+	ADI_TRACE("window: %d", (gint) window);
 	
 	if (window) {
 		widget = gtk_adi_win_view_get_child_widget(window, self);
 		
 		if (widget) {
-			ADI_TRACE("widget: %d", widget);
+			ADI_TRACE("widget: %d", (gint) widget);
 			
 			/* Set data. */
 			data->child = window;
 			data->widget = widget;
 			data->icon = gtk_window_get_icon(GTK_WINDOW(window));
 			data->title = gtk_window_get_title(GTK_WINDOW(window));
-		//	data->layout = gtk_adi_title_get_layout(GTK_ADI_TITLE(tab_label));
-		//	data->show_close = gtk_adi_title_get_close_button(GTK_ADI_TITLE(tab_label));
-	
+			data->layout = gtk_adi_win_view_get_child_layout(window, self);
+			data->show_close = gtk_adi_win_view_get_child_show_close(window, self);
 		}
 	}
-	
 }
 
 void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
@@ -720,4 +727,44 @@ gtk_adi_win_view_get_child_widget (GtkWidget *window, GtkAdiView *self)
 	}
 		
 	return widget;
+}
+
+static GtkAdiLayout
+gtk_adi_win_view_get_child_layout (GtkWidget *window, GtkAdiView *self)
+{
+	GtkAdiLayout layout = GTK_ADI_HORIZONTAL;
+	
+	g_return_val_if_fail (self != NULL, layout);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), layout);
+	
+	if (window) {
+		if (GTK_IS_ADI_WIN_CHILD(window)) {
+			layout = GTK_ADI_WIN_CHILD(window)->layout;
+		}
+		else if (window == GTK_ADI_WIN_VIEW(self)->orig_window) {
+			layout = GTK_ADI_WIN_VIEW(self)->layout;
+		}
+	}
+			
+	return layout;
+}
+
+static gboolean
+gtk_adi_win_view_get_child_show_close (GtkWidget *window, GtkAdiView *self)
+{
+	gboolean show_close = TRUE;
+	
+	g_return_val_if_fail (self != NULL, show_close);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), show_close);
+	
+	if (window) {
+		if (GTK_IS_ADI_WIN_CHILD(window)) {
+			show_close = GTK_ADI_WIN_CHILD(window)->show_close;
+		}
+		else if (window == GTK_ADI_WIN_VIEW(self)->orig_window) {
+			show_close = GTK_ADI_WIN_VIEW(self)->show_close;
+		}
+	}
+			
+	return show_close;
 }

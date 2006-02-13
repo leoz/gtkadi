@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadititle.c: ADI Title Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,7 @@
  * $Id$
  */
 
-/*
-#define ADI_DO_TRACE
-*/
+/* #define ADI_DO_TRACE */
 #include "gtkadititle.h"
 #include "gtkadiview.h"
 #include "gtkadistock.h"

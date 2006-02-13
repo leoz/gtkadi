@@ -54,6 +54,8 @@ struct _GtkAdiWinView {
 	GtkWidget *orig_window;
 	GtkWidget *orig_widget;
 	GtkAdi *adi;
+	GtkAdiLayout layout;
+	gboolean show_close;
 };
 
 /*

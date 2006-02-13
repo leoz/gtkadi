@@ -21,6 +21,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <gtkaditype.h>
 
 #ifndef __GTK_ADI_WIN_CHILD_H__
 #define __GTK_ADI_WIN_CHILD_H__
@@ -49,6 +50,8 @@ struct _GtkAdiWinChild {
 	GtkWindow __parent__;
 	/*< public >*/
 	GtkWidget *widget;
+	GtkAdiLayout layout;
+	gboolean show_close;
 };
 
 /*
@@ -64,7 +67,7 @@ struct _GtkAdiWinChildClass {
  * Public methods
  */
 GType gtk_adi_win_child_get_type (void);
-GtkWidget* gtk_adi_win_child_new (GtkWidget *widget);
+GtkWidget* gtk_adi_win_child_new (GtkWidget *widget, GtkAdiLayout layout);
 
 G_END_DECLS
 

@@ -24,7 +24,7 @@
 #  include <config.h>
 #endif
 
-#define ADI_DO_TRACE
+/* #define ADI_DO_TRACE */
 #include "gtkadi.h"
 #include "gtkadiutils.h"
 #ifdef WIDGETS_SUPPORT
