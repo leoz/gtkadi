@@ -21,7 +21,7 @@
  */
 
 #include "gtkadiwinchild.h"
-#define ADI_DO_TRACE
+/* #define ADI_DO_TRACE */
 #include "gtkadiutils.h"
 
 /* here are local prototypes */
@@ -73,9 +73,11 @@ gtk_adi_win_child_init (GtkAdiWinChild *self)
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
 GtkWidget* 
-gtk_adi_win_child_new (GtkWidget *widget)
+gtk_adi_win_child_new (GtkWidget *widget, GtkAdiLayout layout)
 {
 	GtkWidget *self = GTK_WIDGET(GET_NEW);
 	GTK_ADI_WIN_CHILD(self)->widget = widget;
+	GTK_ADI_WIN_CHILD(self)->layout = layout;
+	GTK_ADI_WIN_CHILD(self)->show_close = TRUE;
 	return self;
 }
