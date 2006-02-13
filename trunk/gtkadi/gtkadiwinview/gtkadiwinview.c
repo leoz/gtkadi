@@ -241,7 +241,7 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
 	
 	if (GTK_WIDGET_VISIBLE (self)) {
-		old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+		old_window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 			
 		if (window != old_window) {
 			ADI_TRACE("Focus - W1: %d, W2: %d", (int) window, (int) old_window);
@@ -286,8 +286,8 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 		
 		ADI_TRACE("Exit loop. New win: %d, Old win: %d, Win: %d", new_window, old_window, window);
 		
-		old_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
-		if (new_window && (old_window == window || ! old_window)) {
+		old_window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
+		if (new_window && (old_window == window)) {
 			gtk_adi_win_view_swap_child_windows (window, new_window, self);
 			gtk_widget_show_all (new_window);
 		}
@@ -324,12 +324,12 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	
 	/* This data will be stored once. */
 	if ( !GTK_ADI_WIN_VIEW(self)->orig_window ) {
-		GTK_ADI_WIN_VIEW(self)->orig_window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+		GTK_ADI_WIN_VIEW(self)->orig_window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 	}
 
 	if ( !GTK_ADI_WIN_VIEW(self)->cur_widget ) {
 		GTK_ADI_WIN_VIEW(self)->orig_widget = widget;
-		window = gtk_widget_get_ancestor (GTK_WIDGET(self), GTK_TYPE_WINDOW);
+		window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 	}
 	else {
 		GtkWidget *old_window;
@@ -426,11 +426,17 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 
 	ADI_TRACE("%s", __FUNCTION__);
-
+	
 	if (child && (gtk_adi_win_view_get_childs_count(self) > 1)) {
+		GtkWidget *widget = NULL;
 		ADI_TRACE("Delete child: %s",
 				  gtk_window_get_title(GTK_WINDOW(child)));
 		gtk_adi_win_view_child_event_delete(child, NULL, self);
+		widget = gtk_adi_win_view_get_child_widget(child, self);
+		if (widget) {
+			gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent(widget)),
+								  widget);
+		}
 		gtk_widget_destroy(child);
 	}
 	else {
