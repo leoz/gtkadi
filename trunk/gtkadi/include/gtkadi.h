@@ -44,6 +44,9 @@ typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 
 #define GTK_ADI_GET_CLASS(obj)	G_TYPE_INSTANCE_GET_CLASS((obj), gtk_adi_get_type(), GtkAdiClass)
 
+#define ADI_CLOSE_CHILD_S "adi-close-child"
+#define ADI_FOCUS_CHILD_S "adi-focus-child"
+
 /*
  * Main object structure
  */

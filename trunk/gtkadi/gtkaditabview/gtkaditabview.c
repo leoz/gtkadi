@@ -32,8 +32,8 @@
 #endif /* HILDON_SUPPORT */
 
 enum {
-    FOCUS_CHILD,
-    CLOSE_CHILD,
+    ADI_FOCUS_CHILD,
+    ADI_CLOSE_CHILD,
     LAST_SIGNAL
 };
 
@@ -93,8 +93,8 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 {
 	parent_class = g_type_class_ref (GTK_TYPE_NOTEBOOK);
 	
-        gtk_adi_tab_view_signals[CLOSE_CHILD]
-    	    = g_signal_new ("close_child",
+        gtk_adi_tab_view_signals[ADI_CLOSE_CHILD]
+    	    = g_signal_new (ADI_CLOSE_CHILD_S,
                         G_TYPE_FROM_CLASS (c),
                         G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
                         G_STRUCT_OFFSET (GtkAdiTabViewClass, close_child),
@@ -102,8 +102,8 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
                         g_cclosure_marshal_VOID__OBJECT,
                         G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
 
-        gtk_adi_tab_view_signals[FOCUS_CHILD]
-    	    = g_signal_new ("focus_child",
+        gtk_adi_tab_view_signals[ADI_FOCUS_CHILD]
+    	    = g_signal_new (ADI_FOCUS_CHILD_S,
                         G_TYPE_FROM_CLASS (c),
                         G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
                         G_STRUCT_OFFSET (GtkAdiTabViewClass, focus_child),
@@ -116,7 +116,7 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 void
 on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data)
 {
-	g_signal_emit(self, gtk_adi_tab_view_signals[FOCUS_CHILD], 0, gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
+	g_signal_emit_by_name(self, ADI_FOCUS_CHILD_S , gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 }
 
 
@@ -380,7 +380,7 @@ gtk_adi_tab_view_remove_all_children (GtkAdiView * self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
-	
+
 	gint page_num = -1;
 	while (gtk_notebook_get_n_pages (GTK_NOTEBOOK(self)) > 0) {
 		page_num = gtk_notebook_get_current_page (GTK_NOTEBOOK(self));
@@ -462,7 +462,7 @@ static void
 gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-	g_signal_emit(self, gtk_adi_tab_view_signals[CLOSE_CHILD], 0, child);
+    	g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, child);
 	#ifdef HILDON_SUPPORT
 	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
 	                                             GTK_TYPE_WINDOW);
