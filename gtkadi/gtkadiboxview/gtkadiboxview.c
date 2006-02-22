@@ -26,8 +26,8 @@
 #include "gtkadiutils.h"
 
 enum {
-    CLOSE_CHILD,
-    FOCUS_CHILD,
+    ADI_CLOSE_CHILD,
+    ADI_FOCUS_CHILD,
     LAST_SIGNAL
 };
 
@@ -155,8 +155,8 @@ gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c)
 
 	g_object_class->finalize = gtk_adi_box_view_finalize;
 
-        gtk_adi_box_view_signals[CLOSE_CHILD]
-            = g_signal_new ("close_child",
+        gtk_adi_box_view_signals[ADI_CLOSE_CHILD]
+            = g_signal_new (ADI_CLOSE_CHILD_S,
                         G_TYPE_FROM_CLASS (c),
                         G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
                         G_STRUCT_OFFSET (GtkAdiBoxViewClass, close_child),
@@ -164,8 +164,8 @@ gtk_adi_box_view_class_init (GtkAdiBoxViewClass * c)
                         g_cclosure_marshal_VOID__OBJECT,
                         G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
 
-        gtk_adi_box_view_signals[FOCUS_CHILD]
-            = g_signal_new ("focus_child",
+        gtk_adi_box_view_signals[ADI_FOCUS_CHILD]
+            = g_signal_new (ADI_FOCUS_CHILD_S,
                         G_TYPE_FROM_CLASS (c),
                         G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
                         G_STRUCT_OFFSET (GtkAdiBoxViewClass, focus_child),
@@ -599,7 +599,7 @@ gtk_adi_box_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	GTK_ADI_BOX_VIEW(self)->cur_child = child;
 	if (child)
-	    g_signal_emit(self, gtk_adi_box_view_signals[FOCUS_CHILD], 0, GTK_ADI_CHILD(child)->widget);
+	    g_signal_emit(self, gtk_adi_box_view_signals[ADI_FOCUS_CHILD], 0, GTK_ADI_CHILD(child)->widget);
 }
 
 void 
@@ -935,7 +935,7 @@ static void
 gtk_adi_box_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-	g_signal_emit(self, gtk_adi_box_view_signals[CLOSE_CHILD], 0,
+	g_signal_emit(self, gtk_adi_box_view_signals[ADI_CLOSE_CHILD], 0,
 	              GTK_ADI_CHILD(child)->widget);
 	
 	#ifdef HILDON_SUPPORT
