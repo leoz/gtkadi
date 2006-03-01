@@ -18,12 +18,12 @@ DEB_BUILD_GNU_TYPE	?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 objdir = $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
 
-CFLAGS = -Wall -g
+CFLAGS = -Wall 
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
+#	CFLAGS += -Os -finline-limit=1 -mno-apcs-frame -fno-schedule-insns -fno-optimize-sibling-calls -fomit-frame-pointer -fno-if-conversion -ffunction-sections -fno-thread-jumps -fno-force-mem -fno-expensive-optimizations -fno-inline-functions -fargument-noalias-global -fno-gcse -fno-rerun-cse-after-loop
 else
-	CFLAGS += -O2
+#	CFLAGS += -Os -finline-limit=1 -mno-apcs-frame -fno-schedule-insns -fno-optimize-sibling-calls -fomit-frame-pointer -fno-if-conversion -ffunction-sections -fno-thread-jumps -fno-force-mem -fno-expensive-optimizations -fno-inline-functions -fargument-noalias-global -fno-gcse -fno-rerun-cse-after-loop
 endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
@@ -37,7 +37,7 @@ configure-stamp:
 
 	# change ../configure to ../autogen.sh for CVS build
 	./autogen.sh
-	./configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=no --enable-widgets=no
+	CFLAGS="$(CFLAGS)" ./configure  --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=no --enable-widgets=yes --enable-newhildon=no
 
 	touch configure-stamp
 
@@ -75,7 +75,7 @@ clean:
 		$(MAKE) distclean; \
 	fi
 
-	#if test -d CVS; then \
+	if test -d CVS; then \
 		$(MAKE) cvs-clean ;\
 	fi
 

@@ -49,8 +49,11 @@ gtk_adi_win_child_get_type (void)
 			(GInstanceInitFunc) gtk_adi_win_child_init,
 			NULL
 		};
-
+#ifdef NEWHILDON_SUPPORT
+		type = g_type_register_static (HILDON_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
+#else
 		type = g_type_register_static (GTK_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
+#endif
 	}
 
 	return type;

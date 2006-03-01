@@ -1,6 +1,6 @@
 dnl GTK ADI Library
 dnl Process this file with automake to produce Makefile.in
-dnl Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+dnl Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
 dnl
 dnl This library is free software; you can redistribute it and/or
 dnl modify it under the terms of the GNU Lesser General Public
@@ -53,6 +53,8 @@ dnl Checks for Maemo libraries.
 
 AC_ARG_ENABLE(hildon, [ --enable-hildon=[yes|no] ], [hildon_support=$enableval ])
 
+AC_ARG_ENABLE(newhildon, [ --enable-newhildon=[yes|no] ], [newhildon_support=$enableval ])
+
 if test "$hildon_support" != "no"; then
 
     PKG_CHECK_MODULES(HILDON, [hildon-libs],
@@ -68,12 +70,16 @@ if test "$hildon_support" != "no"; then
     if test "$hildon_support" = "yes"; then
         AC_SUBST(HILDON_LIBS)
         AC_SUBST(HILDON_CFLAGS)
+	if test "$newhildon_support" = "yes"; then
+	    AC_DEFINE(NEWHILDON_SUPPORT, [], [Support the New Hildon extensions])	
+	fi
 
-        AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])	
+        AC_DEFINE(HILDON_SUPPORT, [], [Support the Hildon extensions])
     fi
 fi
 
 AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
+AM_CONDITIONAL(NEWHILDON_SUPPORT, [test "${newhildon_support}" = "yes"])
 
 
 AC_ARG_ENABLE(widgets, [ --enable-widgets=[yes|no] ], [widgets_support=$enableval ])

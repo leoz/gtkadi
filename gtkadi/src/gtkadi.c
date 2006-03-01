@@ -258,9 +258,11 @@ gtk_adi_get_toolbar (GtkAdi *self)
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
 	GtkWidget* toolbar = NULL;
+#ifdef WIDGETS_SUPPORT
 	if ( self->cmd ) {
 		toolbar = GTK_WIDGET(gtk_adi_cmd_get_toolbar (GTK_ADI_CMD(self->cmd)));
 	}
+#endif
 	return toolbar;
 }
 
@@ -271,9 +273,11 @@ gtk_adi_get_menu (GtkAdi *self)
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
 	GtkWidget* menu = NULL;
+#ifdef WIDGETS_SUPPORT
 	if ( self->cmd ) {
 		menu = GTK_WIDGET(gtk_adi_cmd_get_menu (GTK_ADI_CMD(self->cmd)));
 	}
+#endif
 	return menu;
 }
 
@@ -440,9 +444,10 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	
 	GtkWidget* old_view = NULL;
 	GtkWidget* current = NULL;
-	
+
+#ifdef WIDGETS_SUPPORT	
 	gtk_adi_cmd_set_view(GTK_ADI_CMD(self->cmd), view);
-	
+#endif	
 	/* 0. Check if the change is needed */
 	if (gtk_adi_get_view(self) == view) {
 		return;
@@ -563,6 +568,17 @@ void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,
 	                                   title_text);
 }
 
+void gtk_adi_set_child_icon (GtkAdi *self, GtkWidget *widget,
+								   const GdkPixbuf * icon)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	gtk_adi_view_set_child_icon (GTK_ADI_VIEW(self->cur_view),
+	                                   widget,
+	                                   icon);
+}
+
 void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
 								     gboolean enabled)
 {
@@ -614,22 +630,22 @@ gtk_adi_add_child_notify (GtkAdi *self,
                           GtkAdiLayout layout)
 {
 	#ifdef HILDON_SUPPORT
-	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
-	                                             GTK_TYPE_WINDOW);
-	if (window && GTK_IS_WINDOW(window)) {
-		/*
-		gtk_infoprint(GTK_WINDOW(window), "Opening a new window");
-		*/
-	}
+//	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
+//	                                             GTK_TYPE_WINDOW);
+//	if (window && GTK_IS_WINDOW(window)) {
+//		/*
+//		gtk_infoprint(GTK_WINDOW(window), "Opening a new window");
+//		*/
+//	}
 	#endif /* HILDON_SUPPORT */
 	
 	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(self->cur_view),
 	                                   widget, icon, title, layout);
 
 	#ifdef HILDON_SUPPORT
-	if (window && GTK_IS_WINDOW(window)) {
-		hildon_app_register_view(HILDON_APP(window), widget);
-		hildon_app_notify_view_changed(HILDON_APP(window), widget);
-	}
+//	if (window && GTK_IS_WINDOW(window)) {
+//		hildon_app_register_view(HILDON_APP(window), widget);
+//		hildon_app_notify_view_changed(HILDON_APP(window), widget);
+//	}
 	#endif /* HILDON_SUPPORT */
 }
