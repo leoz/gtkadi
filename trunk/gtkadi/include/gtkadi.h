@@ -119,6 +119,10 @@ void gtk_adi_change_state (GtkAdi *self, GtkAdiState state);
 void gtk_adi_change_color (GtkAdi *self, GtkAdiColorType color);
 void gtk_adi_set_child_title_text (GtkAdi *self, GtkWidget *widget,
 								   const gchar *title_text);
+void gtk_adi_set_child_icon (GtkAdi *self, GtkWidget *widget,
+								   const GdkPixbuf * icon);
+
+
 void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
 								     gboolean enabled);
 

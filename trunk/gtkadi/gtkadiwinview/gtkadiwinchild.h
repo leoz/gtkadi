@@ -20,8 +20,18 @@
  * $Id$
  */
 
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+
 #include <gtk/gtk.h>
 #include <gtkaditype.h>
+
+#ifdef NEWHILDON_SUPPORT
+#include<hildon-widgets/hildon-window.h>
+#include<hildon-widgets/hildon-program.h>
+#endif
 
 #ifndef __GTK_ADI_WIN_CHILD_H__
 #define __GTK_ADI_WIN_CHILD_H__
@@ -47,7 +57,11 @@ G_BEGIN_DECLS
 typedef struct _GtkAdiWinChild GtkAdiWinChild;
 #endif
 struct _GtkAdiWinChild {
+#ifdef NEWHILDON_SUPPORT
+	HildonWindow __parent__;
+#else
 	GtkWindow __parent__;
+#endif
 	/*< public >*/
 	GtkWidget *widget;
 	GtkAdiLayout layout;
@@ -59,7 +73,11 @@ struct _GtkAdiWinChild {
  */
 typedef struct _GtkAdiWinChildClass GtkAdiWinChildClass;
 struct _GtkAdiWinChildClass {
+#ifdef NEWHILDON_SUPPORT
+	HildonWindowClass __parent__;
+#else
 	GtkWindowClass __parent__;
+#endif
 };
 
 

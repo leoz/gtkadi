@@ -119,7 +119,6 @@ on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpoint
 	g_signal_emit_by_name(self, ADI_FOCUS_CHILD_S , gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 }
 
-
 static void 
 gtk_adi_tab_view_init (GtkAdiTabView *self)
 {
@@ -131,6 +130,7 @@ gtk_adi_tab_view_init (GtkAdiTabView *self)
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (self), FALSE);
 	g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), NULL);
+	
 }
 
 
@@ -160,6 +160,7 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 	iface->change_state = gtk_adi_tab_view_change_state;
 	iface->change_color = gtk_adi_tab_view_change_color;
 	iface->set_child_title_text = gtk_adi_tab_view_set_child_title_text;
+	iface->set_child_icon = gtk_adi_tab_view_set_child_icon;
 	iface->set_child_close_button = gtk_adi_tab_view_set_child_close_button;
 	iface->set_child_tab = gtk_adi_tab_view_set_child_tab;
 	iface->get_childs_count = gtk_adi_tab_view_get_childs_count;
@@ -445,6 +446,16 @@ gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 }
 
 void
+gtk_adi_tab_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
+								       const GdkPixbuf * icon)
+{
+//	GtkWidget *tab_label;
+//	tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
+//	gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
+}
+
+
+void
 gtk_adi_tab_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 								         gboolean enabled)
 {
@@ -464,11 +475,11 @@ gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
 {
     	g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, child);
 	#ifdef HILDON_SUPPORT
-	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
-	                                             GTK_TYPE_WINDOW);
-	if (window && GTK_IS_WINDOW(window)) {
-		hildon_app_unregister_view(HILDON_APP(window), child);
-	}
+//	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
+//	                                             GTK_TYPE_WINDOW);
+//	if (window && GTK_IS_WINDOW(window)) {
+//		hildon_app_unregister_view(HILDON_APP(window), child);
+//	}
 	#endif /* HILDON_SUPPORT */
 }
 

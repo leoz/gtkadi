@@ -209,6 +209,15 @@ gtk_adi_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 }
 
 void
+gtk_adi_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
+								   const GdkPixbuf * icon)
+{
+	GTK_ADI_VIEW_GET_CLASS (self)->set_child_icon (self, widget,
+	                                                     icon);
+}
+
+
+void
 gtk_adi_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 								     gboolean enabled)
 {
