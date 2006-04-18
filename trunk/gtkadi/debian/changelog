@@ -1,3 +1,46 @@
+libgtkadi (0.1.7-1) unstable; urgency=low
+
+  * Has been reverted back
+  * Has been added checking before reparenting
+
+ -- Oleg Romashin <romaxa@gmail.com>  Thu, 13 Apr 2006 20:36:38 +0300
+
+libgtkadi (0.1.6-1) unstable; urgency=low
+
+  * Has been updated default blank name value
+
+ -- Oleg Romashin <romaxa@gmail.com>  Thu,  6 Apr 2006 18:09:56 +0300
+
+libgtkadi (0.1.5-1) unstable; urgency=low
+
+  * Added hildon-libs-dev & libosso-dev dependencies.
+
+ -- Oleg Romashin <romaxa@gmail.com>  Fri, 31 Mar 2006 15:18:30 +0300
+
+libgtkadi (0.1.4-2) unstable; urgency=low
+
+  * HAs been fixed crash on menu free
+
+ -- Oleg Romashin <romaxa@gmail.com>  Fri, 17 Mar 2006 10:05:02 +0200
+
+libgtkadi (0.1.4-1) unstable; urgency=low
+
+  * Has been added blank title by default
+  * Has been switched to new hildon API
+  * Has been added set icon functions for other views
+  * Has added icon set functionality for BOX/TAB view's
+  * Has been replaced gtk_widget_show_all methods on gtk_widget_show
+  * Has been fixed small bug in rules file
+  * Has been fixed sending signal on close
+  * Has been added set window icon functionality
+  * Has been updated for working with new hildon api
+  * deb-layout file added
+  * Has been added support for new hildon-lgpl API
+  * Has been added new files for gtkadi
+  * Has been fixed building winview
+
+ -- Oleg Romashin <romaxa@gmail.com>  Fri,  3 Mar 2006 17:20:04 +0200
+
 libgtkadi (0.1.3-1) unstable; urgency=low
 
   *  Fix headers installation. 

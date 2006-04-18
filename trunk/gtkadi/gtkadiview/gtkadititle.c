@@ -205,8 +205,9 @@ gtk_adi_title_set_icon (GtkAdiTitle *self, GdkPixbuf *icon)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	
-	if (icon) {
-		gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), icon);
+	if (icon) 
+	{
+		gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), gdk_pixbuf_scale_simple(icon, 16, 16, GDK_INTERP_NEAREST));
 	}
 }
 

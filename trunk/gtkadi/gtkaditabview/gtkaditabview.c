@@ -449,9 +449,24 @@ void
 gtk_adi_tab_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 								       const GdkPixbuf * icon)
 {
-//	GtkWidget *tab_label;
-//	tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
-//	gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
+    g_return_if_fail (self != NULL);
+    g_return_if_fail (GTK_IS_ADI_VIEW (self));
+    g_return_if_fail(icon);
+    g_return_if_fail(GTK_IS_WIDGET(widget));
+
+    GtkWidget * tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), widget);
+    gtk_adi_title_set_icon(GTK_ADI_TITLE(tab_label), icon);
+
+
+    GtkWidget * parent = gtk_widget_get_parent(widget);
+    g_return_if_fail(parent);
+    while(!GTK_IS_WINDOW(parent))
+    {
+	parent = gtk_widget_get_parent(parent);
+	g_return_if_fail(parent);
+    }
+    if (GTK_IS_WINDOW(parent))
+	gtk_window_set_icon(GTK_WINDOW(parent), icon);
 }
 
 

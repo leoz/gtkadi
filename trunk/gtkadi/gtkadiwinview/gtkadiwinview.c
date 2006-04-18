@@ -251,8 +251,8 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
 		if (window != old_window) {
 			ADI_TRACE("Focus - W1: %d, W2: %d", (int) window, (int) old_window);
 			gtk_adi_win_view_swap_child_windows (old_window, window, self);
-			gtk_widget_show_all (old_window);
-			gtk_widget_show_all (window);
+			gtk_widget_show (old_window);
+			gtk_widget_show (window);
 			
 		}
 	}
@@ -295,7 +295,7 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 		old_window = gtk_widget_get_ancestor (gtk_widget_get_parent (GTK_WIDGET(GTK_ADI_WIN_VIEW(self)->adi)), GTK_TYPE_WINDOW);
 		if (new_window && (old_window == window)) {
 			gtk_adi_win_view_swap_child_windows (window, new_window, self);
-			gtk_widget_show_all (new_window);
+			gtk_widget_show (new_window);
 		}
 //	}
 	
@@ -364,7 +364,11 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	
 	/* Common: set icon, title and widget. */
 	gtk_window_set_icon (GTK_WINDOW (window), icon);
-	gtk_window_set_title (GTK_WINDOW (window), title);
+	if (title)
+	    gtk_window_set_title (GTK_WINDOW (window), title);
+	else
+	    gtk_window_set_title (GTK_WINDOW (window), "blank");
+
 	GTK_ADI_WIN_VIEW(self)->cur_widget = widget;
 	gtk_container_add (GTK_CONTAINER (self),
 					   GTK_ADI_WIN_VIEW(self)->cur_widget);
@@ -380,7 +384,7 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	                  self);
 
 
-	gtk_widget_show_all (window);
+	gtk_widget_show (window);
 
 #ifdef NEWHILDON_SUPPORT
 	HildonProgram * h_programm = hildon_program_new();
@@ -464,8 +468,8 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 				GTK_ADI_WIN_VIEW(self)->orig_widget = NULL;
 			}
 			ADI_TRACE("Widget is: %d.", (gint) GTK_ADI_WIN_VIEW(self)->cur_widget)
-			gtk_container_remove (GTK_CONTAINER (self),
-								  GTK_ADI_WIN_VIEW(self)->cur_widget);
+			if (GTK_IS_WIDGET(GTK_ADI_WIN_VIEW(self)->cur_widget))
+			    gtk_container_remove (GTK_CONTAINER (self), GTK_ADI_WIN_VIEW(self)->cur_widget);
 			GTK_ADI_WIN_VIEW(self)->cur_widget = NULL;
 		}
 		else {
