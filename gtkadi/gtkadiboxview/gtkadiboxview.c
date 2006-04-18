@@ -914,11 +914,23 @@ void
 gtk_adi_box_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 								       const GdkPixbuf * icon)
 {
-//	GtkAdiChild* child = gtk_adi_box_view_find_child(self, widget);
-//	
-//	if (child != NULL) {
-//		gtk_adi_child_set_text(child, title_text);
-//	}
+    g_return_if_fail (self != NULL);
+    g_return_if_fail (GTK_IS_ADI_VIEW (self));
+    g_return_if_fail(icon);
+    g_return_if_fail(GTK_IS_WIDGET(widget));
+
+    gtk_adi_child_set_icon(GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child), icon);
+    
+    GtkWidget * parent = gtk_widget_get_parent(widget);
+    g_return_if_fail(parent);
+    
+    while(!GTK_IS_WINDOW(parent))
+    {
+        parent = gtk_widget_get_parent(parent);
+        g_return_if_fail(parent);
+    }
+    if (GTK_IS_WINDOW(parent))
+        gtk_window_set_icon(GTK_WINDOW(parent), icon);
 }
 
 

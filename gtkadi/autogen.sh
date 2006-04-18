@@ -1,9 +1,9 @@
 #!/bin/sh
 
 set -x
-glib-gettextize --copy --force
+#glib-gettextize --copy --force
 libtoolize --automake
-intltoolize --copy --force --automake
+#intltoolize --copy --force --automake
 aclocal-1.7
 autoconf
 autoheader
