@@ -1,3 +1,29 @@
+libgtkadi (0.2.0-1) unstable; urgency=low
+
+  * Has been fixed major bug with Win view layout
+
+ -- Oleg Romashin <romaxa@gmail.com>  Sat, 20 May 2006 21:09:15 +0300
+
+libgtkadi (0.1.10-1) unstable; urgency=low
+
+  * Has been fixed eabi configuration
+  * Has been fixed bug <>: Incorrect listing of browser titles in
+    application switcher menu 28937: Incorrect listing of browser window titles in application switcher menu
+
+ -- Oleg Romashin <romaxa@gmail.com>  Mon, 15 May 2006 17:58:36 +0300
+
+libgtkadi (0.1.9-1) unstable; urgency=low
+
+  *  Has been applied thumb code
+
+ -- Oleg Romashin <romaxa@gmail.com>  Fri, 28 Apr 2006 17:36:50 +0300
+
+libgtkadi (0.1.8-1) unstable; urgency=low
+
+  * Small fix for bug <>:Glib CRITICAL errors and warnings from the Browser 
+
+ -- Oleg Romashin <romaxa@gmail.com>  Wed, 19 Apr 2006 14:41:42 +0300
+
 libgtkadi (0.1.7-1) unstable; urgency=low
 
   * Has been reverted back
@@ -43,9 +69,9 @@ libgtkadi (0.1.4-1) unstable; urgency=low
 
 libgtkadi (0.1.3-1) unstable; urgency=low
 
-  *  Fix headers installation. 
+  * Has been updated gtkadi library with "window-view" support
 
- -- Leonid Zolotarev <leonid.zolotarev@gmail.com>  Wed, 21 Dec 2005 16:00:20 +0200
+ -- Oleg Romashin <romaxa@gmail.com>  Wed, 22 Feb 2006 16:13:18 +0200
 
 libgtkadi (0.1.2-1) unstable; urgency=low
 
@@ -53,46 +79,46 @@ libgtkadi (0.1.2-1) unstable; urgency=low
 
  -- Oleg Romashin <romaxa@gmail.com>  Tue, 29 Nov 2005 16:20:43 +0300
 
-libgtkadi (0.0.35-1) unstable; urgency=low
+libgtkadi (0.35-1) unstable; urgency=low
 
   * Has been added enabling of toolbar and menu by "--enable-widgets"
     configure argument
 
  -- Oleg Romashin <romaxa@gmail.com>  Sun, 27 Nov 2005 01:01:22 +0300
 
-libgtkadi (0.0.34-2) unstable; urgency=low
+libgtkadi (0.34-2) unstable; urgency=low
 
   * Has been fixed missing libgtkadi.so symlink in package
 
  -- Oleg Romashin <romaxa@gmail.com>  Sat, 26 Nov 2005 23:18:48 +0300
 
-libgtkadi (0.0.34-1) unstable; urgency=low
+libgtkadi (0.34-1) unstable; urgency=low
 
   * Has been fixed memory leaks with adding two and more box views 
 
- -- Oleg Romashin <romaxa@romaxa.universe.dart.spb>  Tue, 15 Nov 2005 15:33:55 +0300
+ -- Oleg Romashin <romaxa@gmail.com>  Tue, 15 Nov 2005 15:33:55 +0300
 
-libgtkadi (0.0.33-1) unstable; urgency=low
+libgtkadi (0.33-1) unstable; urgency=low
 
   * Has been added enable-hildon argument for configure
   * Has been fixed showing of close button in Hildon 
 
  -- Oleg Romashin <romaxa@gmail.com>  Sat, 12 Nov 2005 20:49:33 +0300
 
-libgtkadi (0.0.32-1) unstable; urgency=low
+libgtkadi (0.32-1) unstable; urgency=low
 
   * Has been added notification signals about closing and changing window
     "close-child", "focus-child"
 
  -- Oleg Romashin <romaxa@gmail.com>  Thu, 10 Nov 2005 21:44:23 +0300
 
-libgtkadi (0.0.31-1) unstable; urgency=low
+libgtkadi (0.31-1) unstable; urgency=low
 
   * Initial Maemo support. 
 
  -- Oleg Romashin <romaxa@gmail.com>  Sat,  5 Nov 2005 11:54:25 +0300
 
-libgtkadi (0.0.30-2) unstable; urgency=low
+libgtkadi (0.1-2) unstable; urgency=low
 
   * Initial Release.
 

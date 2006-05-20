@@ -66,6 +66,7 @@ struct _GtkAdiWinChild {
 	GtkWidget *widget;
 	GtkAdiLayout layout;
 	gboolean show_close;
+	GtkWidget * container;
 };
 
 /*
