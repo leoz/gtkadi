@@ -472,8 +472,10 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 				GTK_ADI_WIN_VIEW(self)->orig_widget = NULL;
 			}
 			ADI_TRACE("Widget is: %d.", (gint) GTK_ADI_WIN_VIEW(self)->cur_widget)
-			if (GTK_IS_WIDGET(GTK_ADI_WIN_VIEW(self)->cur_widget))
-			    gtk_container_remove (GTK_CONTAINER (self), GTK_ADI_WIN_VIEW(self)->cur_widget);
+			if (GTK_IS_WIDGET(GTK_ADI_WIN_VIEW(self)->cur_widget) && gtk_widget_get_parent(GTK_ADI_WIN_VIEW(self)->cur_widget))
+			{
+			    gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent(GTK_ADI_WIN_VIEW(self)->cur_widget)), GTK_ADI_WIN_VIEW(self)->cur_widget);
+			}
 			GTK_ADI_WIN_VIEW(self)->cur_widget = NULL;
 		}
 		else {
