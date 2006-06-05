@@ -458,11 +458,12 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 				  gtk_window_get_title(GTK_WINDOW(child)));
 		gtk_adi_win_view_child_event_delete(child, NULL, self);
 		widget = gtk_adi_win_view_get_child_widget(child, self);
-		if (widget) {
+		if (widget && GTK_IS_WIDGET(widget)) {
 			gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent(widget)),
 								  widget);
 		}
-		gtk_widget_destroy(child);
+		if (GTK_IS_WIDGET(child))
+		    gtk_widget_destroy(child);
 	}
 	else {
 		ADI_TRACE_MSG("Delete last child.");
