@@ -1,3 +1,9 @@
+libgtkadi (0.2.3-1) unstable; urgency=low
+
+  * Has been fixed win view for changing between views 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Wed,  7 Jun 2006 20:52:22 +0300
+
 libgtkadi (0.2.2-1) unstable; urgency=low
 
   * Has been fixed win view for changing between views
