@@ -765,14 +765,18 @@ gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 	
 		list = gtk_window_list_toplevels ();
 		list = g_list_first(list);
+		GList* first = list;
 		while (list) {
 			if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self)) {
 				count++;
 			}
 			list = g_list_next(list);
 		}
-		g_list_free (list);
+		g_list_foreach (first, (GFunc)g_object_unref, NULL);
+		g_list_free (first);
+
 	}
+	
 	if (!GTK_ADI_WIN_VIEW(self)->cur_widget) {
 		count = 0;
 	}
