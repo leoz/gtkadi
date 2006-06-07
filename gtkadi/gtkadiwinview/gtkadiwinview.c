@@ -428,6 +428,7 @@ gtk_adi_win_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 		}
 		list = g_list_next(list);
 	}
+	list = g_list_first(list);
 	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 		
@@ -516,6 +517,7 @@ void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
 		}
 		list = g_list_next(list);
 	}
+	list = g_list_first(list);
 	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 	
@@ -611,6 +613,7 @@ gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 		}
 		list = g_list_next(list);
 	}
+	list = g_list_first(list);
 	g_list_foreach (list, (GFunc)g_object_unref, NULL);
 	g_list_free (list);
 	
@@ -671,6 +674,7 @@ gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
+	GList* first = list;
 	while (list)
 	{
 		if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self))
@@ -683,8 +687,9 @@ gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 		}
 		list = g_list_next(list);
 	}
-	g_list_foreach (list, (GFunc)g_object_unref, NULL);
-	g_list_free (list);
+	
+	g_list_foreach (first, (GFunc)g_object_unref, NULL);
+	g_list_free (first);
 		
 	if (window)
 	{
@@ -708,6 +713,7 @@ gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
+	GList* first = list;
 	while (list)
 	{
 		if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self))
@@ -720,8 +726,8 @@ gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 		}
 		list = g_list_next(list);
 	}
-	g_list_foreach (list, (GFunc)g_object_unref, NULL);
-	g_list_free (list);
+	g_list_foreach (first, (GFunc)g_object_unref, NULL);
+	g_list_free (first);
 		
 	if (window)
 	{
