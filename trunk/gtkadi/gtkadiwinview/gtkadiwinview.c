@@ -772,7 +772,6 @@ gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 			}
 			list = g_list_next(list);
 		}
-		g_list_foreach (first, (GFunc)g_object_unref, NULL);
 		g_list_free (first);
 
 	}
