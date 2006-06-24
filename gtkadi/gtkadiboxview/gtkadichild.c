@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadichild.c: ADI Child Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -85,8 +85,8 @@ gtk_adi_child_init (GtkAdiChild * self)
 	self->separator = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (self->box), self->separator, FALSE, FALSE, 0);
 	
-	g_signal_connect(GTK_WIDGET(self->separator), "show", on_tab_elem_show, self);
-	g_signal_connect(GTK_WIDGET(self->title), "show", on_tab_elem_show, self);
+	g_signal_connect(GTK_WIDGET(self->separator), "show", (GCallback) on_tab_elem_show, self);
+	g_signal_connect(GTK_WIDGET(self->title), "show", (GCallback) on_tab_elem_show, self);
 }
 
 
@@ -168,7 +168,7 @@ gtk_adi_child_set_text (GtkAdiChild * self, const gchar * str)
 }
 
 void 
-gtk_adi_child_set_icon (GtkAdiChild * self, GdkPixbuf * icon)
+gtk_adi_child_set_icon (GtkAdiChild *self, const GdkPixbuf *icon)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CHILD (self));

@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadiboxtitle.c: ADI Box Title Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -96,11 +96,14 @@ gtk_adi_box_title_init (GtkAdiBoxTitle * self G_GNUC_UNUSED)
 static void 
 gtk_adi_box_title_set_text_color (GtkAdiBoxTitle * self)
 {
+	GdkColor*   active = NULL;
+	GdkColor* inactive = NULL;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_BOX_TITLE (self));
 	
-	GdkColor*   active = gtk_adi_color_active_text   (GTK_ADI_COLOR(self->adi_color));
-	GdkColor* inactive = gtk_adi_color_inactive_text (GTK_ADI_COLOR(self->adi_color));
+	active   = gtk_adi_color_active_text   (GTK_ADI_COLOR(self->adi_color));
+	inactive = gtk_adi_color_inactive_text (GTK_ADI_COLOR(self->adi_color));
 
 	gtk_widget_modify_fg (GTK_ADI_TITLE(self)->label, GTK_STATE_NORMAL  , inactive);
 	gtk_widget_modify_fg (GTK_ADI_TITLE(self)->label, GTK_STATE_ACTIVE  , active);
@@ -110,11 +113,11 @@ gtk_adi_box_title_set_text_color (GtkAdiBoxTitle * self)
 static void 
 gtk_adi_box_title_set_own_color (GtkAdiBoxTitle * self, gboolean is_active)
 {
+	GdkColor* color = NULL;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_BOX_TITLE (self));
 	
-	GdkColor* color = NULL;
-
 	if ( self->adi_color != NULL ) {
 		if ( is_active == TRUE ) {
 			color = gtk_adi_color_active_title   (GTK_ADI_COLOR(self->adi_color));
@@ -134,12 +137,14 @@ gtk_adi_box_title_set_own_color (GtkAdiBoxTitle * self, gboolean is_active)
 static void 
 gtk_adi_box_title_set_widget_color (GtkAdiBoxTitle * self, GtkWidget * widget, gboolean is_active)
 {
+	GdkColor* color = NULL;
+	GtkStyle* style = NULL;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_BOX_TITLE (self));
 	g_return_if_fail (widget != NULL);
 	
-	GdkColor* color = NULL;
-	GtkStyle* style = gtk_style_copy (widget->style);
+	style = gtk_style_copy (widget->style);
 
 	if ( self->adi_color != NULL ) {
 		if ( is_active == TRUE ) {
