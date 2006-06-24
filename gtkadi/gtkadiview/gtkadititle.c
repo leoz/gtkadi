@@ -117,10 +117,13 @@ gtk_adi_title_init (GtkAdiTitle * self)
 void 
 gtk_adi_title_set_text_font (GtkAdiTitle * self)
 {
+	GtkStyle *style = NULL;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	
-	GtkStyle *style = gtk_widget_get_style(self->label);
+	style = gtk_widget_get_style(self->label);
+
 	pango_font_description_set_size(style->font_desc, 8 * PANGO_SCALE);
 	pango_font_description_set_weight(style->font_desc, PANGO_WEIGHT_BOLD);
 	gtk_widget_modify_font(self->label, style->font_desc);
@@ -129,9 +132,11 @@ gtk_adi_title_set_text_font (GtkAdiTitle * self)
 void 
 gtk_adi_title_set_widget_style (GtkWidget * widget)
 {
+	GtkStyle *style = NULL;
+
 	g_return_if_fail (widget != NULL);
 	
-	GtkStyle* style = gtk_style_copy (widget->style);
+	style = gtk_style_copy (widget->style);
 
 	/* Set size */
 	style->xthickness = 0;
