@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadititle.h: ADI Title Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -82,7 +82,7 @@ void 	gtk_adi_title_set_parent	(GtkAdiTitle * self,
 					GtkWidget * adi_parent);
 void gtk_adi_title_set_text	(GtkAdiTitle *self, const gchar *str);
 const gchar* gtk_adi_title_get_text	(GtkAdiTitle *self);
-void gtk_adi_title_set_icon	(GtkAdiTitle *self, GdkPixbuf *icon);
+void gtk_adi_title_set_icon	(GtkAdiTitle *self, const GdkPixbuf *icon);
 GdkPixbuf* gtk_adi_title_get_icon (GtkAdiTitle *self);
 void gtk_adi_title_set_layout (GtkAdiTitle *self, GtkAdiLayout layout);
 GtkAdiLayout gtk_adi_title_get_layout (GtkAdiTitle *self);
@@ -91,4 +91,4 @@ gboolean gtk_adi_title_get_close_button (GtkAdiTitle *self);
 
 G_END_DECLS
 
-#endif
+#endif /* __GTK_ADI_TITLE_H__ */

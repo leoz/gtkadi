@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadichild.h: ADI Child Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -81,9 +81,9 @@ void gtk_adi_child_remove_widget (GtkAdiChild * self);
 void 	gtk_adi_child_set_parent	(GtkAdiChild * self,
 					GtkWidget * adi_parent);
 void 	gtk_adi_child_set_text	(GtkAdiChild * self,
-					const gchar * str);
+					const gchar *str);
 void 	gtk_adi_child_set_icon	(GtkAdiChild * self,
-					GdkPixbuf * icon);
+					const GdkPixbuf *icon);
 void
 	gtk_adi_child_set_tab (GtkAdiChild *self, gboolean enabled);
 GSList * 	gtk_adi_child_get_group	(GtkAdiChild * self);
@@ -93,4 +93,4 @@ void gtk_adi_child_set_close_button (GtkAdiChild *self, gboolean enabled);
 
 G_END_DECLS
 
-#endif
+#endif /* __GTK_ADI_CHILD_H__ */
