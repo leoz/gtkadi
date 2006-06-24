@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadicolor.c: ADI Color Object
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -111,13 +111,14 @@ gtk_adi_color_init (GtkAdiColor *self)
 static void 
 gtk_adi_color_init_own (GtkAdiColor * self)
 {
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (GTK_IS_ADI_COLOR (self));
-	
 	static GdkColor title_inactive = { 0, 0x6000, 0xb000, 0xd000 };
 	static GdkColor title_active   = { 0, 0x4000, 0x9000, 0xb000 };
 	static GdkColor text_inactive  = { 0, 0xdddd, 0xdddd, 0xdddd };
 	static GdkColor text_active    = { 0, 0xffff, 0xffff, 0xffff };
+
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_COLOR (self));
+	
 	self->title[GTK_ADI_STATE_INACTIVE] = title_inactive;
 	self->title[GTK_ADI_STATE_ACTIVE  ] = title_active;
 	self->text [GTK_ADI_STATE_INACTIVE] = text_inactive;
@@ -127,14 +128,18 @@ gtk_adi_color_init_own (GtkAdiColor * self)
 static void 
 gtk_adi_color_init_gtk (GtkAdiColor * self)
 {
+	GtkWidget* invis       = NULL;
+	GtkWidget* menu        = NULL;
+	GtkWidget* item        = NULL;
+	GtkStyle*  invis_style = NULL;
+	GtkStyle*  title_style = NULL;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_COLOR (self));
 	
-	GtkWidget* invis       = gtk_invisible_new ();
-	GtkWidget* menu        = gtk_menu_new      ();
-	GtkWidget* item        = gtk_menu_item_new ();
-	GtkStyle*  invis_style = NULL;
-	GtkStyle*  title_style = NULL;
+	invis = gtk_invisible_new ();
+	menu  = gtk_menu_new      ();
+	item  = gtk_menu_item_new ();
 
 	gtk_widget_ensure_style (invis);
 	gtk_object_sink (GTK_OBJECT (invis));
