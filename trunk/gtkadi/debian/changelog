@@ -1,3 +1,10 @@
+libgtkadi (0.3.0-1) unstable; urgency=low
+
+  * Added MSVC support for 'boxview'.
+  * Add MSVC support for 'view'.
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Sun, 25 Jun 2006 12:29:29 +0300
+
 libgtkadi (0.2.4-1) unstable; urgency=low
 
   * Has been fixed crash for open NEW window from menu!!! 
