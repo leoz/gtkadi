@@ -278,8 +278,8 @@ gtk_adi_win_view_child_event_delete (GtkWidget *window,
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
 
-	
-	g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, GTK_ADI_WIN_VIEW(self)->cur_widget);
+	if (event)
+	    g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, GTK_ADI_WIN_VIEW(self)->cur_widget);
 	
 	ADI_TRACE("%s", __FUNCTION__);
 
