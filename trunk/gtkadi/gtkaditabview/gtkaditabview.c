@@ -272,12 +272,12 @@ gtk_adi_tab_view_get_child_data (GtkAdiView *self,
                                  GtkAdiChildData *data,
                                  gint page_num)
 {
+	GtkWidget *tab_label = NULL;
+	
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (data != NULL);
 
-	GtkWidget *tab_label = NULL;
-	
 	data->child = gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num);
 	data->widget = data->child;
 
@@ -367,10 +367,13 @@ gtk_adi_tab_view_can_exit (GtkAdiView * self)
 void 
 gtk_adi_tab_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
+	gint page_num = -1;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	
-	gint page_num = gtk_notebook_get_current_page (GTK_NOTEBOOK(self));
+	page_num = gtk_notebook_get_current_page (GTK_NOTEBOOK(self));
+
 	gtk_adi_tab_view_remove_child_notify(self,
 	                   gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
@@ -379,10 +382,11 @@ gtk_adi_tab_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 void 
 gtk_adi_tab_view_remove_all_children (GtkAdiView * self)
 {
+	gint page_num = -1;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 
-	gint page_num = -1;
 	while (gtk_notebook_get_n_pages (GTK_NOTEBOOK(self)) > 0) {
 		page_num = gtk_notebook_get_current_page (GTK_NOTEBOOK(self));
 		gtk_adi_tab_view_remove_child_notify(self,
@@ -447,26 +451,29 @@ gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 
 void
 gtk_adi_tab_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
-								       const GdkPixbuf * icon)
+								       const GdkPixbuf *icon)
 {
-    g_return_if_fail (self != NULL);
+    GtkWidget *tab_label = NULL;
+    GtkWidget *parent = NULL;
+
+	g_return_if_fail (self != NULL);
     g_return_if_fail (GTK_IS_ADI_VIEW (self));
     g_return_if_fail(icon);
     g_return_if_fail(GTK_IS_WIDGET(widget));
 
-    GtkWidget * tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), widget);
+    tab_label = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self), widget);
     gtk_adi_title_set_icon(GTK_ADI_TITLE(tab_label), icon);
 
 
-    GtkWidget * parent = gtk_widget_get_parent(widget);
+    parent = gtk_widget_get_parent(widget);
     g_return_if_fail(parent);
-    while(!GTK_IS_WINDOW(parent))
-    {
-	parent = gtk_widget_get_parent(parent);
-	g_return_if_fail(parent);
+    while(!GTK_IS_WINDOW(parent)) {
+		parent = gtk_widget_get_parent(parent);
+		g_return_if_fail(parent);
     }
-    if (GTK_IS_WINDOW(parent))
-	gtk_window_set_icon(GTK_WINDOW(parent), icon);
+	if (GTK_IS_WINDOW(parent)) {
+		gtk_window_set_icon(GTK_WINDOW(parent), (GdkPixbuf*) icon);
+	}
 }
 
 
