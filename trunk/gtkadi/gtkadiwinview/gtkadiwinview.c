@@ -24,10 +24,10 @@
 #  include <config.h>
 #endif
 
-//#ifdef NEWHILDON_SUPPORT
+#ifdef NEWHILDON_SUPPORT
 #include<hildon-widgets/hildon-window.h>
 #include<hildon-widgets/hildon-program.h>
-//#endif
+#endif
 
 
 #include "gtkadiwinview.h"
@@ -174,15 +174,16 @@ gtk_adi_win_view_iface_init (GtkAdiViewIface *iface)
 GtkWidget* 
 gtk_adi_win_view_new (GtkAdi* adi)
 {	
-	GtkWidget* self = GTK_WIDGET(GET_NEW);
-	GTK_ADI_WIN_VIEW(self)->adi = adi;
+	GtkWidget *self = GTK_WIDGET(GET_NEW);
 	GtkWidget *window = gtk_adi_win_child_new (NULL, 0);
-	
-	GtkWidget * vbox = gtk_vbox_new(0,0);
+	GtkWidget *vbox = gtk_vbox_new(0,0);
+
+	GTK_ADI_WIN_VIEW(self)->adi = adi;
+
 	gtk_widget_set_name(vbox, "GtkVBox(ADI Dynamic)");
 	gtk_container_add (GTK_CONTAINER(vbox), GTK_WIDGET(adi));
 	
-        /* 2. Reparent ADI widgets. */
+	/* Reparent ADI widgets. */
 	gtk_container_add (GTK_CONTAINER(GTK_ADI_WIN_CHILD(window)->container), GTK_WIDGET(vbox));
 
 	return self;
@@ -492,16 +493,16 @@ gtk_adi_win_view_remove_child (GtkAdiView *self,
 void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
                                               GtkAdiChildData *data)
 {
+	GList* list;
+	GtkWidget* window = NULL;
+	GtkWidget* widget = NULL;
+	
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	
 	ADI_TRACE("%s", __FUNCTION__);
 
-	GList* list;
-	GtkWidget* window = NULL;
-	GtkWidget* widget = NULL;
-	
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
@@ -591,13 +592,13 @@ gtk_adi_win_view_can_exit (GtkAdiView *self)
 void 
 gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
+	GList* list;
+	GtkWidget* window = NULL;
+	
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	ADI_TRACE("%s", __FUNCTION__);
 
-	GList* list;
-	GtkWidget* window = NULL;
-	
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
@@ -662,8 +663,9 @@ void
 gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 								       const gchar *title_text)
 {
-	GList* list;
+	GList* list = NULL;
 	GtkWidget *window = NULL;
+	GList* first = NULL;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (self != NULL);
@@ -674,7 +676,7 @@ gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
-	GList* first = list;
+	first = list;
 	while (list)
 	{
 		if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self))
@@ -701,8 +703,9 @@ void
 gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 								       const GdkPixbuf * icon)
 {
-	GList* list;
+	GList* list = NULL;
 	GtkWidget *window = NULL;
+	GList* first = NULL;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (self != NULL);
@@ -713,7 +716,7 @@ gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 	list = gtk_window_list_toplevels ();
 	g_list_foreach(list, (GFunc)g_object_ref, NULL);
 	list = g_list_first(list);
-	GList* first = list;
+	first = list;
 	while (list)
 	{
 		if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self))
@@ -731,7 +734,7 @@ gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 		
 	if (window)
 	{
-		gtk_window_set_icon(GTK_WINDOW(window), icon);
+		gtk_window_set_icon(GTK_WINDOW(window), (GdkPixbuf *) icon);
 	}
 }
 
@@ -762,10 +765,12 @@ gtk_adi_win_view_get_childs_count (GtkAdiView *self)
 	gint count = 0;
 	if (GTK_ADI_WIN_VIEW(self)->cur_widget) {
 		GList* list;
+		GList* first = NULL;
 	
 		list = gtk_window_list_toplevels ();
 		list = g_list_first(list);
-		GList* first = list;
+		first = list;
+
 		while (list) {
 			if (gtk_adi_win_view_is_child_window(GTK_WIDGET(list->data), self)) {
 				count++;
