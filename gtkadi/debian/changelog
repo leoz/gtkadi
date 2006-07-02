@@ -1,3 +1,9 @@
+libgtkadi (0.3.1-1) unstable; urgency=low
+
+  * Has been fixed crash on closing window 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Sun,  2 Jul 2006 13:13:21 +0300
+
 libgtkadi (0.3.0-1) unstable; urgency=low
 
   * Added MSVC support for 'boxview'.
