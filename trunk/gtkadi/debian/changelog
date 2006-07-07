@@ -1,3 +1,11 @@
+libgtkadi (0.4.0-1) unstable; urgency=low
+
+  * Add MSVC support for 'icons'.
+  * Add MSVC support for 'winview'.
+  * Add MSVC support for 'tabview'.
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri,  7 Jul 2006 17:53:26 +0300
+
 libgtkadi (0.3.1-1) unstable; urgency=low
 
   * Has been fixed crash on closing window 
