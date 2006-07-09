@@ -81,10 +81,13 @@ gtk_adi_flex_init (GtkAdiFlex *self)
 GtkObject*
 gtk_adi_flex_new (GtkAdi *adi)
 {
-	g_return_val_if_fail (adi != NULL, (GtkObject * )0);
-	g_return_val_if_fail (GTK_IS_ADI (adi), (GtkObject * )0);
+	GtkObject *object = NULL;
+
+	g_return_val_if_fail (adi != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI (adi), NULL);
 	
-	GtkObject *object = GTK_OBJECT(GET_NEW);
+	object = GTK_OBJECT(GET_NEW);
+
 	GTK_ADI_FLEX(object)->adi = adi;
 	return object;
 }

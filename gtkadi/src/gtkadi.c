@@ -227,10 +227,11 @@ gtk_adi_set_title_func (GtkAdi * self, GtkAdiCreateTitleFunc title_func)
 GtkWidget* 
 gtk_adi_create_toolbar (GtkAdi *self)
 {
+	GtkWidget* toolbar = NULL;
+
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	GtkWidget* toolbar = NULL;
 	if ( self->cmd ) {
 		toolbar = GTK_WIDGET(gtk_adi_cmd_create_toolbar (GTK_ADI_CMD(self->cmd)));
 	}
@@ -240,44 +241,49 @@ gtk_adi_create_toolbar (GtkAdi *self)
 GtkWidget* 
 gtk_adi_create_menu (GtkAdi *self)
 {
+	GtkWidget* menu = NULL;
+
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	GtkWidget* menu = NULL;
 	if ( self->cmd ) {
 		menu = GTK_WIDGET(gtk_adi_cmd_create_menu (GTK_ADI_CMD(self->cmd)));
 	}
 	return menu;
 }
-#endif
+#endif /* WIDGETS_SUPPORT */
 
 GtkWidget*
 gtk_adi_get_toolbar (GtkAdi *self)
 {
+	GtkWidget* toolbar = NULL;
+
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	GtkWidget* toolbar = NULL;
-#ifdef WIDGETS_SUPPORT
+	#ifdef WIDGETS_SUPPORT
 	if ( self->cmd ) {
 		toolbar = GTK_WIDGET(gtk_adi_cmd_get_toolbar (GTK_ADI_CMD(self->cmd)));
 	}
-#endif
+	#endif /* WIDGETS_SUPPORT */
+
 	return toolbar;
 }
 
 GtkWidget*
 gtk_adi_get_menu (GtkAdi *self)
 {
+	GtkWidget* menu = NULL;
+
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	GtkWidget* menu = NULL;
-#ifdef WIDGETS_SUPPORT
+	#ifdef WIDGETS_SUPPORT
 	if ( self->cmd ) {
 		menu = GTK_WIDGET(gtk_adi_cmd_get_menu (GTK_ADI_CMD(self->cmd)));
 	}
-#endif
+	#endif /* WIDGETS_SUPPORT */
+
 	return menu;
 }
 
@@ -305,12 +311,13 @@ gtk_adi_user_add_child (GtkAdi *self)
 void 
 gtk_adi_user_add_child_with_layout (GtkAdi *self, GtkAdiLayout layout)
 {
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (GTK_IS_ADI (self));
-	
 	GtkWidget* widget = NULL;
 	GdkPixbuf* icon = NULL;
 	gchar* title = NULL;
+
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
 	if (self->child_func && self->icon_func && self->title_func ) {
 		widget = self->child_func ();
 		icon = self->icon_func (widget);
@@ -388,6 +395,7 @@ gtk_adi_set_current_widget (GtkAdi *self, GtkWidget *widget)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
+
 	gtk_adi_view_set_current_widget (GTK_ADI_VIEW(self->cur_view), widget);
 }
 
@@ -439,15 +447,17 @@ gtk_adi_change_mode (GtkAdi * self, GtkAdiMode mode)
 void 
 gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 {
+	GtkWidget* old_view = NULL;
+	GtkWidget* current = NULL;
+	GtkAdiChildData data;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	GtkWidget* old_view = NULL;
-	GtkWidget* current = NULL;
-
-#ifdef WIDGETS_SUPPORT	
+	#ifdef WIDGETS_SUPPORT	
 	gtk_adi_cmd_set_view(GTK_ADI_CMD(self->cmd), view);
-#endif	
+	#endif /* WIDGETS_SUPPORT */
+
 	/* 0. Check if the change is needed */
 	if (gtk_adi_get_view(self) == view) {
 		return;
@@ -484,9 +494,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		gtk_widget_unref(self->cur_view);
 	}
 
-	/* 4. Move child windows */
-	GtkAdiChildData data;
-	
+	/* 4. Move child windows */	
 	if (self->cur_view && old_view) {
 		ADI_TRACE_MSG("Entering change view.")
 		

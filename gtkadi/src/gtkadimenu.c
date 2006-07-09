@@ -1,6 +1,6 @@
 /* GTK ADI Library
  * gtkadimenu.c: ADI Menu Widget
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -92,6 +92,8 @@ gtk_adi_menu_class_init (GtkAdiMenuClass * c)
 static void 
 gtk_adi_menu_init (GtkAdiMenu * self)
 {
+	GSList *group_mode = NULL;
+
 	self->cmd = NULL;
 	self->tooltips = NULL;
 	self->item_new = NULL;
@@ -113,8 +115,6 @@ gtk_adi_menu_init (GtkAdiMenu * self)
 	self->item_box = NULL;
 	self->item_fix = NULL;
 	self->sep_mode = NULL;
-
-	GSList *group_mode = NULL;
 
 	self->menu = gtk_menu_new ();
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (self), self->menu);
@@ -191,10 +191,11 @@ gtk_adi_menu_init (GtkAdiMenu * self)
 static void 
 gtk_adi_menu_mode_changed (GtkAdiMenu * self, gpointer user_data)
 {
+	GtkAdiMode mode = GTK_ADI_PANED;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_MENU (self));
 	
-	GtkAdiMode mode = GTK_ADI_PANED;
 	if (self->item_box == GTK_WIDGET(user_data)) {
 		mode = GTK_ADI_BOX;
 	}
@@ -220,10 +221,11 @@ gtk_adi_menu_mode_set (GtkAdiMenu * self, GtkAdiMode mode)
 static void 
 gtk_adi_menu_fix_toggled (GtkAdiMenu * self, gpointer user_data)
 {
+	GtkAdiState state = GTK_ADI_MOVABLE;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_MENU (self));
 	
-	GtkAdiState state = GTK_ADI_MOVABLE;
 	if ( gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (user_data)
 											) ) {
 		state = GTK_ADI_FIXED;
@@ -301,13 +303,17 @@ gtk_adi_menu_post_init (GtkAdiMenu * self)
 					self);
 }
 
-GtkWidget * 
+GtkWidget* 
 gtk_adi_menu_new (GtkObject * cmd)
 {
+	GtkWidget *widget = NULL;
+	GtkWidget *label_widget = NULL;
+
 	g_return_val_if_fail (cmd != NULL, (GtkWidget * )0);
 	
-	GtkWidget *widget = GTK_WIDGET(GET_NEW);
-	GtkWidget *label_widget = gtk_label_new_with_mnemonic (_("_Window"));
+	widget = GTK_WIDGET(GET_NEW);
+	label_widget = gtk_label_new_with_mnemonic (_("_Window"));
+
 	gtk_container_add (GTK_CONTAINER (widget), label_widget);
 	GTK_ADI_MENU(widget)->cmd = cmd;
 	GTK_ADI_MENU(widget)->tooltips = gtk_adi_cmd_get_tooltips (GTK_ADI_CMD(cmd));

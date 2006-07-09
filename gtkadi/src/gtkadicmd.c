@@ -110,10 +110,13 @@ gtk_adi_cmd_init (GtkAdiCmd * self)
 GtkObject * 
 gtk_adi_cmd_new (GtkAdi * adi)
 {
+	GtkObject *object = NULL;
+
 	g_return_val_if_fail (adi != NULL, (GtkObject * )0);
 	g_return_val_if_fail (GTK_IS_ADI (adi), (GtkObject * )0);
 	
-	GtkObject *object = GTK_OBJECT(GET_NEW);
+	object = GTK_OBJECT(GET_NEW);
+
 	GTK_ADI_CMD(object)->adi = adi;
 	return object;
 }
@@ -174,11 +177,15 @@ gtk_adi_cmd_get_menu (GtkAdiCmd *self)
 void 
 gtk_adi_cmd_set_nav_buttons (GtkAdiCmd * self)
 {
+	gboolean next = FALSE;
+	gboolean prev = FALSE;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CMD (self));
 	
-	gboolean next = gtk_adi_can_next_child     (self->adi);
-	gboolean prev = gtk_adi_can_previous_child (self->adi);
+	next = gtk_adi_can_next_child     (self->adi);
+	prev = gtk_adi_can_previous_child (self->adi);
+
 	if ( self->toolbar ) {
 		gtk_adi_toolbar_set_nav_buttons (self->toolbar, next, prev);
 	}
@@ -190,10 +197,13 @@ gtk_adi_cmd_set_nav_buttons (GtkAdiCmd * self)
 void 
 gtk_adi_cmd_set_close_buttons (GtkAdiCmd * self)
 {
+	gboolean enable = FALSE;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CMD (self));
 	
-	gboolean enable = gtk_adi_has_children (self->adi);
+	enable = gtk_adi_has_children (self->adi);
+
 	if ( self->toolbar ) {
 		gtk_adi_toolbar_set_close_buttons (self->toolbar, enable);
 	}
@@ -206,11 +216,15 @@ gtk_adi_cmd_set_close_buttons (GtkAdiCmd * self)
 void 
 gtk_adi_cmd_set_tile_buttons (GtkAdiCmd * self)
 {
+	gboolean tile_h = FALSE;
+	gboolean tile_v = FALSE;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_CMD (self));
 	
-	gboolean tile_h = gtk_adi_can_tile_h (self->adi);
-	gboolean tile_v = gtk_adi_can_tile_v (self->adi);
+	tile_h = gtk_adi_can_tile_h (self->adi);
+	tile_v = gtk_adi_can_tile_v (self->adi);
+
 	if ( self->toolbar ) {
 		gtk_adi_toolbar_set_tile_buttons (self->toolbar, tile_h, tile_v);
 	}

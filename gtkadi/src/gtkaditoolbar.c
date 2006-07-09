@@ -214,11 +214,14 @@ gtk_adi_toolbar_init (GtkAdiToolbar * self)
 static void 
 gtk_adi_toolbar_mode_changed (GtkAdiToolbar * self, gpointer user_data)
 {
+	gint value = 0;
+	GtkAdiMode mode = GTK_ADI_PANED;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
 	
-	gint value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
-	GtkAdiMode mode = GTK_ADI_PANED;
+	value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
+
 	switch ( value ) {
 	case 1:
 		mode = GTK_ADI_BOX;
@@ -233,11 +236,13 @@ gtk_adi_toolbar_mode_changed (GtkAdiToolbar * self, gpointer user_data)
 static void 
 gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data)
 {
+	gint value = 0;
+	GtkAdiViewType view = GTK_ADI_VIEW_BOX;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
 	
-	gint value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
-	GtkAdiViewType view = GTK_ADI_VIEW_BOX;
+	value = gtk_combo_box_get_active ( GTK_COMBO_BOX (user_data) );
 	
 	ADI_TRACE("Toolbar: %s", "view changed");
 	
@@ -257,10 +262,11 @@ gtk_adi_toolbar_view_changed (GtkAdiToolbar * self, gpointer user_data)
 void 
 gtk_adi_toolbar_mode_set (GtkAdiToolbar * self, GtkAdiMode mode)
 {
+	gint num = 0;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
 	
-	gint num = 0;
 	if (mode == GTK_ADI_BOX) {
 		num = 1;
 	}
@@ -270,10 +276,11 @@ gtk_adi_toolbar_mode_set (GtkAdiToolbar * self, GtkAdiMode mode)
 void
 gtk_adi_toolbar_view_set (GtkAdiToolbar *self, GtkAdiViewType view)
 {
+	gint num = 0;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
 	
-	gint num = 0;
 	switch (view) {
 	case GTK_ADI_VIEW_TAB:
 		num = 1;
@@ -290,10 +297,11 @@ gtk_adi_toolbar_view_set (GtkAdiToolbar *self, GtkAdiViewType view)
 static void 
 gtk_adi_toolbar_fix_toggled (GtkAdiToolbar * self, gpointer user_data)
 {
+	GtkAdiState state = GTK_ADI_MOVABLE;
+
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TOOLBAR (self));
 	
-	GtkAdiState state = GTK_ADI_MOVABLE;
 	if ( gtk_toggle_tool_button_get_active ( GTK_TOGGLE_TOOL_BUTTON (user_data)
 											) ) {
 		state = GTK_ADI_FIXED;
@@ -370,9 +378,12 @@ gtk_adi_toolbar_post_init (GtkAdiToolbar * self)
 GtkWidget * 
 gtk_adi_toolbar_new (GtkObject * cmd)
 {
+	GtkWidget *widget = NULL;
+
 	g_return_val_if_fail (cmd != NULL, (GtkWidget * )0);
 	
-	GtkWidget *widget = GTK_WIDGET(GET_NEW);
+	widget = GTK_WIDGET(GET_NEW);
+
 	GTK_ADI_TOOLBAR(widget)->cmd = cmd;
 	GTK_ADI_TOOLBAR(widget)->tooltips = gtk_adi_cmd_get_tooltips (GTK_ADI_CMD(cmd));
 	gtk_adi_toolbar_post_init (GTK_ADI_TOOLBAR(widget));
