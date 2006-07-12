@@ -63,7 +63,7 @@ if test "$hildon_support" != "no"; then
 	],
 	[
     	    hildon_support="no"
-    	    echo 'No HILDON Library!!!!.'
+    	    echo 'No Hildon support.'
 	]
     )
 
@@ -83,6 +83,11 @@ AM_CONDITIONAL(NEWHILDON_SUPPORT, [test "${newhildon_support}" = "yes"])
 
 
 AC_ARG_ENABLE(widgets, [ --enable-widgets=[yes|no] ], [widgets_support=$enableval ])
+
+if test "$hildon_support" == "no"; then
+	widgets_support="yes"
+	echo 'Force additional widgets support on every platform without Hildon.'
+fi
 
 if test "$widgets_support" = "yes"; then
     AC_DEFINE(WIDGETS_SUPPORT, [], [Build with additional widgets Menu,Toolbar])
