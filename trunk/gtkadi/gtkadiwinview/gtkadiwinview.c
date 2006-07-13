@@ -180,7 +180,6 @@ gtk_adi_win_view_new (GtkAdi* adi)
 
 	GTK_ADI_WIN_VIEW(self)->adi = adi;
 
-	gtk_widget_set_name(vbox, "GtkVBox(ADI Dynamic)");
 	gtk_container_add (GTK_CONTAINER(vbox), GTK_WIDGET(adi));
 	
 	/* Reparent ADI widgets. */
@@ -390,12 +389,16 @@ gtk_adi_win_view_add_child_with_layout (GtkAdiView *self,
 	              G_CALLBACK (gtk_adi_win_view_child_event_destroy),
 	              self);
 
-#ifdef NEWHILDON_SUPPORT
+	#ifdef NEWHILDON_SUPPORT
 	HildonProgram * h_programm = hildon_program_new();
 	hildon_program_add_window(h_programm, window);
-#endif
+	#endif /* NEWHILDON_SUPPORT */
+	
+	#ifdef HILDON_SUPPORT
 	gtk_widget_show (window);
-
+	#else
+	gtk_widget_show_all (window);
+	#endif /* HILDON_SUPPORT */
 }
 
 void 
