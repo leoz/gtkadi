@@ -83,7 +83,6 @@ gtk_adi_win_child_new (GtkWidget *widget, GtkAdiLayout layout)
 	GTK_ADI_WIN_CHILD(self)->layout = layout;
 	GTK_ADI_WIN_CHILD(self)->show_close = TRUE;
 	GTK_ADI_WIN_CHILD(self)->container = gtk_vbox_new(FALSE,0);
-	gtk_widget_set_name(GTK_ADI_WIN_CHILD(self)->container, "GtkVBox(ADI Static)");
 	gtk_widget_show(GTK_ADI_WIN_CHILD(self)->container);
 	
 	gtk_container_add(GTK_CONTAINER(self), GTK_ADI_WIN_CHILD(self)->container);
