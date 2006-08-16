@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="windows-1251"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="gtkadi"
 	ProjectGUID="{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}"
 	RootNamespace="gtkadi"
@@ -69,6 +69,7 @@
 				AdditionalDependencies="&quot;gobject-2.0.lib glib-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib intl.lib pango-1.0.lib $(OutDir)\gtkadiview.lib $(OutDir)\gtkaditabview.lib $(OutDir)\gtkadiboxview.lib $(OutDir)\gtkadiwinview.lib"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="false"
+				ModuleDefinitionFile="gtkadi.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -150,6 +151,7 @@
 				AdditionalDependencies="&quot;gobject-2.0.lib glib-2.0.lib gdk_pixbuf-2.0.lib gtk-win32-2.0.lib intl.lib pango-1.0.lib $(OutDir)\gtkadiview.lib $(OutDir)\gtkaditabview.lib $(OutDir)\gtkadiboxview.lib $(OutDir)\gtkadiwinview.lib"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="false"
+				ModuleDefinitionFile="gtkadi.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -254,6 +256,15 @@
 			</File>
 			<File
 				RelativePath="..\include\gtkadiutils.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Export Files"
+			Filter="def"
+			>
+			<File
+				RelativePath=".\gtkadi.def"
 				>
 			</File>
 		</Filter>
