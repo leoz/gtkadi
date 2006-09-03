@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * widgets.c
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -39,9 +39,10 @@ _init_adi (void)
 {
 	if ( !_adi ) {
 		_adi = gtk_adi_new ();
-		gtk_adi_set_child_func (GTK_ADI(_adi), _create_child);
-		gtk_adi_set_icon_func  (GTK_ADI(_adi), _create_icon );
-		gtk_adi_set_title_func (GTK_ADI(_adi), _create_title);
+		gtk_adi_set_child_func (GTK_ADI(_adi), _create_child );
+		gtk_adi_set_win_func   (GTK_ADI(_adi), _create_window);
+		gtk_adi_set_icon_func  (GTK_ADI(_adi), _create_icon  );
+		gtk_adi_set_title_func (GTK_ADI(_adi), _create_title );
 	}
 }
 

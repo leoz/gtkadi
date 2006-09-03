@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * child.h
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -13,6 +13,8 @@
 #include <gtk/gtk.h>
 
 GtkWidget* _create_child (void);
+
+GtkWidget* _create_window (void);
 
 GdkPixbuf* _create_icon (GtkWidget* widget);
 

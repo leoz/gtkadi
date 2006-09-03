@@ -32,5 +32,6 @@ EXPORTS
 	gtk_adi_set_title_func
 	gtk_adi_set_icon_func
 	gtk_adi_set_child_func
+	gtk_adi_set_win_func
 	gtk_adi_new
 	gtk_adi_create_toolbar
