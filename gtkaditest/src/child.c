@@ -1,6 +1,6 @@
 /* GTK ADI Test
  * child.c
- * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+ * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
  *
  * Licensed under the terms of the BSD license, see file COPYING
  * for details.
@@ -63,6 +63,14 @@ _create_child (void)
 	_insert_text (buffer);
 
 	return main_scrolledwindow;
+}
+
+GtkWidget*
+_create_window (void)
+{
+	GtkWidget* window;
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	return window;
 }
 
 GdkPixbuf*

@@ -1,6 +1,6 @@
 ## GTK ADI Library
 ## Process this file with automake to produce Makefile.in
-## Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
+## Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
 ##
 ## This library is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,7 @@ SUBDIRS = \
 	gtkadiview \
 	gtkadiboxview \
 	gtkaditabview \
+	gtkadiconview \
 	gtkadiwinview \
 	src
 

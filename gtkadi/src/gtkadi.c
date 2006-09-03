@@ -34,7 +34,7 @@
 #include "gtkadistock.h"
 #include "gtkadiboxview.h"
 #include "gtkaditabview.h"
-#include "gtkadiwinview.h"
+#include "gtkadiconview.h"
 
 #include <memory.h>
 
@@ -136,12 +136,12 @@ gtk_adi_finalize(GObject *obj_self)
 		self->tab_view = NULL;
 	}
 	
-	if(self->win_view) {
-		ADI_TRACE_FINALIZE("win view");
-		if (GTK_IS_WIDGET(self->win_view)) {
-			gtk_widget_destroy(self->win_view);
+	if(self->con_view) {
+		ADI_TRACE_FINALIZE("con view");
+		if (GTK_IS_WIDGET(self->con_view)) {
+			gtk_widget_destroy(self->con_view);
 		}
-		self->win_view = NULL;
+		self->con_view = NULL;
 	}
 	
 	ADI_TRACE_FINALIZE("end");
@@ -161,7 +161,8 @@ static void
 gtk_adi_init (GtkAdi *self)
 {
 	self->child_func = NULL;
-	self->icon_func = NULL;
+	self->win_func   = NULL;
+	self->icon_func  = NULL;
 	self->title_func = NULL;
 #ifdef WIDGETS_SUPPORT
 	self->cmd = NULL;
@@ -169,7 +170,7 @@ gtk_adi_init (GtkAdi *self)
 	self->flex = NULL;
 	self->box_view = NULL;
 	self->tab_view = NULL;
-	self->win_view = NULL;
+	self->con_view = NULL;
 	self->cur_view = NULL;
 
 	gtk_adi_stock_init ();
@@ -179,25 +180,25 @@ gtk_adi_init (GtkAdi *self)
 	self->flex = gtk_adi_flex_new (self);
 	self->box_view = gtk_adi_box_view_new ();
 	self->tab_view = gtk_adi_tab_view_new ();
-	self->win_view = gtk_adi_win_view_new (self);
+	self->con_view = gtk_adi_con_view_new (self);
 
 	gtk_widget_ref(self->box_view);
 	gtk_widget_ref(self->tab_view);
-	gtk_widget_ref(self->win_view);
+	gtk_widget_ref(self->con_view);
 
 	self->cur_view = self->box_view;
 	gtk_container_add (GTK_CONTAINER (self), self->cur_view);
 	gtk_widget_unref(self->cur_view);
 }
 
-GtkWidget * 
+GtkWidget* 
 gtk_adi_new (void)
 {
 	return GTK_WIDGET(GET_NEW);
 }
 
 void 
-gtk_adi_set_child_func (GtkAdi * self, GtkAdiCreateChildFunc child_func)
+gtk_adi_set_child_func (GtkAdi *self, GtkAdiCreateChildFunc child_func)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -206,7 +207,16 @@ gtk_adi_set_child_func (GtkAdi * self, GtkAdiCreateChildFunc child_func)
 }
 
 void 
-gtk_adi_set_icon_func (GtkAdi * self, GtkAdiCreateIconFunc icon_func)
+gtk_adi_set_win_func (GtkAdi *self, GtkAdiCreateWinFunc win_func)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	self->win_func = win_func;
+}
+
+void 
+gtk_adi_set_icon_func (GtkAdi *self, GtkAdiCreateIconFunc icon_func)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -215,7 +225,7 @@ gtk_adi_set_icon_func (GtkAdi * self, GtkAdiCreateIconFunc icon_func)
 }
 
 void 
-gtk_adi_set_title_func (GtkAdi * self, GtkAdiCreateTitleFunc title_func)
+gtk_adi_set_title_func (GtkAdi *self, GtkAdiCreateTitleFunc title_func)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
@@ -481,7 +491,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		self->cur_view = self->tab_view;
 		break;
 	case GTK_ADI_VIEW_WIN:
-		self->cur_view = self->win_view;
+		self->cur_view = self->con_view;
 		break;
 	default:
 		self->cur_view = NULL;
@@ -541,7 +551,7 @@ gtk_adi_get_view (GtkAdi *self)
 	if (self->cur_view && self->cur_view == self->tab_view) {
 		return GTK_ADI_VIEW_TAB;
 	}
-	if (self->cur_view && self->cur_view == self->win_view) {
+	if (self->cur_view && self->cur_view == self->con_view) {
 		return GTK_ADI_VIEW_WIN;
 	}
 	return GTK_ADI_VIEW_BOX;
@@ -617,7 +627,7 @@ gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 	
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->box_view), layout);
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->tab_view), layout);
-	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->win_view), layout);
+	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->con_view), layout);
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->cur_view), layout);
 }
 

@@ -29,6 +29,7 @@
 G_BEGIN_DECLS
 
 typedef GtkWidget* (*GtkAdiCreateChildFunc) (void);
+typedef GtkWidget* (*GtkAdiCreateWinFunc)   (void);
 typedef GdkPixbuf* (*GtkAdiCreateIconFunc)  (GtkWidget* widget);
 typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 
@@ -58,7 +59,8 @@ struct _GtkAdi {
 	GtkEventBox __parent__;
 	/*< public >*/
 	GtkAdiCreateChildFunc child_func;
-	GtkAdiCreateIconFunc icon_func;
+	GtkAdiCreateWinFunc   win_func;
+	GtkAdiCreateIconFunc  icon_func;
 	GtkAdiCreateTitleFunc title_func;
 #ifdef WIDGETS_SUPPORT
 	GtkObject *cmd;
@@ -66,7 +68,7 @@ struct _GtkAdi {
 	GtkObject *flex;
 	GtkWidget *box_view;
 	GtkWidget *tab_view;
-	GtkWidget *win_view;
+	GtkWidget *con_view;
 	GtkWidget *cur_view;
 };
 
@@ -84,12 +86,14 @@ struct _GtkAdiClass {
  */
 GType	gtk_adi_get_type	(void);
 GtkWidget * 	gtk_adi_new	(void);
-void 	gtk_adi_set_child_func	(GtkAdi * self,
-					GtkAdiCreateChildFunc child_func);
-void 	gtk_adi_set_icon_func	(GtkAdi * self,
-					GtkAdiCreateIconFunc icon_func);
-void 	gtk_adi_set_title_func	(GtkAdi * self,
-					GtkAdiCreateTitleFunc title_func);
+void gtk_adi_set_child_func	(GtkAdi *self,
+							 GtkAdiCreateChildFunc child_func);
+void gtk_adi_set_win_func   (GtkAdi *self,
+							 GtkAdiCreateWinFunc win_func);
+void gtk_adi_set_icon_func	(GtkAdi *self,
+							 GtkAdiCreateIconFunc icon_func);
+void gtk_adi_set_title_func	(GtkAdi *self,
+							 GtkAdiCreateTitleFunc title_func);
 #ifdef WIDGETS_SUPPORT
 GtkWidget* gtk_adi_create_toolbar (GtkAdi *self);
 GtkWidget* gtk_adi_create_menu (GtkAdi *self);
