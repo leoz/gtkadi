@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtkadi", "gtkadi.vcproj", "{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{38FA1A47-D2E1-4E18-B264-9F83AA26CD92} = {38FA1A47-D2E1-4E18-B264-9F83AA26CD92}
+		{40872155-0A12-4FCA-9842-8F05CD1C2ED6} = {40872155-0A12-4FCA-9842-8F05CD1C2ED6}
+		{52769EAB-CD6F-42D3-8D67-906E73992595} = {52769EAB-CD6F-42D3-8D67-906E73992595}
+		{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1} = {78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtkadiview", "..\gtkadiview\win32\gtkadiview.vcproj", "{38FA1A47-D2E1-4E18-B264-9F83AA26CD92}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtkadiboxview", "..\gtkadiboxview\win32\gtkadiboxview.vcproj", "{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtkaditabview", "..\gtkaditabview\win32\gtkaditabview.vcproj", "{40872155-0A12-4FCA-9842-8F05CD1C2ED6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtkadiwinview", "..\gtkadiwinview\win32\gtkadiwinview.vcproj", "{52769EAB-CD6F-42D3-8D67-906E73992595}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}.Debug|Win32.Build.0 = Debug|Win32
+		{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}.Release|Win32.ActiveCfg = Release|Win32
+		{2121F1EE-52DB-43D1-9C35-7FEEDCBB3DCB}.Release|Win32.Build.0 = Release|Win32
+		{38FA1A47-D2E1-4E18-B264-9F83AA26CD92}.Debug|Win32.ActiveCfg = Debug|Win32
+		{38FA1A47-D2E1-4E18-B264-9F83AA26CD92}.Debug|Win32.Build.0 = Debug|Win32
+		{38FA1A47-D2E1-4E18-B264-9F83AA26CD92}.Release|Win32.ActiveCfg = Release|Win32
+		{38FA1A47-D2E1-4E18-B264-9F83AA26CD92}.Release|Win32.Build.0 = Release|Win32
+		{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}.Debug|Win32.Build.0 = Debug|Win32
+		{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}.Release|Win32.ActiveCfg = Release|Win32
+		{78DED9D1-AD6E-4E5A-A6A6-7CBFA9D1B6B1}.Release|Win32.Build.0 = Release|Win32
+		{40872155-0A12-4FCA-9842-8F05CD1C2ED6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{40872155-0A12-4FCA-9842-8F05CD1C2ED6}.Debug|Win32.Build.0 = Debug|Win32
+		{40872155-0A12-4FCA-9842-8F05CD1C2ED6}.Release|Win32.ActiveCfg = Release|Win32
+		{40872155-0A12-4FCA-9842-8F05CD1C2ED6}.Release|Win32.Build.0 = Release|Win32
+		{52769EAB-CD6F-42D3-8D67-906E73992595}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52769EAB-CD6F-42D3-8D67-906E73992595}.Debug|Win32.Build.0 = Debug|Win32
+		{52769EAB-CD6F-42D3-8D67-906E73992595}.Release|Win32.ActiveCfg = Release|Win32
+		{52769EAB-CD6F-42D3-8D67-906E73992595}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
