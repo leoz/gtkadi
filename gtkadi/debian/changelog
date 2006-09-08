@@ -1,3 +1,9 @@
+libgtkadi (0.5.2-1) unstable; urgency=low
+
+  * Add container view. 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri,  8 Sep 2006 19:12:32 +0300
+
 libgtkadi (0.5.1-1) unstable; urgency=low
 
   * Add exports file. Add MSVC support to gtkaditest. 
