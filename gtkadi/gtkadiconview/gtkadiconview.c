@@ -50,7 +50,13 @@ static void gtk_adi_con_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
 static void gtk_adi_con_view_get_child_data (GtkAdiChildData *data,
                                              GtkAdiContainer *c);
+static GtkAdiContainer* gtk_adi_con_view_find_child (GtkAdiView *self,
+                                                     GtkWidget *widget);
 
+static gint gtk_adi_con_view_find_widget (gconstpointer a, gconstpointer b);
+static gint gtk_adi_con_view_find_container (gconstpointer a, gconstpointer b);
+static gint gtk_adi_con_view_find_window (gconstpointer a, gconstpointer b);
+static void gtk_adi_con_view_set_current_container (GtkAdiView *self, GtkAdiContainer* c);
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
 
@@ -212,7 +218,19 @@ gtk_adi_con_view_child_event_focus_in (GtkWidget *window,
                                        GdkEventFocus *event,
                                        GtkAdiView *self)
 {
-	/*TBD*/
+	GList* last = NULL;
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+		
+	last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+							   window,
+							   gtk_adi_con_view_find_window);
+
+	if (last) {
+		GTK_ADI_CON_VIEW(self)->current = (GtkAdiContainer*) last->data;
+	}
+
 	return FALSE;
 }
 
@@ -221,7 +239,20 @@ gtk_adi_con_view_child_event_delete (GtkWidget *window,
                                      GdkEvent *event,
                                      GtkAdiView *self)
 {
-	/*TBD*/
+	GList* last = NULL;
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+		
+	last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+							   window,
+							   gtk_adi_con_view_find_window);
+
+	if (last && last->data) {
+		/* Not optimized! */
+		gtk_adi_con_view_remove_child(self, ((GtkAdiContainer*)last->data)->container, TRUE);
+	}
+
 	return FALSE;
 }
 
@@ -229,7 +260,8 @@ static void
 gtk_adi_con_view_child_event_destroy (GtkWidget *widget, GtkAdiView *self)
 {
 	if (gtk_adi_con_view_can_exit (self)) {
-		gtk_main_quit ();
+		/* To be fixed ... */
+//		gtk_main_quit ();
 	}
 }
 
@@ -262,6 +294,15 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 			}
 			else {
 				GtkWidget *old_window = gtk_widget_get_toplevel (GTK_WIDGET(self));
+				g_signal_connect (c->window, "focus_in_event",
+							  G_CALLBACK (gtk_adi_con_view_child_event_focus_in),
+							  self);
+				g_signal_connect (c->window, "delete_event",
+							  G_CALLBACK (gtk_adi_con_view_child_event_delete),
+							  self);
+				g_signal_connect (c->window, "destroy",
+							  G_CALLBACK (gtk_adi_con_view_child_event_destroy),
+							  self);
 				if (old_window) {
 					/* 3. Get window size. */
 					gint width = 0;
@@ -300,7 +341,8 @@ gtk_adi_con_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 void 
 gtk_adi_con_view_set_current_widget (GtkAdiView *self, GtkWidget *widget)
 {
-	/*!!! TBD*/
+	gtk_adi_con_view_set_current_container (self,
+		                                    gtk_adi_con_view_find_child(self, widget));
 }
 
 void 
@@ -308,7 +350,49 @@ gtk_adi_con_view_remove_child (GtkAdiView *self,
 	                           GtkWidget *child,
 	                           gboolean destroy)
 {
-	/*!!! TBD*/
+	GtkAdiContainer* c = NULL;
+
+	GList* last = NULL;
+	
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	g_return_if_fail (child != NULL);
+	
+	last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+							   child,
+							   gtk_adi_con_view_find_container);
+
+	if (last) {
+		c = (GtkAdiContainer*) last->data;
+	}
+	
+	if(!destroy) {
+		// TBD gtk_adi_child_remove_widget(GTK_ADI_CHILD(child));
+	}
+	
+	GTK_ADI_CON_VIEW(self)->containers = g_list_remove (GTK_ADI_CON_VIEW(self)->containers,
+													    c);
+	if ( c == GTK_ADI_CON_VIEW(self)->current ) {
+		last = g_list_last (GTK_ADI_CON_VIEW(self)->containers);
+		if ( last != NULL ) {
+			gtk_adi_con_view_set_current_container (self, (GtkAdiContainer*) last->data);
+		}
+		else {
+			gtk_adi_con_view_set_current_container (self, NULL);
+		}
+	}
+	/* Close window and free data. */
+	if (c) {
+		if(!destroy) {
+			gtk_container_remove ( GTK_CONTAINER(((GtkAdiContainer*) c)->window), ((GtkAdiContainer*) c)->widget );
+		}
+		gtk_widget_destroy ( ((GtkAdiContainer*) c)->window);
+		g_free (c);
+		c = NULL;
+	}
+	if ( GTK_ADI_CON_VIEW(self)->containers == NULL ) {
+		GTK_ADI_CON_VIEW(self)->current = NULL;
+	}
 }
 
 void gtk_adi_con_view_get_current_child_data (GtkAdiView *self,
@@ -339,15 +423,29 @@ void gtk_adi_con_view_get_first_child_data (GtkAdiView *self,
 gboolean 
 gtk_adi_con_view_can_previous_child (GtkAdiView * self)
 {
-	/*TBD*/
-	return FALSE;
+	GList *cur = NULL;
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+	
+	cur = g_list_find (GTK_ADI_CON_VIEW(self)->containers,
+					   GTK_ADI_CON_VIEW(self)->current);
+
+	return ( g_list_previous (cur) != NULL );
 }
 
 gboolean 
 gtk_adi_con_view_can_next_child (GtkAdiView * self)
 {
-	/*TBD*/
-	return FALSE;
+	GList *cur = NULL;
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
+	
+	cur = g_list_find (GTK_ADI_CON_VIEW(self)->containers,
+					   GTK_ADI_CON_VIEW(self)->current);
+
+	return ( g_list_next (cur) != NULL );
 }
 
 gboolean 
@@ -369,7 +467,8 @@ gtk_adi_con_view_has_children (GtkAdiView *self)
 {
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
-	return (gtk_adi_con_view_get_childs_count(self) > 0);
+	
+	return ( GTK_ADI_CON_VIEW(self)->current != NULL );
 }
 
 gboolean 
@@ -381,25 +480,63 @@ gtk_adi_con_view_can_exit (GtkAdiView *self)
 void 
 gtk_adi_con_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	if ( GTK_ADI_CON_VIEW(self)->current != NULL ) {
+		
+		gtk_adi_view_remove_child (self,
+								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current,
+		                           destroy);
+	}
 }
 
 void 
 gtk_adi_con_view_remove_all_children (GtkAdiView *self)
 {
-	/*TBD*/
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+
+	while ( GTK_ADI_CON_VIEW(self)->current != NULL ) {
+		gtk_adi_view_remove_child (self,
+								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current, TRUE);
+	}
 }
 
 void 
 gtk_adi_con_view_set_previous_child (GtkAdiView * self)
 {
-	/*TBD*/
+	GList* cur  = NULL;
+	GList* list = NULL;
+
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	cur  = g_list_find (GTK_ADI_CON_VIEW(self)->containers,
+						GTK_ADI_CON_VIEW(self)->current);
+	list = g_list_previous (cur);
+
+	if (list != NULL) {
+		gtk_adi_con_view_set_current_container (self, (GtkAdiContainer*) list->data);
+	}
 }
 
 void 
 gtk_adi_con_view_set_next_child (GtkAdiView * self)
 {
-	/*TBD*/
+	GList* cur  = NULL;
+	GList* list = NULL;
+
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	cur  = g_list_find (GTK_ADI_CON_VIEW(self)->containers,
+						GTK_ADI_CON_VIEW(self)->current);
+	list = g_list_next (cur);
+
+	if (list != NULL) {
+		gtk_adi_con_view_set_current_container (self, (GtkAdiContainer*) list->data);
+	}
 }
 
 void 
@@ -424,14 +561,20 @@ void
 gtk_adi_con_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 								       const gchar *title_text)
 {
-	/*TBD*/
+	GtkAdiContainer* child = gtk_adi_con_view_find_child(self, widget);
+	if (child && child->window) {
+		gtk_window_set_title(GTK_WINDOW(child->window), title_text);
+	}
 }
 
 void
 gtk_adi_con_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 								       const GdkPixbuf * icon)
 {
-	/*TBD*/
+	GtkAdiContainer* child = gtk_adi_con_view_find_child(self, widget);
+	if (child && child->window) {
+		gtk_window_set_icon(GTK_WINDOW(child->window), (GdkPixbuf *) icon);
+	}
 }
 
 void
@@ -474,7 +617,76 @@ gtk_adi_con_view_get_child_data (GtkAdiChildData *data,
 gint
 gtk_adi_con_view_get_childs_count (GtkAdiView *self)
 {
-	gint count = 0;
-	/*TBD*/
-	return count;
+    g_return_val_if_fail (self != NULL, 0);
+    g_return_val_if_fail (GTK_IS_ADI_VIEW (self), 0);
+    
+    return g_list_length(GTK_ADI_CON_VIEW(self)->containers);
+}
+
+static GtkAdiContainer*
+gtk_adi_con_view_find_child (GtkAdiView *self, GtkWidget *widget)
+{
+	GtkAdiContainer* child = NULL;
+	
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ADI_CON_VIEW (self), NULL);
+	
+	if (widget) {
+		if (GTK_ADI_CON_VIEW(self)->current &&
+			(GTK_ADI_CON_VIEW(self)->current)->widget == widget)
+			{
+				child = GTK_ADI_CON_VIEW(self)->current;
+			}
+			else
+			{
+				GList* list = NULL;
+				list = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+				                           widget,
+										   gtk_adi_con_view_find_widget);
+				if (list != NULL) {
+					child = (GtkAdiContainer*) (list->data);
+				}
+			}
+	}
+	
+	return child;
+}
+
+static gint 
+gtk_adi_con_view_find_widget (gconstpointer a, gconstpointer b)
+{
+	if (a && b && ((GtkAdiContainer*)(a))->widget == GTK_WIDGET(b)) {
+		return 0;
+	}
+	return 1;
+}
+
+static gint 
+gtk_adi_con_view_find_container (gconstpointer a, gconstpointer b)
+{
+	if (a && b && ((GtkAdiContainer*)(a))->container == GTK_WIDGET(b)) {
+		return 0;
+	}
+	return 1;
+}
+
+static gint 
+gtk_adi_con_view_find_window (gconstpointer a, gconstpointer b)
+{
+	if (a && b && ((GtkAdiContainer*)(a))->window == GTK_WIDGET(b)) {
+		return 0;
+	}
+	return 1;
+}
+
+static void 
+gtk_adi_con_view_set_current_container (GtkAdiView *self, GtkAdiContainer* c)
+{
+	g_return_if_fail (self != NULL);
+
+	GTK_ADI_CON_VIEW(self)->current = c;
+	
+	if (c && c->window) {
+		gtk_window_present(GTK_WINDOW(c->window));
+	}
 }
