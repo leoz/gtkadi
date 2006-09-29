@@ -26,6 +26,7 @@ libgtkadi_la_CPPFLAGS = \
 	-I$(top_srcdir)/gtkadiview \
 	-I$(top_srcdir)/gtkadiboxview \
 	-I$(top_srcdir)/gtkaditabview \
+	-I$(top_srcdir)/gtkadiconview \
 	-I$(top_srcdir)/gtkadiwinview \
 	$(GTK_CFLAGS) \
 	$(HILDON_CFLAGS)

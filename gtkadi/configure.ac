@@ -133,6 +133,7 @@ icons/Makefile
 gtkadiview/Makefile
 gtkadiboxview/Makefile
 gtkaditabview/Makefile
+gtkadiconview/Makefile
 gtkadiwinview/Makefile
 src/Makefile
 ])
