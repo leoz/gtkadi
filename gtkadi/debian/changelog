@@ -1,3 +1,9 @@
+libgtkadi (0.5.3-1) unstable; urgency=low
+
+  * Update container view creation methods. 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 29 Sep 2006 18:43:38 +0300
+
 libgtkadi (0.5.2-1) unstable; urgency=low
 
   * Add container view. 
