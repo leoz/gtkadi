@@ -294,6 +294,7 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 			}
 			else {
 				GtkWidget *old_window = gtk_widget_get_toplevel (GTK_WIDGET(self));
+				/*
 				g_signal_connect (c->window, "focus_in_event",
 							  G_CALLBACK (gtk_adi_con_view_child_event_focus_in),
 							  self);
@@ -303,6 +304,7 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 				g_signal_connect (c->window, "destroy",
 							  G_CALLBACK (gtk_adi_con_view_child_event_destroy),
 							  self);
+							  */
 				if (old_window) {
 					/* 3. Get window size. */
 					gint width = 0;
@@ -486,7 +488,7 @@ gtk_adi_con_view_remove_current_child (GtkAdiView *self, gboolean destroy)
 	if ( GTK_ADI_CON_VIEW(self)->current != NULL ) {
 		
 		gtk_adi_view_remove_child (self,
-								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current,
+								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current->container,
 		                           destroy);
 	}
 }
@@ -499,7 +501,7 @@ gtk_adi_con_view_remove_all_children (GtkAdiView *self)
 
 	while ( GTK_ADI_CON_VIEW(self)->current != NULL ) {
 		gtk_adi_view_remove_child (self,
-								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current, TRUE);
+								   (GtkWidget*) GTK_ADI_CON_VIEW(self)->current->container, TRUE);
 	}
 }
 
