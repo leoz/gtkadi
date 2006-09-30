@@ -1002,14 +1002,6 @@ gtk_adi_box_view_remove_child_notify (GtkAdiView *self,
 {
 	g_signal_emit(self, gtk_adi_box_view_signals[ADI_CLOSE_CHILD], 0,
 	              GTK_ADI_CHILD(child)->widget);
-	
-	#ifdef HILDON_SUPPORT
-//	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
-//	                                             GTK_TYPE_WINDOW);
-//	if (window && GTK_IS_WINDOW(window)) {
-//		hildon_app_unregister_view(HILDON_APP(window), child);
-//	}
-	#endif /* HILDON_SUPPORT*/
 }
 
 gint

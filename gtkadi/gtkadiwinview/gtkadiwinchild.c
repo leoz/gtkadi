@@ -62,29 +62,23 @@ gtk_adi_win_child_get_type (void)
 static void 
 gtk_adi_win_child_class_init (GtkAdiWinChildClass *c)
 {
+#ifdef NEWHILDON_SUPPORT
+	parent_class = g_type_class_ref (HILDON_TYPE_WINDOW);
+#else
 	parent_class = g_type_class_ref (GTK_TYPE_WINDOW);
+#endif
 }
 
 static void 
 gtk_adi_win_child_init (GtkAdiWinChild *self)
-{
-	GTK_WINDOW(self)->type = GTK_WINDOW_TOPLEVEL;
-	GTK_ADI_WIN_CHILD(self)->widget = NULL;
-}
+{}
 
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
 GtkWidget* 
-gtk_adi_win_child_new (GtkWidget *widget, GtkAdiLayout layout)
+gtk_adi_win_child_new (void)
 {
 	GtkWidget *self = GTK_WIDGET(GET_NEW);
-	GTK_ADI_WIN_CHILD(self)->widget = widget;
-	GTK_ADI_WIN_CHILD(self)->layout = layout;
-	GTK_ADI_WIN_CHILD(self)->show_close = TRUE;
-	GTK_ADI_WIN_CHILD(self)->container = gtk_vbox_new(FALSE,0);
-	gtk_widget_show(GTK_ADI_WIN_CHILD(self)->container);
-	
-	gtk_container_add(GTK_CONTAINER(self), GTK_ADI_WIN_CHILD(self)->container);
 	return self;
 }

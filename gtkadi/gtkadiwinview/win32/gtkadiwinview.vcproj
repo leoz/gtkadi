@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="windows-1251"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="gtkadiwinview"
 	ProjectGUID="{52769EAB-CD6F-42D3-8D67-906E73992595}"
 	RootNamespace="gtkadiwinview"
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\include&quot;;&quot;$(ProjectDir)\..\..\gtkadiview&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\include&quot;;&quot;$(ProjectDir)\..\..\gtkadiview&quot;;&quot;$(ProjectDir)\..\..\gtkadiconview&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -103,7 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\include&quot;;&quot;$(ProjectDir)\..\..\gtkadiview&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\include&quot;;&quot;$(ProjectDir)\..\..\gtkadiview&quot;;&quot;$(ProjectDir)\..\..\gtkadiconview&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

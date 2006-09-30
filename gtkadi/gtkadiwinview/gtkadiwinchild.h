@@ -62,11 +62,6 @@ struct _GtkAdiWinChild {
 #else
 	GtkWindow __parent__;
 #endif
-	/*< public >*/
-	GtkWidget *widget;
-	GtkAdiLayout layout;
-	gboolean show_close;
-	GtkWidget * container;
 };
 
 /*
@@ -86,7 +81,7 @@ struct _GtkAdiWinChildClass {
  * Public methods
  */
 GType gtk_adi_win_child_get_type (void);
-GtkWidget* gtk_adi_win_child_new (GtkWidget *widget, GtkAdiLayout layout);
+GtkWidget* gtk_adi_win_child_new (void);
 
 G_END_DECLS
 

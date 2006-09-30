@@ -496,13 +496,6 @@ gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
     	g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, child);
-	#ifdef HILDON_SUPPORT
-//	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET(self),
-//	                                             GTK_TYPE_WINDOW);
-//	if (window && GTK_IS_WINDOW(window)) {
-//		hildon_app_unregister_view(HILDON_APP(window), child);
-//	}
-	#endif /* HILDON_SUPPORT */
 }
 
 gint

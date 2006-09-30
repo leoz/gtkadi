@@ -68,7 +68,7 @@ struct _GtkAdi {
 	GtkObject *flex;
 	GtkWidget *box_view;
 	GtkWidget *tab_view;
-	GtkWidget *con_view;
+	GtkWidget *win_view;
 	GtkWidget *cur_view;
 };
 
