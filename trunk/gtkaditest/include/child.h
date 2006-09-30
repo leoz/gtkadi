@@ -14,7 +14,9 @@
 
 GtkWidget* _create_child (void);
 
+/* Try your own child window.
 GtkWidget* _create_window (void);
+*/
 
 GdkPixbuf* _create_icon (GtkWidget* widget);
 

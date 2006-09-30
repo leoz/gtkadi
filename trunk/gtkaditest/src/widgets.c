@@ -40,7 +40,9 @@ _init_adi (void)
 	if ( !_adi ) {
 		_adi = gtk_adi_new ();
 		gtk_adi_set_child_func (GTK_ADI(_adi), _create_child );
+		/* Try your own child window.
 		gtk_adi_set_win_func   (GTK_ADI(_adi), _create_window);
+		*/
 		gtk_adi_set_icon_func  (GTK_ADI(_adi), _create_icon  );
 		gtk_adi_set_title_func (GTK_ADI(_adi), _create_title );
 	}

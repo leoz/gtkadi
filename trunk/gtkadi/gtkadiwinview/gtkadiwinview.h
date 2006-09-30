@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 #include "gtkadi.h"
-#include "gtkadiview.h"
+#include "gtkadiconview.h"
 
 #ifndef __GTK_ADI_WIN_VIEW_H__
 #define __GTK_ADI_WIN_VIEW_H__
@@ -48,14 +48,7 @@ G_BEGIN_DECLS
 typedef struct _GtkAdiWinView GtkAdiWinView;
 #endif
 struct _GtkAdiWinView {
-	GtkEventBox __parent__;
-	/*< public >*/
-	GtkWidget *cur_widget;
-	GtkWidget *orig_window;
-	GtkWidget *orig_widget;
-	GtkAdi *adi;
-	GtkAdiLayout layout;
-	gboolean show_close;
+	GtkAdiConView __parent__;
 };
 
 /*
@@ -63,65 +56,14 @@ struct _GtkAdiWinView {
  */
 typedef struct _GtkAdiWinViewClass GtkAdiWinViewClass;
 struct _GtkAdiWinViewClass {
-	GtkEventBoxClass __parent__;
-	void (* close_child) (GtkAdiWinView * view);
-	void (* focus_child) (GtkAdiWinView * view);
+	GtkAdiConViewClass __parent__;
 };
-
 
 /*
  * Public methods
  */
 GType gtk_adi_win_view_get_type (void);
 GtkWidget* gtk_adi_win_view_new	(GtkAdi* adi);
-GtkAdiLayout gtk_adi_win_view_get_layout	(GtkAdiView * self);
-void gtk_adi_win_view_set_layout (GtkAdiView *self, GtkAdiLayout layout);
-void gtk_adi_win_view_add_child_with_data (GtkAdiView *self,
-                                           GtkAdiChildData *data);
-void 	gtk_adi_win_view_add_child_with_layout	(GtkAdiView * self,
-					GtkWidget * widget,
-					GdkPixbuf * icon,
-					const gchar * title,
-					GtkAdiLayout layout);
-void gtk_adi_win_view_set_current_child (GtkAdiView *self,
-                                         GtkWidget *child);
-void gtk_adi_win_view_set_current_widget (GtkAdiView *self,
-                                          GtkWidget *widget);
-void gtk_adi_win_view_remove_child (GtkAdiView *self,
-                                    GtkWidget *child,
-                                    gboolean destroy);
-void gtk_adi_win_view_get_current_child_data (GtkAdiView *self,
-                                              GtkAdiChildData *data);
-void gtk_adi_win_view_get_first_child_data (GtkAdiView *self,
-                                            GtkAdiChildData *data);
-gboolean gtk_adi_win_view_can_previous_child (GtkAdiView *self);
-gboolean gtk_adi_win_view_can_next_child (GtkAdiView *self);
-gboolean gtk_adi_win_view_can_tile_h (GtkAdiView *self);
-gboolean gtk_adi_win_view_can_tile_v (GtkAdiView *self);
-gboolean gtk_adi_win_view_has_children (GtkAdiView *self);
-gboolean gtk_adi_win_view_can_exit (GtkAdiView *self);
-
-void gtk_adi_win_view_remove_current_child (GtkAdiView *self, gboolean destroy);
-void 	gtk_adi_win_view_remove_all_children	(GtkAdiView * self);
-void 	gtk_adi_win_view_set_previous_child	(GtkAdiView * self);
-void gtk_adi_win_view_set_next_child	(GtkAdiView * self);
-void gtk_adi_win_view_change_mode	(GtkAdiView * self,
-					GtkAdiMode mode);
-void gtk_adi_win_view_change_state	(GtkAdiView * self,
-					GtkAdiState state);
-void gtk_adi_win_view_change_color	(GtkAdiView * self,
-					GtkAdiColorType color);
-void gtk_adi_win_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
-								            const gchar *title_text);
-void gtk_adi_win_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
-                                                                            const GdkPixbuf * icon);
-
-
-void gtk_adi_win_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
-
-void gtk_adi_win_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
-
-gint gtk_adi_win_view_get_childs_count (GtkAdiView *self);
 
 G_END_DECLS
 

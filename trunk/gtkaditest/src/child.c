@@ -65,6 +65,7 @@ _create_child (void)
 	return main_scrolledwindow;
 }
 
+/* Try your own child window.
 GtkWidget*
 _create_window (void)
 {
@@ -72,6 +73,7 @@ _create_window (void)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	return window;
 }
+*/
 
 GdkPixbuf*
 _create_icon (GtkWidget* widget)
