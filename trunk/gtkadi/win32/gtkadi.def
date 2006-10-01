@@ -35,3 +35,4 @@ EXPORTS
 	gtk_adi_set_win_func
 	gtk_adi_new
 	gtk_adi_create_toolbar
+	gtk_adi_user_add_child

@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\gtkadiview&quot;;&quot;$(ProjectDir)\..\gtkaditabview&quot;;&quot;$(ProjectDir)\..\gtkadiboxview&quot;;&quot;$(ProjectDir)\..\gtkadiconview&quot;;&quot;$(ProjectDir)\..\gtkadiwinview&quot;;&quot;$(ProjectDir)\..&quot;"
-				PreprocessorDefinitions="GTK_ADI_MAJOR_VERSION=0;GTK_ADI_MINOR_VERSION=4;GTK_ADI_MICRO_VERSION=0;WIDGETS_SUPPORT=TRUE"
+				PreprocessorDefinitions="GTK_ADI_MAJOR_VERSION=0;GTK_ADI_MINOR_VERSION=4;GTK_ADI_MICRO_VERSION=0"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -131,7 +131,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\gtkadiview&quot;;&quot;$(ProjectDir)\..\gtkaditabview&quot;;&quot;$(ProjectDir)\..\gtkadiboxview&quot;;&quot;$(ProjectDir)\..\gtkadiconview&quot;;&quot;$(ProjectDir)\..\gtkadiwinview&quot;;&quot;$(ProjectDir)\..&quot;"
-				PreprocessorDefinitions="GTK_ADI_MAJOR_VERSION=0;GTK_ADI_MINOR_VERSION=4;GTK_ADI_MICRO_VERSION=0;WIDGETS_SUPPORT=TRUE"
+				PreprocessorDefinitions="GTK_ADI_MAJOR_VERSION=0;GTK_ADI_MINOR_VERSION=4;GTK_ADI_MICRO_VERSION=0"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
