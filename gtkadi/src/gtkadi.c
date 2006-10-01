@@ -27,7 +27,7 @@
 /* #define ADI_DO_TRACE */
 #include "gtkadi.h"
 #include "gtkadiutils.h"
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 #include "gtkadicmd.h"
 #endif
 #include "gtkadiflex.h"
@@ -104,7 +104,7 @@ gtk_adi_finalize(GObject *obj_self)
 		}
 		self->cur_view = NULL;
 	}
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 	if(self->cmd) {
 		ADI_TRACE_FINALIZE("cmd");
 		if (GTK_IS_WIDGET(self->cmd)) {
@@ -164,7 +164,7 @@ gtk_adi_init (GtkAdi *self)
 	self->win_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 	self->cmd = NULL;
 #endif
 	self->flex = NULL;
@@ -174,7 +174,7 @@ gtk_adi_init (GtkAdi *self)
 	self->cur_view = NULL;
 
 	gtk_adi_stock_init ();
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 	self->cmd = gtk_adi_cmd_new (self);
 #endif
 	self->flex = gtk_adi_flex_new (self);
@@ -233,7 +233,7 @@ gtk_adi_set_title_func (GtkAdi *self, GtkAdiCreateTitleFunc title_func)
 	self->title_func = title_func;
 }
 
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 GtkWidget* 
 gtk_adi_create_toolbar (GtkAdi *self)
 {
@@ -261,7 +261,7 @@ gtk_adi_create_menu (GtkAdi *self)
 	}
 	return menu;
 }
-#endif /* WIDGETS_SUPPORT */
+#endif
 
 GtkWidget*
 gtk_adi_get_toolbar (GtkAdi *self)
@@ -271,11 +271,11 @@ gtk_adi_get_toolbar (GtkAdi *self)
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	#ifdef WIDGETS_SUPPORT
+	#ifndef NO_WIDGETS
 	if ( self->cmd ) {
 		toolbar = GTK_WIDGET(gtk_adi_cmd_get_toolbar (GTK_ADI_CMD(self->cmd)));
 	}
-	#endif /* WIDGETS_SUPPORT */
+	#endif
 
 	return toolbar;
 }
@@ -288,11 +288,11 @@ gtk_adi_get_menu (GtkAdi *self)
 	g_return_val_if_fail (self != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_ADI (self), NULL);
 	
-	#ifdef WIDGETS_SUPPORT
+	#ifndef NO_WIDGETS
 	if ( self->cmd ) {
 		menu = GTK_WIDGET(gtk_adi_cmd_get_menu (GTK_ADI_CMD(self->cmd)));
 	}
-	#endif /* WIDGETS_SUPPORT */
+	#endif
 
 	return menu;
 }
@@ -464,9 +464,9 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	#ifdef WIDGETS_SUPPORT	
+	#ifndef NO_WIDGETS
 	gtk_adi_cmd_set_view(GTK_ADI_CMD(self->cmd), view);
-	#endif /* WIDGETS_SUPPORT */
+	#endif
 
 	/* 0. Check if the change is needed */
 	if (gtk_adi_get_view(self) == view) {

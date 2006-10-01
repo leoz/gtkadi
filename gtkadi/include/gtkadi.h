@@ -62,7 +62,7 @@ struct _GtkAdi {
 	GtkAdiCreateWinFunc   win_func;
 	GtkAdiCreateIconFunc  icon_func;
 	GtkAdiCreateTitleFunc title_func;
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 	GtkObject *cmd;
 #endif
 	GtkObject *flex;
@@ -94,7 +94,7 @@ void gtk_adi_set_icon_func	(GtkAdi *self,
 							 GtkAdiCreateIconFunc icon_func);
 void gtk_adi_set_title_func	(GtkAdi *self,
 							 GtkAdiCreateTitleFunc title_func);
-#ifdef WIDGETS_SUPPORT
+#ifndef NO_WIDGETS
 GtkWidget* gtk_adi_create_toolbar (GtkAdi *self);
 GtkWidget* gtk_adi_create_menu (GtkAdi *self);
 #endif
