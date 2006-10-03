@@ -175,6 +175,8 @@ gtk_adi_con_view_iface_init (GtkAdiViewIface *iface)
 	iface->set_child_close_button = gtk_adi_con_view_set_child_close_button;
 	iface->set_child_tab = gtk_adi_con_view_set_child_tab;
 	iface->get_childs_count = gtk_adi_con_view_get_childs_count;
+	iface->add = gtk_adi_con_view_add;
+	iface->remove = gtk_adi_con_view_remove;
 }
 
 /* a macro for creating a new object of our type */
@@ -687,5 +689,21 @@ gtk_adi_con_view_set_current_container (GtkAdiView *self, GtkAdiContainer* c)
 	
 	if (c && c->window) {
 		gtk_window_present(GTK_WINDOW(c->window));
+	}
+}
+
+GtkWidget*
+gtk_adi_con_view_add (GtkAdiView *self)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI_VIEW (self));
+	
+	return GTK_ADI(GTK_ADI_CON_VIEW(self)->adi)->win_func ();
+}
+
+void gtk_adi_con_view_remove (GtkAdiView *self, GtkWidget* container)
+{
+	if (container) {
+		gtk_widget_destroy (container);
 	}
 }
