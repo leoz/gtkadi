@@ -24,6 +24,10 @@
 
 /***************************************************************************/
 
+static GtkWidget* _create_main_adi (void);
+
+/***************************************************************************/
+
 static void destroy_main_window (GtkWidget *widget, gpointer data)
 {
     if (gtk_adi_can_exit (GTK_ADI(data))) {
@@ -45,6 +49,10 @@ GtkWidget* create_main_window (void)
 	GtkWidget *main_adi;
 	static const gchar* style = "style \"scrolled\" {GtkScrolledWindow::scrollbar-spacing = 0} class \"GtkScrolledWindow\" style \"scrolled\"";
 	gtk_rc_parse_string (style);
+
+	main_adi = _create_main_adi ();
+	
+	return NULL;
 
 	#ifdef HILDON_SUPPORT
 	app = hildon_app_new ();
@@ -83,8 +91,6 @@ GtkWidget* create_main_window (void)
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_DEFAULT);
 
-	main_adi = create_adi ();
-	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_WIN);
 	gtk_widget_show (main_adi);
 	gtk_box_pack_start (GTK_BOX (main_vbox), main_adi, TRUE, TRUE, 0);
 	gtk_widget_set_size_request (main_adi, 640, 480);
@@ -95,6 +101,18 @@ GtkWidget* create_main_window (void)
 	                  G_CALLBACK (destroy_main_window), main_adi);
 
 	return main_window;
+}
+
+/***************************************************************************/
+
+static GtkWidget*
+_create_main_adi (void)
+{
+	GtkWidget *main_adi;
+	main_adi = create_adi ();
+	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_BOX);
+	gtk_adi_user_add_child (GTK_ADI (main_adi));
+	return main_adi;
 }
 
 /***************************************************************************/
