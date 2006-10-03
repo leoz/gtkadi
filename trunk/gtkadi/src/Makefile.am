@@ -70,6 +70,7 @@ libgtkadi_la_LIBADD = \
 	$(top_srcdir)/gtkadiview/libgtkadiview.la \
 	$(top_srcdir)/gtkadiboxview/libgtkadiboxview.la \
 	$(top_srcdir)/gtkaditabview/libgtkaditabview.la \
+	$(top_srcdir)/gtkadiconview/libgtkadiconview.la \
 	$(top_srcdir)/gtkadiwinview/libgtkadiwinview.la
 
 libgtkadi_la_LDFLAGS = \
