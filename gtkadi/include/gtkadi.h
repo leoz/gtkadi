@@ -70,6 +70,8 @@ struct _GtkAdi {
 	GtkWidget *tab_view;
 	GtkWidget *win_view;
 	GtkWidget *cur_view;
+	GtkWidget *container;
+	GtkWidget *window;
 };
 
 /*

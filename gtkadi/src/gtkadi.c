@@ -51,6 +51,9 @@ static void gtk_adi_add_child_notify (GtkAdi *self,
                           GdkPixbuf *icon,
                           const gchar *title,
                           GtkAdiLayout layout);
+						  
+static void gtk_adi_cur_view_add (GtkAdi *self);
+static void gtk_adi_cur_view_remove (GtkAdi *self);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -100,7 +103,7 @@ gtk_adi_finalize(GObject *obj_self)
 	if (self->cur_view) {
 		ADI_TRACE_FINALIZE("current");
 		if (GTK_IS_WIDGET(self->cur_view)) {
-			gtk_container_remove (GTK_CONTAINER (self), self->cur_view);
+			gtk_adi_cur_view_remove (self);
 		}
 		self->cur_view = NULL;
 	}
@@ -144,6 +147,16 @@ gtk_adi_finalize(GObject *obj_self)
 		self->win_view = NULL;
 	}
 	
+	if(self->container) {
+		ADI_TRACE_FINALIZE("container");
+		self->container = NULL;
+	}
+	
+	if(self->window) {
+		ADI_TRACE_FINALIZE("window");
+		self->window = NULL;
+	}
+
 	ADI_TRACE_FINALIZE("end");
 }
 
@@ -172,6 +185,8 @@ gtk_adi_init (GtkAdi *self)
 	self->tab_view = NULL;
 	self->win_view = NULL;
 	self->cur_view = NULL;
+	self->container = NULL;
+	self->window = NULL;
 
 	gtk_adi_stock_init ();
 #ifndef NO_WIDGETS
@@ -187,7 +202,7 @@ gtk_adi_init (GtkAdi *self)
 	gtk_widget_ref(self->win_view);
 
 	self->cur_view = self->box_view;
-	gtk_container_add (GTK_CONTAINER (self), self->cur_view);
+	gtk_adi_cur_view_add (self);
 	gtk_widget_unref(self->cur_view);
 }
 
@@ -477,7 +492,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	if (self->cur_view) {
 		gtk_widget_hide(self->cur_view);
 		gtk_widget_ref(self->cur_view);
-		gtk_container_remove(GTK_CONTAINER (self), self->cur_view);
+		gtk_adi_cur_view_remove (self);
 		old_view = self->cur_view;
 		self->cur_view = NULL;
 	}
@@ -500,7 +515,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	
 	/* 3. Add current view */
 	if (self->cur_view) {
-		gtk_container_add(GTK_CONTAINER (self), self->cur_view);
+		gtk_adi_cur_view_add (self);
 		gtk_widget_unref(self->cur_view);
 	}
 
@@ -536,9 +551,9 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 
 	ADI_TRACE_MSG("Exit change view.")
 	
-	/* 5. Show current view */
-	if (self->cur_view) {
-		gtk_widget_show(self->cur_view);
+	/* 5. Show window with current view */
+	if (self->window) {
+		gtk_widget_show(self->window);
 	}
 }
 
@@ -649,4 +664,60 @@ gtk_adi_add_child_notify (GtkAdi *self,
 {	
 	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(self->cur_view),
 	                                   widget, icon, title, layout);
+}
+
+static gboolean __need_window (GtkAdi *self)
+{
+	return (gtk_adi_get_view (self) != GTK_ADI_VIEW_WIN);
+}
+
+static void __create_window (GtkAdi *self)
+{
+	if (!self->container) {
+		GtkWidget* parent = gtk_widget_get_toplevel (GTK_WIDGET(self));
+		if (GTK_IS_WINDOW(parent)) {
+			/* 1. Check own window */
+			self->container = gtk_widget_get_parent (GTK_WIDGET(self));
+		}
+		else if (self->win_func) {
+			/* 2. Create window with container */
+			self->container = self->win_func ();
+			self->window = gtk_widget_get_toplevel (self->container);
+		}
+	}
+}
+
+static void __destroy_window (GtkAdi *self)
+{
+	if (self->container && self->container != GTK_WIDGET(self)) {
+		if (self->window) {
+			gtk_widget_destroy (self->window);
+			self->window = NULL;
+		}
+		self->container = NULL;
+	}
+}
+
+static void
+gtk_adi_cur_view_add (GtkAdi *self)
+{
+	if (__need_window (self)) {
+		__create_window (self);
+	}
+	if (self->container) {
+		/* Add view to window container */
+		gtk_container_add (GTK_CONTAINER (self->container), self->cur_view);
+	}
+}
+
+static void
+gtk_adi_cur_view_remove (GtkAdi *self)
+{
+	if (self->container) {
+		/* Remove view from window container */
+		gtk_container_remove (GTK_CONTAINER (self->container), self->cur_view);
+	}
+	if (__need_window (self)) {
+		__destroy_window (self);
+	}
 }

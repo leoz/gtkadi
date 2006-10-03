@@ -117,6 +117,8 @@ void gtk_adi_tab_view_set_child_close_button (GtkAdiView *self, GtkWidget *widge
 void gtk_adi_tab_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enabled);
 
 gint gtk_adi_tab_view_get_childs_count (GtkAdiView *self);
+GtkWidget* gtk_adi_tab_view_add (GtkAdiView *self);
+void gtk_adi_tab_view_remove (GtkAdiView *self, GtkWidget* container);
 
 G_END_DECLS
 

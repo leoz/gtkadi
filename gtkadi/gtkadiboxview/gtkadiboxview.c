@@ -89,6 +89,8 @@ gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
 	iface->set_child_close_button = gtk_adi_box_view_set_child_close_button;
 	iface->set_child_tab = gtk_adi_box_view_set_child_tab;
 	iface->get_childs_count = gtk_adi_box_view_get_childs_count;
+	iface->add = gtk_adi_box_view_add;
+	iface->remove = gtk_adi_box_view_remove;
 }
 
 GType
@@ -1012,3 +1014,12 @@ gtk_adi_box_view_get_childs_count (GtkAdiView *self)
     
     return g_list_length(GTK_ADI_BOX_VIEW(self)->children);
 }
+
+GtkWidget*
+gtk_adi_box_view_add (GtkAdiView *self)
+{
+    return NULL;
+}
+
+void gtk_adi_box_view_remove (GtkAdiView *self, GtkWidget* container)
+{}
