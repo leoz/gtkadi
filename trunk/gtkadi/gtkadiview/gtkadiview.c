@@ -237,13 +237,8 @@ gtk_adi_view_get_childs_count (GtkAdiView *self)
     return GTK_ADI_VIEW_GET_CLASS (self)->get_childs_count (self);
 }
 
-GtkWidget*
-gtk_adi_view_add (GtkAdiView *self)
+gboolean
+gtk_adi_view_need_window (GtkAdiView *self)
 {
-    return GTK_ADI_VIEW_GET_CLASS (self)->add (self);
-}
-
-void gtk_adi_view_remove (GtkAdiView *self, GtkWidget* container)
-{
-	GTK_ADI_VIEW_GET_CLASS (self)->remove (self, container);
+    return GTK_ADI_VIEW_GET_CLASS (self)->need_window (self);
 }
