@@ -127,8 +127,7 @@ void gtk_adi_box_view_set_child_tab (GtkAdiView *self,
                                               GtkWidget *widget,
 								              gboolean enabled);
 gint gtk_adi_box_view_get_childs_count (GtkAdiView *self);
-GtkWidget* gtk_adi_box_view_add (GtkAdiView *self);
-void gtk_adi_box_view_remove (GtkAdiView *self, GtkWidget* container);
+gboolean gtk_adi_box_view_need_window (GtkAdiView *self);
 
 G_END_DECLS
 

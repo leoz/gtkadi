@@ -54,6 +54,8 @@ static void gtk_adi_add_child_notify (GtkAdi *self,
 						  
 static void gtk_adi_cur_view_add (GtkAdi *self);
 static void gtk_adi_cur_view_remove (GtkAdi *self);
+static void gtk_adi_create_window (GtkAdi *self);
+static void gtk_adi_destroy_window (GtkAdi *self);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -552,8 +554,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	ADI_TRACE_MSG("Exit change view.")
 	
 	/* 5. Show window with current view */
-	if (self->window) {
-		gtk_widget_show(self->window);
+	if (self->container) {
+		gtk_widget_show(self->container);
 	}
 }
 
@@ -666,12 +668,8 @@ gtk_adi_add_child_notify (GtkAdi *self,
 	                                   widget, icon, title, layout);
 }
 
-static gboolean __need_window (GtkAdi *self)
-{
-	return (gtk_adi_get_view (self) != GTK_ADI_VIEW_WIN);
-}
-
-static void __create_window (GtkAdi *self)
+static void
+gtk_adi_create_window (GtkAdi *self)
 {
 	if (!self->container) {
 		GtkWidget* parent = gtk_widget_get_toplevel (GTK_WIDGET(self));
@@ -683,11 +681,15 @@ static void __create_window (GtkAdi *self)
 			/* 2. Create window with container */
 			self->container = self->win_func ();
 			self->window = gtk_widget_get_toplevel (self->container);
+			if (self->window) {
+				gtk_widget_show(self->window);
+			}
 		}
 	}
 }
 
-static void __destroy_window (GtkAdi *self)
+static void
+gtk_adi_destroy_window (GtkAdi *self)
 {
 	if (self->container && self->container != GTK_WIDGET(self)) {
 		if (self->window) {
@@ -701,8 +703,8 @@ static void __destroy_window (GtkAdi *self)
 static void
 gtk_adi_cur_view_add (GtkAdi *self)
 {
-	if (__need_window (self)) {
-		__create_window (self);
+	if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view))) {
+		gtk_adi_create_window (self);
 	}
 	if (self->container) {
 		/* Add view to window container */
@@ -717,7 +719,7 @@ gtk_adi_cur_view_remove (GtkAdi *self)
 		/* Remove view from window container */
 		gtk_container_remove (GTK_CONTAINER (self->container), self->cur_view);
 	}
-	if (__need_window (self)) {
-		__destroy_window (self);
+	if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view))) {
+		gtk_adi_destroy_window (self);
 	}
 }
