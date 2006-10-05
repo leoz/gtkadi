@@ -49,11 +49,11 @@ gtk_adi_win_child_get_type (void)
 			(GInstanceInitFunc) gtk_adi_win_child_init,
 			NULL
 		};
-#ifdef NEWHILDON_SUPPORT
-		type = g_type_register_static (HILDON_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
-#else
-		type = g_type_register_static (GTK_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
-#endif
+	#ifdef NEWHILDON_SUPPORT
+	type = g_type_register_static (HILDON_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
+	#else
+	type = g_type_register_static (GTK_TYPE_WINDOW, "GtkAdiWinChild", &info, (GTypeFlags)0);
+	#endif
 	}
 
 	return type;
@@ -62,16 +62,22 @@ gtk_adi_win_child_get_type (void)
 static void 
 gtk_adi_win_child_class_init (GtkAdiWinChildClass *c)
 {
-#ifdef NEWHILDON_SUPPORT
+	#ifdef NEWHILDON_SUPPORT
 	parent_class = g_type_class_ref (HILDON_TYPE_WINDOW);
-#else
+	#else
 	parent_class = g_type_class_ref (GTK_TYPE_WINDOW);
-#endif
+	#endif
 }
 
 static void 
 gtk_adi_win_child_init (GtkAdiWinChild *self)
-{}
+{
+	#ifndef NEWHILDON_SUPPORT
+	self->box = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER(self->box), 10);
+	gtk_container_add (GTK_CONTAINER (self), self->box);
+	#endif /* NEWHILDON_SUPPORT */
+}
 
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))

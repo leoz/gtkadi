@@ -676,8 +676,9 @@ gtk_adi_create_window (GtkAdi *self)
 		if (GTK_IS_WINDOW(parent)) {
 			/* 1. Check own window */
 			self->container = gtk_widget_get_parent (GTK_WIDGET(self));
+			self->window = parent;
 		}
-		else if (self->win_func) {
+		else if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view)) && self->win_func) {
 			/* 2. Create window with container */
 			self->container = self->win_func ();
 			self->window = gtk_widget_get_toplevel (self->container);
@@ -692,20 +693,18 @@ static void
 gtk_adi_destroy_window (GtkAdi *self)
 {
 	if (self->container && self->container != GTK_WIDGET(self)) {
-		if (self->window) {
+		if (self->window && self->window != gtk_widget_get_toplevel (GTK_WIDGET(self)) ) {
 			gtk_widget_destroy (self->window);
-			self->window = NULL;
 		}
-		self->container = NULL;
 	}
+	self->window = NULL;
+	self->container = NULL;
 }
 
 static void
 gtk_adi_cur_view_add (GtkAdi *self)
 {
-	if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view))) {
-		gtk_adi_create_window (self);
-	}
+	gtk_adi_create_window (self);
 	if (self->container) {
 		/* Add view to window container */
 		gtk_container_add (GTK_CONTAINER (self->container), self->cur_view);
@@ -719,7 +718,5 @@ gtk_adi_cur_view_remove (GtkAdi *self)
 		/* Remove view from window container */
 		gtk_container_remove (GTK_CONTAINER (self->container), self->cur_view);
 	}
-	if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view))) {
-		gtk_adi_destroy_window (self);
-	}
+	gtk_adi_destroy_window (self);
 }
