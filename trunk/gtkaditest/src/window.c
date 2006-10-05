@@ -22,6 +22,9 @@
 #include <hildon-widgets/hildon-appview.h>
 #endif /* HILDON_SUPPORT */
 
+
+#define NO_PARENT
+
 /***************************************************************************/
 
 static GtkWidget* _create_main_adi (void);
@@ -112,7 +115,7 @@ _create_main_adi (void)
 {
 	GtkWidget *main_adi;
 	main_adi = create_adi ();
-	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_WIN);
+	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_TAB);
 	#ifdef NO_PARENT
 	gtk_adi_user_add_child (GTK_ADI (main_adi));
 	#endif /* NO_PARENT */

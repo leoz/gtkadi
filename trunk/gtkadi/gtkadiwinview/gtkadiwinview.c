@@ -93,6 +93,10 @@ gtk_adi_win_view_create_window (void)
 {
 	GtkWidget* window;
 	window = gtk_adi_win_child_new ();
+	#ifdef NEWHILDON_SUPPORT
 	return window;
+	#else
+	return GTK_ADI_WIN_CHILD(window)->box;
+	#endif
 }
 

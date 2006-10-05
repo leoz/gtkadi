@@ -384,7 +384,7 @@ gtk_adi_con_view_remove_child (GtkAdiView *self,
 	/* Close window and free data. */
 	if (c) {
 		if(!destroy) {
-			gtk_container_remove ( GTK_CONTAINER(((GtkAdiContainer*) c)->window), ((GtkAdiContainer*) c)->widget );
+			gtk_container_remove ( GTK_CONTAINER(((GtkAdiContainer*) c)->container), ((GtkAdiContainer*) c)->widget );
 		}
 		gtk_widget_destroy ( ((GtkAdiContainer*) c)->window);
 		g_free (c);

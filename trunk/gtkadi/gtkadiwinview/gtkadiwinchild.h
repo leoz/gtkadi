@@ -61,6 +61,8 @@ struct _GtkAdiWinChild {
 	HildonWindow __parent__;
 #else
 	GtkWindow __parent__;
+	/*< public >*/
+	GtkWidget *box;
 #endif
 };
 
