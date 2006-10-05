@@ -52,7 +52,9 @@ GtkWidget* create_main_window (void)
 
 	main_adi = _create_main_adi ();
 	
+	#ifdef NO_PARENT
 	return NULL;
+	#endif /* NO_PARENT */
 
 	#ifdef HILDON_SUPPORT
 	app = hildon_app_new ();
@@ -92,8 +94,8 @@ GtkWidget* create_main_window (void)
 	GTK_WIDGET_UNSET_FLAGS (main_toolbar, GTK_CAN_DEFAULT);
 
 	gtk_widget_show (main_adi);
-	gtk_box_pack_start (GTK_BOX (main_vbox), main_adi, TRUE, TRUE, 0);
-	gtk_widget_set_size_request (main_adi, 640, 480);
+	gtk_box_pack_start (GTK_BOX (main_vbox), main_adi, FALSE, FALSE, 0);
+	gtk_widget_set_size_request (main_adi, 0, 0);
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_FOCUS);
 	GTK_WIDGET_UNSET_FLAGS (main_adi, GTK_CAN_DEFAULT);
 
@@ -110,8 +112,10 @@ _create_main_adi (void)
 {
 	GtkWidget *main_adi;
 	main_adi = create_adi ();
-	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_BOX);
+	gtk_adi_change_view (GTK_ADI (main_adi), GTK_ADI_VIEW_WIN);
+	#ifdef NO_PARENT
 	gtk_adi_user_add_child (GTK_ADI (main_adi));
+	#endif /* NO_PARENT */
 	return main_adi;
 }
 
