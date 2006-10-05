@@ -28,12 +28,6 @@
 
 G_BEGIN_DECLS
 
-typedef GtkWidget* (*GtkAdiCreateChildFunc) (void);
-typedef GtkWidget* (*GtkAdiCreateWinFunc)   (void);
-typedef GdkPixbuf* (*GtkAdiCreateIconFunc)  (GtkWidget* widget);
-typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
-
-
 /*
  * Type checking and casting macros
  */
@@ -55,6 +49,12 @@ typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 #define __TYPEDEF_GTK_ADI__
 typedef struct _GtkAdi GtkAdi;
 #endif
+
+typedef GtkWidget* (*GtkAdiCreateChildFunc) (void);
+typedef GtkWidget* (*GtkAdiCreateWinFunc)   (GtkAdi *adi);
+typedef GdkPixbuf* (*GtkAdiCreateIconFunc)  (GtkWidget *widget);
+typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
+
 struct _GtkAdi {
 	GtkEventBox __parent__;
 	/*< public >*/

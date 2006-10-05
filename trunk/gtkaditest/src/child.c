@@ -67,7 +67,7 @@ _create_child (void)
 
 /* Try your own child window.
 GtkWidget*
-_create_window (void)
+_create_window (GtkAdi *adi)
 {
 	GtkWidget* window;
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);

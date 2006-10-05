@@ -27,6 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <gtkaditype.h>
+#include "gtkadi.h"
 
 #ifdef NEWHILDON_SUPPORT
 #include<hildon-widgets/hildon-window.h>
@@ -62,6 +63,8 @@ struct _GtkAdiWinChild {
 #else
 	GtkWindow __parent__;
 	/*< public >*/
+	GtkAdi *adi;
+	GtkWidget *toolbar;
 	GtkWidget *box;
 #endif
 };
@@ -83,7 +86,7 @@ struct _GtkAdiWinChildClass {
  * Public methods
  */
 GType gtk_adi_win_child_get_type (void);
-GtkWidget* gtk_adi_win_child_new (void);
+GtkWidget* gtk_adi_win_child_new (GtkAdi* adi);
 
 G_END_DECLS
 
