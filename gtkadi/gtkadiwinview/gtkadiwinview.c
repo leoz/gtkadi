@@ -38,7 +38,7 @@
 /* here are local prototypes */
 static void gtk_adi_win_view_class_init (GtkAdiWinViewClass *c);
 static void gtk_adi_win_view_init (GtkAdiWinView *self);
-static GtkWidget* gtk_adi_win_view_create_window (void);
+static GtkWidget* gtk_adi_win_view_create_window (GtkAdi* adi);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -89,10 +89,10 @@ gtk_adi_win_view_new (GtkAdi* adi)
 }
 
 static GtkWidget*
-gtk_adi_win_view_create_window (void)
+gtk_adi_win_view_create_window (GtkAdi* adi)
 {
 	GtkWidget* window;
-	window = gtk_adi_win_child_new ();
+	window = gtk_adi_win_child_new (adi);
 	#ifdef NEWHILDON_SUPPORT
 	return window;
 	#else

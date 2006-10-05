@@ -680,7 +680,7 @@ gtk_adi_create_window (GtkAdi *self)
 		}
 		else if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view)) && self->win_func) {
 			/* 2. Create window with container */
-			self->container = self->win_func ();
+			self->container = self->win_func (self);
 			self->window = gtk_widget_get_toplevel (self->container);
 			if (self->window) {
 				gtk_widget_show(self->window);

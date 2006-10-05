@@ -73,6 +73,8 @@ static void
 gtk_adi_win_child_init (GtkAdiWinChild *self)
 {
 	#ifndef NEWHILDON_SUPPORT
+	self->adi = NULL;
+	self->toolbar = NULL;
 	self->box = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER(self->box), 10);
 	gtk_container_add (GTK_CONTAINER (self), self->box);
@@ -82,9 +84,77 @@ gtk_adi_win_child_init (GtkAdiWinChild *self)
 /* a macro for creating a new object of our type */
 #define GET_NEW ((GtkAdiWinChild *)g_object_new(gtk_adi_win_child_get_type(), NULL))
 
-GtkWidget* 
-gtk_adi_win_child_new (void)
+#ifndef NEWHILDON_SUPPORT
+
+static gboolean
+gtk_adi_win_child_event_focus_in (GtkAdiWinChild *self,
+                                  GdkEventFocus *event,
+                                  GtkAdi* adi)
+{
+	if (GTK_ADI_WIN_CHILD(self)->toolbar) {
+		GtkWidget* parent = gtk_widget_get_parent (GTK_ADI_WIN_CHILD(self)->toolbar);
+		if (parent && GTK_IS_CONTAINER(parent)) {
+			g_object_ref (GTK_ADI_WIN_CHILD(self)->toolbar);
+			gtk_container_remove (GTK_CONTAINER(parent), GTK_ADI_WIN_CHILD(self)->toolbar);
+		}
+		gtk_box_pack_start (GTK_BOX (GTK_ADI_WIN_CHILD(self)->box), GTK_ADI_WIN_CHILD(self)->toolbar, FALSE, FALSE, 0);
+		gtk_box_reorder_child (GTK_BOX (GTK_ADI_WIN_CHILD(self)->box), GTK_ADI_WIN_CHILD(self)->toolbar, 0);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+gtk_adi_win_child_event_delete (GtkAdiWinChild *self,
+                                GdkEvent *event,
+                                GtkAdi* adi)
+{
+	return FALSE;
+}
+
+static void
+gtk_adi_win_child_event_destroy (GtkAdiWinChild *self, GtkAdi* adi)
+{
+	g_object_ref (GTK_ADI_WIN_CHILD(self)->toolbar);
+	gtk_container_remove (GTK_CONTAINER(GTK_ADI_WIN_CHILD(self)->box), self->toolbar);
+	self->toolbar = NULL;
+
+	if (gtk_adi_can_exit (adi)) {
+//		gtk_main_quit ();
+	}
+}
+
+#endif /* NEWHILDON_SUPPORT */
+
+GtkWidget*
+gtk_adi_win_child_new (GtkAdi* adi)
 {
 	GtkWidget *self = GTK_WIDGET(GET_NEW);
+
+	#ifndef NEWHILDON_SUPPORT
+
+	GTK_ADI_WIN_CHILD(self)->adi = adi;
+	GTK_ADI_WIN_CHILD(self)->toolbar = gtk_adi_get_toolbar (adi);
+
+	if (!GTK_ADI_WIN_CHILD(self)->toolbar) {
+		#ifndef NO_WIDGETS
+		GTK_ADI_WIN_CHILD(self)->toolbar = gtk_adi_create_toolbar (adi);
+		#endif /* NO_WIDGETS */
+	}
+
+	gtk_adi_win_child_event_focus_in (GTK_ADI_WIN_CHILD(self), NULL, adi);
+
+	g_signal_connect (self, "focus-in-event",
+				  G_CALLBACK (gtk_adi_win_child_event_focus_in),
+				  adi);
+	g_signal_connect (self, "delete-event",
+				  G_CALLBACK (gtk_adi_win_child_event_delete),
+				  adi);
+	g_signal_connect (self, "destroy",
+				  G_CALLBACK (gtk_adi_win_child_event_destroy),
+				  adi);
+
+	#endif /* NEWHILDON_SUPPORT */
+
 	return self;
 }
