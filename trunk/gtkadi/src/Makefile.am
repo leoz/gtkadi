@@ -40,7 +40,7 @@ AM_CFLAGS = \
 
 lib_LTLIBRARIES = libgtkadi.la
 
-if WIDGETS_SUPPORT
+if !NO_WIDGETS
     ADD_TOOLKIT_C = \
 	gtkadicmd.c \
 	gtkaditoolbar.c \
