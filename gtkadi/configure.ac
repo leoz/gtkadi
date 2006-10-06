@@ -82,18 +82,15 @@ AM_CONDITIONAL(HILDON_SUPPORT, [test "${hildon_support}" = "yes"])
 AM_CONDITIONAL(NEWHILDON_SUPPORT, [test "${newhildon_support}" = "yes"])
 
 
-AC_ARG_ENABLE(widgets, [ --enable-widgets=[yes|no] ], [widgets_support=$enableval ])
+AC_ARG_ENABLE(widgets, [  --disable-widgets         Do not use widgets
+  --enable-widgets(=val)    Use widgets],
+ [no_widgets=$enableval ])
 
-if test "$hildon_support" == "no"; then
-	widgets_support="yes"
-	echo 'Force additional widgets support on every platform without Hildon.'
+if test "$no_widgets" = "yes"; then
+    AC_DEFINE(NO_WIDGETS, [], [Disable additional widgets Menu,Toolbar])
 fi
 
-if test "$widgets_support" = "yes"; then
-    AC_DEFINE(WIDGETS_SUPPORT, [], [Build with additional widgets Menu,Toolbar])
-fi
-
-AM_CONDITIONAL(WIDGETS_SUPPORT, [test "${widgets_support}" = "yes"])
+AM_CONDITIONAL(NO_WIDGETS, [test "${no_widgets}" = "yes"])
 
 PKG_CHECK_MODULES(OSSO, [libosso],
 	[
