@@ -43,6 +43,14 @@
 #include <hildon-widgets/hildon-app.h>
 #endif /* HILDON_SUPPORT */
 
+enum {
+    ADI_GET_CONT,
+    ADI_FOCUS_CHILD,    
+    LAST_SIGNAL
+};
+static gint gtk_adi_signals[LAST_SIGNAL] = {0};
+	
+
 /* here are local prototypes */
 static void gtk_adi_class_init (GtkAdiClass * c);
 static void gtk_adi_init (GtkAdi * self);
@@ -170,6 +178,26 @@ gtk_adi_class_init (GtkAdiClass * c)
 	parent_class = g_type_class_ref (GTK_TYPE_EVENT_BOX);
 
 	g_object_class->finalize = gtk_adi_finalize;
+	
+	gtk_adi_signals[ADI_GET_CONT]
+		= g_signal_new (ADI_GET_CONT_S,
+		        G_TYPE_FROM_CLASS (c),
+			G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			G_STRUCT_OFFSET (GtkAdiClass, get_cont),
+			NULL, NULL,
+			g_cclosure_marshal_VOID__POINTER,
+			G_TYPE_NONE, 1, G_TYPE_POINTER);
+			
+        gtk_adi_signals[ADI_FOCUS_CHILD]
+	        = g_signal_new (ADI_FOCUS_CHILD_S,
+		        G_TYPE_FROM_CLASS (c),
+			G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			G_STRUCT_OFFSET (GtkAdiWinViewClass, focus_child),
+			NULL, NULL,
+			g_cclosure_marshal_VOID__POINTER,
+			G_TYPE_NONE, 1, GTK_TYPE_POINTER);
+																								
+															    
 }
 
 static void 
