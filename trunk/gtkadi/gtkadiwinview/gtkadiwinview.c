@@ -111,12 +111,10 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
     g_return_val_if_fail (window != NULL, FALSE);
     g_return_val_if_fail (self != NULL, FALSE);
     g_return_val_if_fail (GTK_IS_ADI (self), FALSE);
-    if (GTK_WIDGET_VISIBLE (self))
-    {
-	ADI_TRACE("Focus - W1: %d", (int) window);
-	gtk_adi_win_view_swap_child_windows (window, self);
-	gtk_widget_show (window);
-    }
+	
+    ADI_TRACE("Focus - W1: %d", (int) window);
+    gtk_adi_win_view_swap_child_windows (window, self);
+    gtk_widget_show (window);
 																								    
     return FALSE;
 }
@@ -132,7 +130,7 @@ gtk_adi_win_view_create_window (GtkAdi* adi)
 	    window = hildon_window_new();
 	}
 	
-	g_signal_connect (window, "focus_in_event",
+	g_signal_connect (window, "focus-in-event",
 	                  G_CALLBACK (gtk_adi_win_view_child_event_focus_in),
 	                  adi);
 										    
