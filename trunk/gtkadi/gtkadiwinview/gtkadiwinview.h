@@ -57,6 +57,7 @@ struct _GtkAdiWinView {
 typedef struct _GtkAdiWinViewClass GtkAdiWinViewClass;
 struct _GtkAdiWinViewClass {
 	GtkAdiConViewClass __parent__;
+        void (* focus_child) (GtkAdiWinView * view);	
 };
 
 /*

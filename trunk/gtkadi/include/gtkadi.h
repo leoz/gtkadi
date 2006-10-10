@@ -22,7 +22,8 @@
 
 #include <gtk/gtk.h>
 #include "gtkaditype.h"
-
+#include <glib.h>
+#include <glib-object.h> 
 #ifndef __GTK_ADI_H__
 #define __GTK_ADI_H__
 
@@ -41,7 +42,7 @@ G_BEGIN_DECLS
 
 #define ADI_CLOSE_CHILD_S "adi-close-child"
 #define ADI_FOCUS_CHILD_S "adi-focus-child"
-
+#define ADI_GET_CONT_S "adi-get-cont"
 /*
  * Main object structure
  */
@@ -80,6 +81,8 @@ struct _GtkAdi {
 typedef struct _GtkAdiClass GtkAdiClass;
 struct _GtkAdiClass {
 	GtkEventBoxClass __parent__;
+	void (* get_cont) (GtkAdi * adi);
+	void (* focus_child) (GtkAdi * adi);
 };
 
 
