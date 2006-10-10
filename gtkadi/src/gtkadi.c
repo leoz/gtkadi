@@ -732,7 +732,7 @@ gtk_adi_destroy_window (GtkAdi *self)
 static void
 gtk_adi_cur_view_add (GtkAdi *self)
 {
-	gtk_adi_create_window (self);
+	//gtk_adi_create_window (self);
 	if (self->container) {
 		/* Add view to window container */
 		gtk_container_add (GTK_CONTAINER (self->container), self->cur_view);
