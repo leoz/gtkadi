@@ -21,3 +21,11 @@ Description: GTK ADI Library.
  GTK ADI Library is a GTK widget library 
  which implements an ADI widget framework.
  ADI is Advanced Document Interface: yet another approach to MDI - Multi Document Interface.
+
+Package: libgtkadi1-dbg
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtkadi1 (= ${Source-Version})
+Description: Debug symbols for gtkadi libs
+ This package contains the debugging symbols.
+
