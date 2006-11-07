@@ -192,7 +192,7 @@ gtk_adi_class_init (GtkAdiClass * c)
 	        = g_signal_new (ADI_FOCUS_CHILD_S,
 		        G_TYPE_FROM_CLASS (c),
 			G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			G_STRUCT_OFFSET (GtkAdiWinViewClass, focus_child),
+			G_STRUCT_OFFSET (GtkAdiClass, focus_child),
 			NULL, NULL,
 			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, GTK_TYPE_POINTER);

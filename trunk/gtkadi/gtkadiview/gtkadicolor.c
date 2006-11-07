@@ -196,7 +196,8 @@ gtk_adi_color_set (GtkAdiColor * self, GtkAdiColorType type)
 		break;
 	case GTK_ADI_COLOR_GTK:
 	default:
-		gtk_adi_color_init_gtk (self);
+		//FIX ME
+		//gtk_adi_color_init_gtk (self);
 		break;
 	}
 }
