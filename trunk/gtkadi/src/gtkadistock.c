@@ -24,7 +24,7 @@
 #include <config.h>
 #endif
 
-#define GETTEXT_PACKAGE "gtk20"
+//#define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkiconfactory.h>

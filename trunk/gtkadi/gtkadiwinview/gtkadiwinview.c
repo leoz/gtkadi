@@ -107,7 +107,6 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
                                        GdkEventFocus *event,
 				       GtkAdi *self)
 {
-    GtkWidget *old_window = NULL;
     g_return_val_if_fail (window != NULL, FALSE);
     g_return_val_if_fail (self != NULL, FALSE);
     g_return_val_if_fail (GTK_IS_ADI (self), FALSE);

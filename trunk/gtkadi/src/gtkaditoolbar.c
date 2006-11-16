@@ -26,7 +26,7 @@
 
 #include "../include/gtkaditoolbar.h"
 
-#define GETTEXT_PACKAGE "gtk20"
+//#define GETTEXT_PACKAGE "gtk20"
 #include <glib/gi18n-lib.h>
 #include "gtkadistock.h"
 #include "gtkadiutils.h"

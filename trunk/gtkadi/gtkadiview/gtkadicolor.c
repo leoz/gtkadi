@@ -128,6 +128,9 @@ gtk_adi_color_init_own (GtkAdiColor * self)
 static void 
 gtk_adi_color_init_gtk (GtkAdiColor * self)
 {
+	//FIX ME
+	return;
+	
 	GtkWidget* invis       = NULL;
 	GtkWidget* menu        = NULL;
 	GtkWidget* item        = NULL;
@@ -196,8 +199,7 @@ gtk_adi_color_set (GtkAdiColor * self, GtkAdiColorType type)
 		break;
 	case GTK_ADI_COLOR_GTK:
 	default:
-		//FIX ME
-		//gtk_adi_color_init_gtk (self);
+		gtk_adi_color_init_gtk (self);
 		break;
 	}
 }
