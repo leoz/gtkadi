@@ -46,8 +46,8 @@ static gint gtk_adi_con_view_signals[LAST_SIGNAL] = {0};
 static void gtk_adi_con_view_class_init (GtkAdiConViewClass *c);
 static void gtk_adi_con_view_init (GtkAdiConView *self);
 static void gtk_adi_con_view_iface_init (GtkAdiViewIface *iface);
-static void gtk_adi_con_view_remove_child_notify (GtkAdiView *self,
-                                      GtkWidget *child);
+//static void gtk_adi_con_view_remove_child_notify (GtkAdiView *self,
+//                                      GtkWidget *child);
 static void gtk_adi_con_view_get_child_data (GtkAdiChildData *data,
                                              GtkAdiContainer *c);
 static GtkAdiContainer* gtk_adi_con_view_find_child (GtkAdiView *self,
@@ -591,12 +591,14 @@ void gtk_adi_con_view_set_child_tab (GtkAdiView *self,
 	/*TBD*/
 }
 
+/*
 static void 
 gtk_adi_con_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-	/*TBD*/
+	//TBD
 }
+*/
 
 static void
 gtk_adi_con_view_get_child_data (GtkAdiChildData *data,

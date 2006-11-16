@@ -62,7 +62,7 @@ static void gtk_adi_add_child_notify (GtkAdi *self,
 						  
 static void gtk_adi_cur_view_add (GtkAdi *self);
 static void gtk_adi_cur_view_remove (GtkAdi *self);
-static void gtk_adi_create_window (GtkAdi *self);
+//static void gtk_adi_create_window (GtkAdi *self);
 static void gtk_adi_destroy_window (GtkAdi *self);
 
 /* pointer to the class of our parent */
@@ -696,18 +696,19 @@ gtk_adi_add_child_notify (GtkAdi *self,
 	                                   widget, icon, title, layout);
 }
 
+/*
 static void
 gtk_adi_create_window (GtkAdi *self)
 {
 	if (!self->container) {
 		GtkWidget* parent = gtk_widget_get_toplevel (GTK_WIDGET(self));
 		if (GTK_IS_WINDOW(parent)) {
-			/* 1. Check own window */
+			// 1. Check own window 
 			self->container = gtk_widget_get_parent (GTK_WIDGET(self));
 			self->window = parent;
 		}
 		else if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view)) && self->win_func) {
-			/* 2. Create window with container */
+			// 2. Create window with container
 			self->container = self->win_func (self);
 			self->window = gtk_widget_get_toplevel (self->container);
 			if (self->window) {
@@ -716,6 +717,7 @@ gtk_adi_create_window (GtkAdi *self)
 		}
 	}
 }
+*/
 
 static void
 gtk_adi_destroy_window (GtkAdi *self)
