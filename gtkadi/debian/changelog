@@ -1,3 +1,9 @@
+libgtkadi (0.6.2-1) unstable; urgency=low
+
+  * Fixed some compiler warnings 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 17 Nov 2006 21:01:36 +0200
+
 libgtkadi (0.6.1-1) unstable; urgency=low
 
   * Fixed 'invalid read' and leaks, also added opportunity to create DBG
