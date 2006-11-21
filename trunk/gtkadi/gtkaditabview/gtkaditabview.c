@@ -290,7 +290,7 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (child != NULL);
 	gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
 	gtk_adi_tab_view_remove_child_notify(self, child);
-	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
+	//gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
 
 static void
