@@ -28,7 +28,7 @@
 
 /* here are local prototypes */
 static void gtk_adi_title_class_init (GtkAdiTitleClass *c);
-static void gtk_adi_title_close_button_released (GtkAdiTitle *self, GtkWidget *close_button);
+static void gtk_adi_title_close_button_released (GtkWidget *close_button, GtkAdiTitle *self);
 static void gtk_adi_title_init (GtkAdiTitle *self);
 
 /* pointer to the class of our parent */
@@ -82,7 +82,7 @@ gtk_adi_title_init (GtkAdiTitle * self)
 
 	self->label = gtk_label_new (NULL);
 	gtk_adi_title_set_widget_style (self->label);
-
+		
 	self->vbox = gtk_vbox_new (TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (self->hbox), self->vbox, FALSE, FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (self->vbox), 2);
@@ -92,6 +92,9 @@ gtk_adi_title_init (GtkAdiTitle * self)
 						FALSE, FALSE, 0);
 	gtk_widget_set_size_request (self->close_button, 16, 16);
 	GTK_WIDGET_UNSET_FLAGS (self->close_button, GTK_CAN_FOCUS);
+
+	gtk_box_pack_end (GTK_BOX (self->vbox), self->label,
+						FALSE, FALSE, 0);
 
 	/* Default GTK close icon could be used also. */
 	/*
@@ -106,11 +109,15 @@ gtk_adi_title_init (GtkAdiTitle * self)
 	
 	gtk_widget_set_style(self->close_button, gtk_widget_get_style (self->close_button));				   
 	
-	g_signal_connect_swapped ((gpointer) self->close_button, "released",
-							  G_CALLBACK (gtk_adi_title_close_button_released),
-							  GTK_OBJECT (self));
+//	g_signal_connect_swapped ((gpointer) self->close_button, "released",
+//							  G_CALLBACK (gtk_adi_title_close_button_released),
+//							  GTK_OBJECT (self));
+	g_signal_connect (self->close_button, "released", 
+			    G_CALLBACK (gtk_adi_title_close_button_released),
+			    self);
 
-	self->layout = GTK_ADI_HORIZONTAL;
+	self->layout = GTK_ADI_VERTICAL;
+//	self->layout = GTK_ADI_HORIZONTAL;
 }
 
 
@@ -147,7 +154,7 @@ gtk_adi_title_set_widget_style (GtkWidget * widget)
 }
 
 static void 
-gtk_adi_title_close_button_released (GtkAdiTitle * self, GtkWidget * close_button)
+gtk_adi_title_close_button_released (GtkWidget * close_button, GtkAdiTitle * self)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));

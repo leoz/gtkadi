@@ -24,9 +24,9 @@
 #  include <config.h>
 #endif
 
-#ifdef NEWHILDON_SUPPORT
-#include<hildon-widgets/hildon-window.h>
-#include<hildon-widgets/hildon-program.h>
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/hildon-window.h>
+#include <hildon-widgets/hildon-program.h>
 #endif
 
 

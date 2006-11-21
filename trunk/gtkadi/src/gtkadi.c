@@ -46,6 +46,7 @@
 enum {
     ADI_GET_CONT,
     ADI_FOCUS_CHILD,    
+    ADI_CLOSE_CHILD,    
     LAST_SIGNAL
 };
 static gint gtk_adi_signals[LAST_SIGNAL] = {0};
@@ -196,6 +197,15 @@ gtk_adi_class_init (GtkAdiClass * c)
 			NULL, NULL,
 			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+        gtk_adi_signals[ADI_CLOSE_CHILD]
+	        = g_signal_new (ADI_CLOSE_CHILD_S,
+		        G_TYPE_FROM_CLASS (c),
+			G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			G_STRUCT_OFFSET (GtkAdiClass, remove_child),
+			NULL, NULL,
+			g_cclosure_marshal_VOID__POINTER,
+			G_TYPE_NONE, 1, GTK_TYPE_POINTER);
 																								
 															    
 }
@@ -224,7 +234,7 @@ gtk_adi_init (GtkAdi *self)
 #endif
 	self->flex = gtk_adi_flex_new (self);
 	self->box_view = gtk_adi_box_view_new ();
-	self->tab_view = gtk_adi_tab_view_new ();
+	self->tab_view = gtk_adi_tab_view_new (self);
 	self->win_view = gtk_adi_win_view_new (self);
 
 	gtk_widget_ref(self->box_view);
@@ -637,9 +647,9 @@ void gtk_adi_set_child_icon (GtkAdi *self, GtkWidget *widget,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	gtk_adi_view_set_child_icon (GTK_ADI_VIEW(self->cur_view),
-	                                   widget,
-	                                   icon);
+//	gtk_adi_view_set_child_icon (GTK_ADI_VIEW(self->cur_view),
+//	                                   widget,
+//	                                   icon);
 }
 
 void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,

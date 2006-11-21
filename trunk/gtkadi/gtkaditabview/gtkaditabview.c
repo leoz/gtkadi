@@ -24,12 +24,14 @@
 #  include <config.h>
 #endif
 
+#ifdef HILDON_SUPPORT
+#include <hildon-widgets/hildon-window.h>
+#include <hildon-widgets/hildon-program.h>
+#include <hildon-widgets/hildon-app.h>
+#endif
+
 #include "gtkaditabview.h"
 #include "gtkadititle.h"
-
-#ifdef HILDON_SUPPORT
-#include <hildon-widgets/hildon-app.h>
-#endif /* HILDON_SUPPORT */
 
 enum {
     ADI_FOCUS_CHILD,
@@ -50,6 +52,7 @@ static void gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
 
 void on_switch_page (GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data);
+static GtkWidget* gtk_adi_tab_view_create_window (GtkAdi* adi);
 
 /* pointer to the class of our parent */
 static GtkNotebookClass *parent_class = NULL;
@@ -114,9 +117,9 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 }
 
 void
-on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data)
+on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer adi)
 {
-	g_signal_emit_by_name(self, ADI_FOCUS_CHILD_S , gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
+	g_signal_emit_by_name(G_OBJECT(adi), ADI_FOCUS_CHILD_S , gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 }
 
 static void 
@@ -125,12 +128,11 @@ gtk_adi_tab_view_init (GtkAdiTabView *self)
 	GTK_NOTEBOOK(self)->tab_hborder = 0;
 	GTK_NOTEBOOK(self)->tab_vborder = 0;
 
-	self->layout = GTK_ADI_HORIZONTAL;
+	self->layout = GTK_ADI_VERTICAL;
+//	self->layout = GTK_ADI_HORIZONTAL;
 
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_TOP);
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (self), GTK_POS_LEFT);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (self), FALSE);
-	g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), NULL);
-	
 }
 
 
@@ -171,9 +173,14 @@ gtk_adi_tab_view_iface_init (GtkAdiViewIface *iface)
 #define GET_NEW ((GtkAdiTabView *)g_object_new(gtk_adi_tab_view_get_type(), NULL))
 
 GtkWidget * 
-gtk_adi_tab_view_new (void)
+gtk_adi_tab_view_new (GtkAdi *adi)
 {	
-	return GTK_WIDGET(GET_NEW);
+    GtkWidget *self = GTK_WIDGET(GET_NEW);
+    GTK_ADI_TAB_VIEW(self)->adi = adi;
+    gtk_adi_set_win_func (GTK_ADI(adi), gtk_adi_tab_view_create_window);	
+    g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), adi);
+    
+    return self;
 }
 
 GtkAdiLayout 
@@ -223,16 +230,34 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (widget != NULL);
 	
+	if(!(GTK_ADI_TAB_VIEW(self)->main_window))
+	{
+    	     GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->win_func (GTK_ADI_TAB_VIEW(self)->adi));
+        
+	    gtk_window_set_icon (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), icon);
+    	    if (title)
+	    {
+        	/* 6. Set window title. */
+        	gtk_window_set_title (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), title);
+    	    }
+	    gtk_container_add (GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));	
+	    gtk_widget_show_all (GTK_ADI_TAB_VIEW(self)->main_window);
+	}
+	
 	page_num = -1;
 	tab_label = gtk_adi_title_new ();
+	
 	gtk_adi_title_set_layout (GTK_ADI_TITLE(tab_label), layout);
 	gtk_adi_title_set_parent (GTK_ADI_TITLE(tab_label), GTK_WIDGET(self));
 	gtk_adi_title_set_child  (GTK_ADI_TITLE(tab_label), widget);
 	gtk_adi_title_set_text   (GTK_ADI_TITLE(tab_label), title);
 	gtk_adi_title_set_icon   (GTK_ADI_TITLE(tab_label), icon);
+	gtk_adi_title_set_close_button (GTK_ADI_TITLE(tab_label), TRUE);
+	
 	gtk_box_pack_start (GTK_BOX (GTK_ADI_TITLE(tab_label)->hbox),
 	                    GTK_ADI_TITLE(tab_label)->label, TRUE, TRUE, 0);
 	gtk_adi_title_set_text_font (GTK_ADI_TITLE(tab_label));
+	gtk_label_set_angle (GTK_LABEL(GTK_ADI_TITLE(tab_label)->label), 90);
 	gtk_widget_show_all (tab_label);
 	page_num = gtk_notebook_append_page (GTK_NOTEBOOK(self),
 	                                     widget, tab_label);
@@ -263,9 +288,9 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (child != NULL);
+	gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
 	gtk_adi_tab_view_remove_child_notify(self, child);
-	gtk_notebook_remove_page (GTK_NOTEBOOK(self),
-	gtk_notebook_page_num (GTK_NOTEBOOK(self), child));
+	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
 
 static void
@@ -496,7 +521,7 @@ static void
 gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-    	g_signal_emit_by_name(self, ADI_CLOSE_CHILD_S, child);
+    	g_signal_emit_by_name(G_OBJECT(GTK_ADI_TAB_VIEW(self)->adi), ADI_CLOSE_CHILD_S, child);
 }
 
 gint
@@ -513,3 +538,26 @@ gtk_adi_tab_view_need_window (GtkAdiView *self)
 {
     return TRUE;
 }
+
+static GtkWidget*
+gtk_adi_tab_view_create_window (GtkAdi* adi)
+{
+    GtkWidget* window = NULL;
+    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window);
+    if(window == NULL)
+    {
+        window = hildon_window_new();
+    }
+				    
+//    g_signal_connect (window, "focus-in-event",
+//                          G_CALLBACK (gtk_adi_win_view_child_event_focus_in),
+//                        adi);
+						
+    //window = new_cont; //gtk_adi_win_child_new (adi);
+    return window;
+#ifdef NEWHILDON_SUPPORT
+    return window;
+#endif
+}
+
+																
