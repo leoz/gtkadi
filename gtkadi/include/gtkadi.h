@@ -42,6 +42,7 @@ G_BEGIN_DECLS
 
 #define ADI_CLOSE_CHILD_S "adi-close-child"
 #define ADI_FOCUS_CHILD_S "adi-focus-child"
+#define ADI_CLOSE_CHILD_S "adi-close-child"
 #define ADI_GET_CONT_S "adi-get-cont"
 /*
  * Main object structure
@@ -83,6 +84,7 @@ struct _GtkAdiClass {
 	GtkEventBoxClass __parent__;
 	void (* get_cont) (GtkAdi * adi);
 	void (* focus_child) (GtkAdi * adi);
+	void (* remove_child) (GtkAdi * adi);
 };
 
 
