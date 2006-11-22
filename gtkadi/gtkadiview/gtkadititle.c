@@ -93,8 +93,8 @@ gtk_adi_title_init (GtkAdiTitle * self)
 	gtk_widget_set_size_request (self->close_button, 16, 16);
 	GTK_WIDGET_UNSET_FLAGS (self->close_button, GTK_CAN_FOCUS);
 
-	gtk_box_pack_end (GTK_BOX (self->vbox), self->label,
-						FALSE, FALSE, 0);
+//	gtk_box_pack_end (GTK_BOX (self->vbox), self->label,
+//						FALSE, FALSE, 0);
 
 	/* Default GTK close icon could be used also. */
 	/*
