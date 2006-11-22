@@ -257,7 +257,6 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	gtk_box_pack_start (GTK_BOX (GTK_ADI_TITLE(tab_label)->hbox),
 	                    GTK_ADI_TITLE(tab_label)->label, TRUE, TRUE, 0);
 	gtk_adi_title_set_text_font (GTK_ADI_TITLE(tab_label));
-	gtk_label_set_angle (GTK_LABEL(GTK_ADI_TITLE(tab_label)->label), 90);
 	gtk_widget_show_all (tab_label);
 	page_num = gtk_notebook_append_page (GTK_NOTEBOOK(self),
 	                                     widget, tab_label);
