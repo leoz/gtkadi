@@ -93,17 +93,19 @@ gtk_adi_title_init (GtkAdiTitle * self)
 	gtk_widget_set_size_request (self->close_button, 16, 16);
 	GTK_WIDGET_UNSET_FLAGS (self->close_button, GTK_CAN_FOCUS);
 
-//	gtk_box_pack_end (GTK_BOX (self->vbox), self->label,
-//						FALSE, FALSE, 0);
-
 	/* Default GTK close icon could be used also. */
 	/*
 	self->close_image = gtk_image_new_from_stock ("gtk-close",
 												  GTK_ICON_SIZE_MENU);
 	*/
-	self->close_image = gtk_image_new_from_stock (
-							GTK_ADI_STOCK_CLOSE_WINDOW,
-							GTK_ICON_SIZE_MENU);
+    
+    gtk_button_set_relief (GTK_BUTTON (self->close_button), GTK_RELIEF_NONE);
+    gtk_container_set_border_width (GTK_CONTAINER (self->close_button), 0);
+
+	self->close_image = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+    //self->close_image = gtk_image_new_from_stock (
+	//						GTK_ADI_STOCK_CLOSE_WINDOW,
+	//						GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (self->close_button),
 					   self->close_image);
 	
