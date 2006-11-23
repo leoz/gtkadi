@@ -177,7 +177,7 @@ gtk_adi_tab_view_new (GtkAdi *adi)
 {	
     GtkWidget *self = GTK_WIDGET(GET_NEW);
     GTK_ADI_TAB_VIEW(self)->adi = adi;
-    gtk_adi_set_win_func (GTK_ADI(adi), gtk_adi_tab_view_create_window);	
+    gtk_adi_set_tab_func (GTK_ADI(adi), gtk_adi_tab_view_create_window);	
     g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), adi);
     
     return self;
@@ -232,7 +232,7 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	
 	if(!(GTK_ADI_TAB_VIEW(self)->main_window))
 	{
-    	     GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->win_func (GTK_ADI_TAB_VIEW(self)->adi));
+    	     GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi));
         
 	    gtk_window_set_icon (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), icon);
     	    if (title)

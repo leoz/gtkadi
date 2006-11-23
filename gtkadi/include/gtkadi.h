@@ -62,6 +62,7 @@ struct _GtkAdi {
 	/*< public >*/
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateWinFunc   win_func;
+	GtkAdiCreateWinFunc   tab_func;
 	GtkAdiCreateIconFunc  icon_func;
 	GtkAdiCreateTitleFunc title_func;
 #ifndef NO_WIDGETS
@@ -97,6 +98,8 @@ void gtk_adi_set_child_func	(GtkAdi *self,
 							 GtkAdiCreateChildFunc child_func);
 void gtk_adi_set_win_func   (GtkAdi *self,
 							 GtkAdiCreateWinFunc win_func);
+void gtk_adi_set_tab_func   (GtkAdi *self,
+							 GtkAdiCreateWinFunc tab_func);
 void gtk_adi_set_icon_func	(GtkAdi *self,
 							 GtkAdiCreateIconFunc icon_func);
 void gtk_adi_set_title_func	(GtkAdi *self,

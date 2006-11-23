@@ -215,6 +215,7 @@ gtk_adi_init (GtkAdi *self)
 {
 	self->child_func = NULL;
 	self->win_func   = NULL;
+	self->tab_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
 #ifndef NO_WIDGETS
@@ -268,6 +269,15 @@ gtk_adi_set_win_func (GtkAdi *self, GtkAdiCreateWinFunc win_func)
 	g_return_if_fail (GTK_IS_ADI (self));
 	
 	self->win_func = win_func;
+}
+
+void 
+gtk_adi_set_tab_func (GtkAdi *self, GtkAdiCreateWinFunc tab_func)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (GTK_IS_ADI (self));
+	
+	self->tab_func = tab_func;
 }
 
 void 
