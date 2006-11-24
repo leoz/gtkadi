@@ -48,6 +48,7 @@ typedef struct _GtkAdiTitle GtkAdiTitle;
 #endif
 
 #define MAX_LABEL_WIDTH 50
+#define MIN_LABEL_HEIGHT 55
 
 struct _GtkAdiTitle {
 	GtkEventBox __parent__;
