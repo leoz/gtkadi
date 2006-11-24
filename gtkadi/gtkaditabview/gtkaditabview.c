@@ -287,7 +287,7 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (child != NULL);
-	gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
+	//gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
 	gtk_adi_tab_view_remove_child_notify(self, child);
 	//gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
@@ -469,9 +469,14 @@ void
 gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
 								       const gchar *title_text)
 {
-	GtkWidget *tab_label;
-	tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
-	gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
+    GtkWidget *tab_label;
+    tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
+    gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
+        
+    if (GTK_ADI_TAB_VIEW(self)->main_window)
+    {
+        gtk_window_set_title(GTK_WINDOW(GTK_ADI_TAB_VIEW(self)->main_window), title_text);
+    }
 }
 
 void
@@ -558,5 +563,3 @@ gtk_adi_tab_view_create_window (GtkAdi* adi)
     return window;
 #endif
 }
-
-																
