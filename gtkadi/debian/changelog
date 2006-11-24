@@ -1,3 +1,16 @@
+libgtkadi (0.6.3-1) unstable; urgency=low
+
+  * Fixed scrolling of tabs.
+  * Fixed wrapping problem for tab labels
+  * Fixed the problem of changing the window title in TAB mode
+  * Added new image to close button
+  * Created new function to ask for new tab
+  * Changed vertical displaying of title to horizontal
+  * Fixed the problem of closing tabs
+  * Added new functionality to work with TAB view 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 24 Nov 2006 18:19:05 +0200
+
 libgtkadi (0.6.2-1) unstable; urgency=low
 
   * Fixed some compiler warnings 
