@@ -46,6 +46,9 @@ G_BEGIN_DECLS
 #define __TYPEDEF_GTK_ADI_TITLE__
 typedef struct _GtkAdiTitle GtkAdiTitle;
 #endif
+
+#define MAX_LABEL_WIDTH 50
+
 struct _GtkAdiTitle {
 	GtkEventBox __parent__;
 	/*< public >*/
