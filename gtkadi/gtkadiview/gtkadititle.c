@@ -30,6 +30,7 @@
 static void gtk_adi_title_class_init (GtkAdiTitleClass *c);
 static void gtk_adi_title_close_button_released (GtkWidget *close_button, GtkAdiTitle *self);
 static void gtk_adi_title_init (GtkAdiTitle *self);
+void gtk_adi_label_size_request(GtkWidget *widget, GtkRequisition *req, gpointer data);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -82,7 +83,9 @@ gtk_adi_title_init (GtkAdiTitle * self)
 
 	self->label = gtk_label_new (NULL);
 	gtk_adi_title_set_widget_style (self->label);
-		
+	gtk_label_set_line_wrap (self->label, TRUE);
+	g_signal_connect(G_OBJECT(self->label), "size-request", G_CALLBACK(gtk_adi_label_size_request), NULL);
+    	
 	self->vbox = gtk_vbox_new (TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (self->hbox), self->vbox, FALSE, FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (self->vbox), 2);
@@ -122,6 +125,21 @@ gtk_adi_title_init (GtkAdiTitle * self)
 //	self->layout = GTK_ADI_HORIZONTAL;
 }
 
+void
+gtk_adi_label_size_request(GtkWidget *widget, GtkRequisition *requisition, gpointer data)
+{
+    GtkRequisition req;
+    if(widget)
+    {
+        gtk_widget_size_request (widget, &req);
+        if(req.width > MAX_LABEL_WIDTH)
+        {
+            requisition->width = MAX_LABEL_WIDTH;
+        }else
+            requisition->width = req.width;
+    } 
+ 
+}
 
 void 
 gtk_adi_title_set_text_font (GtkAdiTitle * self)
