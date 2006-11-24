@@ -83,7 +83,7 @@ gtk_adi_title_init (GtkAdiTitle * self)
 
 	self->label = gtk_label_new (NULL);
 	gtk_adi_title_set_widget_style (self->label);
-	gtk_label_set_line_wrap (self->label, TRUE);
+	gtk_label_set_line_wrap (GTK_LABEL(self->label), TRUE);
 	g_signal_connect(G_OBJECT(self->label), "size-request", G_CALLBACK(gtk_adi_label_size_request), NULL);
     	
 	self->vbox = gtk_vbox_new (TRUE, 0);
