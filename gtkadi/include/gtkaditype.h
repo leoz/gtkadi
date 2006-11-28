@@ -33,7 +33,8 @@ typedef enum {
 
 typedef enum {
 	GTK_ADI_PANED,
-	GTK_ADI_BOX
+	GTK_ADI_BOX,
+	GTK_ADI_INVISIBLE
 } GtkAdiMode;
 
 typedef enum {

@@ -443,8 +443,16 @@ gtk_adi_tab_view_change_mode (GtkAdiView * self, GtkAdiMode mode)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
-	
-	/*TBD*/
+	static gboolean show_tabs = FALSE;
+	switch (mode)
+	{
+		case GTK_ADI_INVISIBLE:
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(self), show_tabs);
+			show_tabs = show_tabs == FALSE;
+			break;
+		default:
+			break;    
+	}
 }
 
 void 
