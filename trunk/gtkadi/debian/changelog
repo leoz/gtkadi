@@ -1,3 +1,9 @@
+libgtkadi (0.6.4-1) unstable; urgency=low
+
+  * Enabled favicons functionality.
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Tue, 28 Nov 2006 20:22:32 +0200
+
 libgtkadi (0.6.3-1) unstable; urgency=low
 
   * Fixed scrolling of tabs.
