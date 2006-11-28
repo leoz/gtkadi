@@ -657,9 +657,9 @@ void gtk_adi_set_child_icon (GtkAdi *self, GtkWidget *widget,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-//	gtk_adi_view_set_child_icon (GTK_ADI_VIEW(self->cur_view),
-//	                                   widget,
-//	                                   icon);
+	gtk_adi_view_set_child_icon (GTK_ADI_VIEW(self->cur_view),
+	                                   widget,
+	                                   icon);
 }
 
 void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
