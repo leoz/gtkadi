@@ -571,6 +571,11 @@ void
 gtk_adi_con_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 								       const GdkPixbuf * icon)
 {
+    g_return_if_fail (self != NULL);
+    g_return_if_fail (GTK_IS_ADI_VIEW (self));
+    g_return_if_fail(icon);
+    g_return_if_fail(GTK_IS_WIDGET(widget));
+
 	GtkAdiContainer* child = gtk_adi_con_view_find_child(self, widget);
 	if (child && child->window) {
 		gtk_window_set_icon(GTK_WINDOW(child->window), (GdkPixbuf *) icon);
