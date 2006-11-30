@@ -542,7 +542,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	if (self->cur_view) {
 		gtk_widget_hide(self->cur_view);
 		gtk_widget_ref(self->cur_view);
-		gtk_adi_cur_view_remove (self);
+	//	gtk_adi_cur_view_remove (self);
 		old_view = self->cur_view;
 		self->cur_view = NULL;
 	}
