@@ -234,6 +234,9 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	{
     	     GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi));
         
+        GTK_ADI_TAB_VIEW(self)->adi->window = GTK_ADI_TAB_VIEW(self)->main_window;
+        GTK_ADI_TAB_VIEW(self)->adi->container = GTK_ADI_TAB_VIEW(self)->main_window;
+        
 	    gtk_window_set_icon (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), icon);
     	    if (title)
 	    {
@@ -287,9 +290,11 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (child != NULL);
-	//gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
+//	gint page_num = gtk_notebook_page_num (GTK_NOTEBOOK(self), child);
 	gtk_adi_tab_view_remove_child_notify(self, child);
-	//gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
+   
+    gtk_container_remove(self, child);
+//	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
 
 static void
