@@ -232,8 +232,8 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	
 	if(!(GTK_ADI_TAB_VIEW(self)->main_window))
 	{
-    	     GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi));
-        
+    	
+        GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi)); 
         GTK_ADI_TAB_VIEW(self)->adi->window = GTK_ADI_TAB_VIEW(self)->main_window;
         GTK_ADI_TAB_VIEW(self)->adi->container = GTK_ADI_TAB_VIEW(self)->main_window;
         
@@ -243,9 +243,12 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
         	/* 6. Set window title. */
         	gtk_window_set_title (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), title);
     	    }
-	    gtk_container_add (GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));	
-	    gtk_widget_show_all (GTK_ADI_TAB_VIEW(self)->main_window);
+        gtk_widget_unparent(GTK_WIDGET(self));    
+        gtk_container_add (GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));	
 	}
+
+    
+    gtk_widget_show_all (GTK_ADI_TAB_VIEW(self)->main_window);
 	
 	page_num = -1;
 	tab_label = gtk_adi_title_new ();
@@ -294,6 +297,14 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
 	gtk_adi_tab_view_remove_child_notify(self, child);
    
     gtk_container_remove(self, child);
+    if(!gtk_notebook_get_n_pages(GTK_NOTEBOOK(self)))
+    {
+        //gtk_container_remove(GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));
+        g_object_ref(GTK_ADI_TAB_VIEW(self));
+           gtk_container_remove(GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));
+        gtk_widget_unrealize(GTK_WIDGET(GTK_ADI_TAB_VIEW(self)->main_window));
+        GTK_ADI_TAB_VIEW(self)->main_window = NULL;
+    }    
 //	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
 
