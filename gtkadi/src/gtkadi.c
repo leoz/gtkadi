@@ -585,6 +585,7 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 			ADI_TRACE_MSG("Change view - iteration.\n------------\n")
 			gtk_widget_ref (data.widget);
 			data.title = g_strdup(data.title);
+			data.icon = gdk_pixbuf_copy(data.icon);
 			gtk_adi_view_remove_child(GTK_ADI_VIEW(old_view), data.child, FALSE);
 			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
 			                                              &data);
