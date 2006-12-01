@@ -157,7 +157,7 @@ gtk_adi_title_set_text_font (GtkAdiTitle * self)
 	
 	style = gtk_widget_get_style(self->label);
 
-	pango_font_description_set_size(style->font_desc, 8 * PANGO_SCALE);
+	pango_font_description_set_size(style->font_desc, 12 * PANGO_SCALE);
 	pango_font_description_set_weight(style->font_desc, PANGO_WEIGHT_BOLD);
 	gtk_widget_modify_font(self->label, style->font_desc);
 }
@@ -243,7 +243,7 @@ gtk_adi_title_set_icon (GtkAdiTitle *self, const GdkPixbuf *icon)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_TITLE (self));
 	if (icon) {
-		gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), gdk_pixbuf_scale_simple(icon, 16, 16, GDK_INTERP_NEAREST));
+		gtk_image_set_from_pixbuf(GTK_IMAGE(self->image), gdk_pixbuf_scale_simple(icon, 26, 26, GDK_INTERP_NEAREST));
 	}
 }
 
