@@ -38,7 +38,7 @@
 /* here are local prototypes */
 static void gtk_adi_win_view_class_init (GtkAdiWinViewClass *c);
 static void gtk_adi_win_view_init (GtkAdiWinView *self);
-static GtkWidget* gtk_adi_win_view_create_window (GtkAdi* adi);
+static GtkWidget* gtk_adi_win_view_create_window (GtkAdi* adi, GtkWidget *widget);
 
 static void
 gtk_adi_win_view_swap_child_windows (GtkWidget *window,
@@ -120,10 +120,10 @@ gtk_adi_win_view_child_event_focus_in (GtkWidget *window,
 									      
 
 static GtkWidget*
-gtk_adi_win_view_create_window (GtkAdi* adi)
+gtk_adi_win_view_create_window (GtkAdi* adi, GtkWidget *widget)
 {
 	GtkWidget* window = NULL;
-	g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window);
+	g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window, widget);
 	if(window == NULL)
 	{
 	    window = hildon_window_new();

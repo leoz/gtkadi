@@ -52,7 +52,7 @@ static void gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child);
 
 void on_switch_page (GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer user_data);
-static GtkWidget* gtk_adi_tab_view_create_window (GtkAdi* adi);
+static GtkWidget* gtk_adi_tab_view_create_window (GtkAdi* adi, GtkWidget *widget);
 
 /* pointer to the class of our parent */
 static GtkNotebookClass *parent_class = NULL;
@@ -233,7 +233,7 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	if(!(GTK_ADI_TAB_VIEW(self)->main_window))
 	{
     	
-        GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi)); 
+        GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi, widget)); 
         GTK_ADI_TAB_VIEW(self)->adi->window = GTK_ADI_TAB_VIEW(self)->main_window;
         GTK_ADI_TAB_VIEW(self)->adi->container = GTK_ADI_TAB_VIEW(self)->main_window;
         
@@ -303,6 +303,7 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
         g_object_ref(GTK_ADI_TAB_VIEW(self));
            gtk_container_remove(GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));
         gtk_widget_unrealize(GTK_WIDGET(GTK_ADI_TAB_VIEW(self)->main_window));
+//        gtk_widget_destroy(GTK_WIDGET(GTK_ADI_TAB_VIEW(self)->main_window));
         GTK_ADI_TAB_VIEW(self)->main_window = NULL;
     }    
 //	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
@@ -568,10 +569,10 @@ gtk_adi_tab_view_need_window (GtkAdiView *self)
 }
 
 static GtkWidget*
-gtk_adi_tab_view_create_window (GtkAdi* adi)
+gtk_adi_tab_view_create_window (GtkAdi* adi, GtkWidget *widget)
 {
     GtkWidget* window = NULL;
-    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window);
+    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window, widget);
     if(window == NULL)
     {
         window = hildon_window_new();

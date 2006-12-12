@@ -27,6 +27,7 @@
 /* #define ADI_DO_TRACE */
 #include "gtkadi.h"
 #include "gtkadiutils.h"
+#include <gtk/gtkmarshal.h>
 #ifndef NO_WIDGETS
 #include "gtkadicmd.h"
 #endif
@@ -186,8 +187,8 @@ gtk_adi_class_init (GtkAdiClass * c)
 			G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 			G_STRUCT_OFFSET (GtkAdiClass, get_cont),
 			NULL, NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE, 1, G_TYPE_POINTER);
+			gtk_marshal_VOID__POINTER_POINTER,
+			G_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 			
         gtk_adi_signals[ADI_FOCUS_CHILD]
 	        = g_signal_new (ADI_FOCUS_CHILD_S,

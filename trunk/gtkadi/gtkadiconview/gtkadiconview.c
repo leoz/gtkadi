@@ -282,7 +282,7 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 		/* 0. Create data element. */
 		GtkAdiContainer* c = g_new0 (GtkAdiContainer, 1);
 		/* 1. Get parent container. */
-		c->container = (GtkWidget*)( GTK_ADI(GTK_ADI_CON_VIEW(self)->adi)->win_func (GTK_ADI_CON_VIEW(self)->adi));
+		c->container = (GtkWidget*)( GTK_ADI(GTK_ADI_CON_VIEW(self)->adi)->win_func (GTK_ADI_CON_VIEW(self)->adi, widget));
 		if (!c->container) {
 			g_free (c);
 		}
