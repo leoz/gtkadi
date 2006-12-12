@@ -53,7 +53,7 @@ typedef struct _GtkAdi GtkAdi;
 #endif
 
 typedef GtkWidget* (*GtkAdiCreateChildFunc) (void);
-typedef GtkWidget* (*GtkAdiCreateWinFunc)   (GtkAdi *adi);
+typedef GtkWidget* (*GtkAdiCreateWinFunc)   (GtkAdi *adi, GtkWidget *widget);
 typedef GdkPixbuf* (*GtkAdiCreateIconFunc)  (GtkWidget *widget);
 typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 
