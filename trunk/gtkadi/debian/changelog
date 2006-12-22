@@ -1,3 +1,17 @@
+libgtkadi (0.6.5-2) unstable; urgency=low
+
+  * Fixed problem of closing windows in TAB mode
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 22 Dec 2006 19:08:10 +0200
+
+libgtkadi (0.6.5-1) unstable; urgency=low
+
+  * Increased font and icons dimentions
+  * Added update favicon while switching between views
+  * Fixes for switching between views
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 22 Dec 2006 19:07:44 +0200
+
 libgtkadi (0.6.4-1) unstable; urgency=low
 
   * Enabled favicons functionality.
