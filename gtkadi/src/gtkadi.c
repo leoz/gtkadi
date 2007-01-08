@@ -159,16 +159,6 @@ gtk_adi_finalize(GObject *obj_self)
 		self->win_view = NULL;
 	}
 	
-	if(self->container) {
-		ADI_TRACE_FINALIZE("container");
-		self->container = NULL;
-	}
-	
-	if(self->window) {
-		ADI_TRACE_FINALIZE("window");
-		self->window = NULL;
-	}
-
 	ADI_TRACE_FINALIZE("end");
 }
 
@@ -215,8 +205,7 @@ static void
 gtk_adi_init (GtkAdi *self)
 {
 	self->child_func = NULL;
-	self->win_func   = NULL;
-	self->tab_func   = NULL;
+	self->cont_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
 #ifndef NO_WIDGETS
@@ -228,7 +217,6 @@ gtk_adi_init (GtkAdi *self)
 	self->win_view = NULL;
 	self->cur_view = NULL;
 	self->container = NULL;
-	self->window = NULL;
 
 	gtk_adi_stock_init ();
 #ifndef NO_WIDGETS
@@ -264,21 +252,12 @@ gtk_adi_set_child_func (GtkAdi *self, GtkAdiCreateChildFunc child_func)
 }
 
 void 
-gtk_adi_set_win_func (GtkAdi *self, GtkAdiCreateWinFunc win_func)
+gtk_adi_set_cont_func (GtkAdi *self, GtkAdiCreateContFunc cont_func)
 {
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	self->win_func = win_func;
-}
-
-void 
-gtk_adi_set_tab_func (GtkAdi *self, GtkAdiCreateWinFunc tab_func)
-{
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (GTK_IS_ADI (self));
-	
-	self->tab_func = tab_func;
+	self->cont_func = cont_func;
 }
 
 void 
@@ -603,10 +582,6 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 
 	ADI_TRACE_MSG("Exit change view.")
 	
-	/* 5. Show window with current view */
-	if (self->container) {
-		gtk_widget_show(self->container);
-	}
 }
 
 GtkAdiViewType
@@ -742,18 +717,6 @@ gtk_adi_create_window (GtkAdi *self)
 */
 
 static void
-gtk_adi_destroy_window (GtkAdi *self)
-{
-	if (self->container && self->container != GTK_WIDGET(self)) {
-		if (self->window && self->window != gtk_widget_get_toplevel (GTK_WIDGET(self)) ) {
-			gtk_widget_destroy (self->window);
-		}
-	}
-	self->window = NULL;
-	self->container = NULL;
-}
-
-static void
 gtk_adi_cur_view_add (GtkAdi *self)
 {
 	//gtk_adi_create_window (self);
@@ -770,5 +733,4 @@ gtk_adi_cur_view_remove (GtkAdi *self)
 		/* Remove view from window container */
 		gtk_container_remove (GTK_CONTAINER (self->container), self->cur_view);
 	}
-	gtk_adi_destroy_window (self);
 }

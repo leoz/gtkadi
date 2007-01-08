@@ -87,7 +87,7 @@ GtkWidget*
 gtk_adi_win_view_new (GtkAdi* adi)
 {	
 	GtkWidget *self = gtk_adi_con_view_new(adi);
-	gtk_adi_set_win_func (GTK_ADI(adi), gtk_adi_win_view_create_window);
+	gtk_adi_set_cont_func (GTK_ADI(adi), gtk_adi_win_view_create_window);
 	return self;
 }
 

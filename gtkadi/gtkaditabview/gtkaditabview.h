@@ -53,7 +53,6 @@ struct _GtkAdiTabView {
 	/*< public >*/
 	GtkAdiLayout layout;
 	GtkAdi *adi;
-	GtkWidget *main_window;
 };
 
 /*
