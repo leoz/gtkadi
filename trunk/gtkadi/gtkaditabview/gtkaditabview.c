@@ -177,7 +177,7 @@ gtk_adi_tab_view_new (GtkAdi *adi)
 {	
     GtkWidget *self = GTK_WIDGET(GET_NEW);
     GTK_ADI_TAB_VIEW(self)->adi = adi;
-    gtk_adi_set_tab_func (GTK_ADI(adi), gtk_adi_tab_view_create_window);	
+    gtk_adi_set_cont_func (GTK_ADI(adi), gtk_adi_tab_view_create_window);	
     g_signal_connect(G_OBJECT(self), "switch-page", G_CALLBACK(on_switch_page), adi);
     
     return self;
@@ -229,26 +229,17 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	g_return_if_fail (widget != NULL);
-	
-	if(!(GTK_ADI_TAB_VIEW(self)->main_window))
-	{
-    	
-        GTK_ADI_TAB_VIEW(self)->main_window = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->tab_func (GTK_ADI_TAB_VIEW(self)->adi, widget)); 
-        GTK_ADI_TAB_VIEW(self)->adi->window = GTK_ADI_TAB_VIEW(self)->main_window;
-        GTK_ADI_TAB_VIEW(self)->adi->container = GTK_ADI_TAB_VIEW(self)->main_window;
-        
-	    gtk_window_set_icon (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), icon);
-    	    if (title)
-	    {
-        	/* 6. Set window title. */
-        	gtk_window_set_title (GTK_WINDOW (GTK_ADI_TAB_VIEW(self)->main_window), title);
-    	    }
-        gtk_widget_unparent(GTK_WIDGET(self));    
-        gtk_container_add (GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));	
-	}
 
-    
-    gtk_widget_show_all (GTK_ADI_TAB_VIEW(self)->main_window);
+	if (!gtk_widget_get_parent(GTK_WIDGET(self)))
+	{
+		GtkWidget *temp_win = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->cont_func (GTK_ADI_TAB_VIEW(self)->adi, widget));
+		GTK_ADI_TAB_VIEW(self)->adi->container = temp_win;
+		gtk_window_set_icon (GTK_WINDOW (temp_win), icon);
+		if (title)
+			gtk_window_set_title (GTK_WINDOW (temp_win), title);
+		gtk_container_add (GTK_CONTAINER(temp_win), GTK_WIDGET(self));
+		gtk_widget_show_all (temp_win);
+	}
 	
 	page_num = -1;
 	tab_label = gtk_adi_title_new ();
@@ -299,14 +290,11 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
     gtk_container_remove(self, child);
     if(!gtk_notebook_get_n_pages(GTK_NOTEBOOK(self)))
     {
-        //gtk_container_remove(GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));
         g_object_ref(GTK_ADI_TAB_VIEW(self));
-           gtk_container_remove(GTK_CONTAINER(GTK_ADI_TAB_VIEW(self)->main_window), GTK_WIDGET(self));
-        gtk_widget_unrealize(GTK_WIDGET(GTK_ADI_TAB_VIEW(self)->main_window));
-//        gtk_widget_destroy(GTK_WIDGET(GTK_ADI_TAB_VIEW(self)->main_window));
-        GTK_ADI_TAB_VIEW(self)->main_window = NULL;
+        GtkWidget * parent = gtk_widget_get_parent(GTK_WIDGET(self));
+        gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(self));
+        gtk_widget_unrealize(GTK_WIDGET(parent));
     }    
-//	gtk_notebook_remove_page (GTK_NOTEBOOK(self), page_num);
 }
 
 static void
@@ -498,9 +486,9 @@ gtk_adi_tab_view_set_child_title_text (GtkAdiView *self, GtkWidget *widget,
     tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK(self), widget);
     gtk_adi_title_set_text (GTK_ADI_TITLE(tab_label), title_text);
         
-    if (GTK_ADI_TAB_VIEW(self)->main_window)
+    if (GTK_IS_WINDOW(gtk_widget_get_parent(GTK_WIDGET(self))))
     {
-        gtk_window_set_title(GTK_WINDOW(GTK_ADI_TAB_VIEW(self)->main_window), title_text);
+        gtk_window_set_title(GTK_WINDOW(gtk_widget_get_parent(GTK_WIDGET(self))), title_text);
     }
 }
 
