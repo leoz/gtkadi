@@ -1,3 +1,4 @@
+/* vim:set ts=2 sw=4 sts=2 et cindent: */
 /* GTK ADI Library
  * gtkadititle.h: ADI Title Widget
  * Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>

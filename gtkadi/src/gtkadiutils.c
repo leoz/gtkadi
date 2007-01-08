@@ -1,3 +1,4 @@
+/* vim:set ts=2 sw=4 sts=2 et cindent: */
 /* GTK ADI Library
  * gtkadiutils.c: Utility functions
  * Copyright (C) 2003 - 2005, Leonid Zolotarev <leonid.zolotarev@gmail.com>
