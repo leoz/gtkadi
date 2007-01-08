@@ -56,6 +56,7 @@ static void gtk_adi_box_view_get_child_data (GtkAdiChildData *data,
                                              GtkAdiChild *child);
 
 static void gtk_adi_box_view_remove_child_notify (GtkAdiView *self, GtkWidget *child);
+static GtkWidget* gtk_adi_box_view_create_window (GtkAdi* adi, GtkWidget *widget);
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -201,9 +202,12 @@ gtk_adi_box_view_set_space (void)
 
 
 GtkWidget* 
-gtk_adi_box_view_new (void)
+gtk_adi_box_view_new (GtkAdi *adi)
 {
-	return GTK_WIDGET(GET_NEW);
+    GtkWidget *self = GTK_WIDGET(GET_NEW);
+    GTK_ADI_BOX_VIEW(self)->adi = adi;
+    gtk_adi_set_cont_func (GTK_ADI(adi), gtk_adi_box_view_create_window);
+    return self;
 }
 
 static GSList* 
@@ -562,6 +566,16 @@ gtk_adi_box_view_add_child_with_layout (GtkAdiView *self,
 	own_layout  = GTK_ADI_BOX_VIEW(self)->layout;
 
 	child = gtk_adi_box_view_create_child (GTK_ADI_BOX_VIEW(self), widget, icon, title, layout);
+    
+    if (!gtk_widget_get_parent(GTK_WIDGET(self)))
+    {
+        GtkWidget *temp_win = (GtkWidget*)( GTK_ADI(GTK_ADI_BOX_VIEW(self)->adi)->cont_func (GTK_ADI_BOX_VIEW(self)->adi, widget));
+        gtk_window_set_icon (GTK_WINDOW (temp_win), icon);
+        if (title)
+            gtk_window_set_title (GTK_WINDOW (temp_win), title);
+        gtk_container_add (GTK_CONTAINER(temp_win), GTK_WIDGET(self));
+        gtk_widget_show_all (temp_win);
+    }
 
 	if ( old_child == NULL ) {
 		gtk_container_add ( GTK_CONTAINER (self), child );
@@ -623,7 +637,7 @@ gtk_adi_box_view_set_current_child (GtkAdiView *self, GtkWidget *child)
 	g_return_if_fail (GTK_IS_ADI_VIEW (self));
 	GTK_ADI_BOX_VIEW(self)->cur_child = child;
 	if (child)
-	    g_signal_emit(self, gtk_adi_box_view_signals[ADI_FOCUS_CHILD], 0, GTK_ADI_CHILD(child)->widget);
+        g_signal_emit_by_name(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_FOCUS_CHILD_S , GTK_ADI_CHILD(child)->widget);
 }
 
 void 
@@ -1002,8 +1016,7 @@ static void
 gtk_adi_box_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-	g_signal_emit(self, gtk_adi_box_view_signals[ADI_CLOSE_CHILD], 0,
-	              GTK_ADI_CHILD(child)->widget);
+    g_signal_emit_by_name(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_CLOSE_CHILD_S, GTK_ADI_CHILD(child)->widget);
 }
 
 gint
@@ -1020,3 +1033,25 @@ gtk_adi_box_view_need_window (GtkAdiView *self)
 {
     return TRUE;
 }
+
+static GtkWidget*
+gtk_adi_box_view_create_window (GtkAdi* adi, GtkWidget *widget)
+{
+    GtkWidget* window = NULL;
+    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window, widget);
+    if(window == NULL)
+    {
+        window = hildon_window_new();
+    }
+
+    //    g_signal_connect (window, "focus-in-event",
+    //                          G_CALLBACK (gtk_adi_win_view_child_event_focus_in),
+    //                        adi);
+
+    //window = new_cont; //gtk_adi_win_child_new (adi);
+    return window;
+#ifdef NEWHILDON_SUPPORT
+    return window;
+#endif
+}
+

@@ -217,14 +217,14 @@ gtk_adi_init (GtkAdi *self)
 	self->tab_view = NULL;
 	self->win_view = NULL;
 	self->cur_view = NULL;
-	self->container = NULL;
+//	self->container = NULL;
 
 	gtk_adi_stock_init ();
 #ifndef NO_WIDGETS
 	self->cmd = gtk_adi_cmd_new (self);
 #endif
 	self->flex = gtk_adi_flex_new (self);
-	self->box_view = gtk_adi_box_view_new ();
+	self->box_view = gtk_adi_box_view_new (self);
 	self->tab_view = gtk_adi_tab_view_new (self);
 	self->win_view = gtk_adi_win_view_new (self);
 
@@ -720,18 +720,9 @@ gtk_adi_create_window (GtkAdi *self)
 static void
 gtk_adi_cur_view_add (GtkAdi *self)
 {
-	//gtk_adi_create_window (self);
-	if (self->container) {
-		/* Add view to window container */
-		gtk_container_add (GTK_CONTAINER (self->container), self->cur_view);
-	}
 }
 
 static void
 gtk_adi_cur_view_remove (GtkAdi *self)
 {
-	if (self->container) {
-		/* Remove view from window container */
-		gtk_container_remove (GTK_CONTAINER (self->container), self->cur_view);
-	}
 }

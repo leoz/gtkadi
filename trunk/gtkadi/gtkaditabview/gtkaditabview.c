@@ -234,7 +234,6 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
 	if (!gtk_widget_get_parent(GTK_WIDGET(self)))
 	{
 		GtkWidget *temp_win = (GtkWidget*)( GTK_ADI(GTK_ADI_TAB_VIEW(self)->adi)->cont_func (GTK_ADI_TAB_VIEW(self)->adi, widget));
-		GTK_ADI_TAB_VIEW(self)->adi->container = temp_win;
 		gtk_window_set_icon (GTK_WINDOW (temp_win), icon);
 		if (title)
 			gtk_window_set_title (GTK_WINDOW (temp_win), title);
