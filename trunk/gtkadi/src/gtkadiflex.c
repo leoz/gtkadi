@@ -1,3 +1,4 @@
+/* vim:set ts=2 sw=4 sts=2 et cindent: */
 /* GTK ADI Library
  * gtkadiflex.c: ADI Flex Object
  * Copyright (C) 2005 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
