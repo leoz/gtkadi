@@ -59,6 +59,7 @@ struct _GtkAdiBoxView {
 	gint space;
 	GtkWidget * cur_child;
 	GList * children;
+    GtkAdi *adi;
 };
 
 /*
@@ -76,7 +77,7 @@ struct _GtkAdiBoxViewClass {
  * Public methods
  */
 GType	gtk_adi_box_view_get_type	(void);
-GtkWidget * 	gtk_adi_box_view_new	(void);
+GtkWidget * 	gtk_adi_box_view_new	(GtkAdi *self);
 GtkAdiLayout 	gtk_adi_box_view_get_layout	(GtkAdiView * self);
 void gtk_adi_box_view_set_layout (GtkAdiView *self, GtkAdiLayout layout);
 void gtk_adi_box_view_add_child_with_data (GtkAdiView *self,
