@@ -740,7 +740,7 @@ gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget)
 #ifdef NEWHILDON_SUPPORT
     g_signal_connect (window, "notify::is-topmost",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
-                      adi);
+                      widget);
 #else
     g_signal_connect (window, "focus-in-event",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
