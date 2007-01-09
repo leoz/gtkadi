@@ -34,11 +34,9 @@ AM_CFLAGS = \
 noinst_LTLIBRARIES = libgtkadiwinview.la
 
 libgtkadiwinview_la_SOURCES = \
-	gtkadiwinchild.c \
 	gtkadiwinview.c
 
 noinst_HEADERS = \
-	gtkadiwinchild.c \
 	gtkadiwinview.h
 
 libgtkadiwinview_la_LDFLAGS = \

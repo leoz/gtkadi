@@ -43,6 +43,10 @@
 #ifdef HILDON_SUPPORT
 #include <hildon-widgets/gtk-infoprint.h>
 #include <hildon-widgets/hildon-app.h>
+#ifdef NEWHILDON_SUPPORT
+#include<hildon-widgets/hildon-window.h>
+#include<hildon-widgets/hildon-program.h>
+#endif
 #endif /* HILDON_SUPPORT */
 
 enum {
@@ -51,6 +55,7 @@ enum {
     ADI_CLOSE_CHILD,    
     LAST_SIGNAL
 };
+
 static gint gtk_adi_signals[LAST_SIGNAL] = {0};
 	
 
@@ -63,10 +68,12 @@ static void gtk_adi_add_child_notify (GtkAdi *self,
                           const gchar *title,
                           GtkAdiLayout layout);
 						  
-static void gtk_adi_cur_view_add (GtkAdi *self);
-static void gtk_adi_cur_view_remove (GtkAdi *self);
 //static void gtk_adi_create_window (GtkAdi *self);
 static void gtk_adi_destroy_window (GtkAdi *self);
+
+static GtkWidget*
+gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget);
+
 
 /* pointer to the class of our parent */
 static GtkEventBoxClass *parent_class = NULL;
@@ -116,7 +123,7 @@ gtk_adi_finalize(GObject *obj_self)
 	if (self->cur_view) {
 		ADI_TRACE_FINALIZE("current");
 		if (GTK_IS_WIDGET(self->cur_view)) {
-			gtk_adi_cur_view_remove (self);
+//REMOVEME			gtk_adi_cur_view_remove (self);
 		}
 		self->cur_view = NULL;
 	}
@@ -207,6 +214,7 @@ gtk_adi_init (GtkAdi *self)
 {
 	self->child_func = NULL;
 	self->cont_func   = NULL;
+	self->def_cont_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
 #ifndef NO_WIDGETS
@@ -217,13 +225,14 @@ gtk_adi_init (GtkAdi *self)
 	self->tab_view = NULL;
 	self->win_view = NULL;
 	self->cur_view = NULL;
-//	self->container = NULL;
 
 	gtk_adi_stock_init ();
 #ifndef NO_WIDGETS
 	self->cmd = gtk_adi_cmd_new (self);
 #endif
 	self->flex = gtk_adi_flex_new (self);
+	self->def_cont_func = gtk_adi_create_window;
+    gtk_adi_set_cont_func (GTK_ADI(self), gtk_adi_create_window);
 	self->box_view = gtk_adi_box_view_new (self);
 	self->tab_view = gtk_adi_tab_view_new (self);
 	self->win_view = gtk_adi_win_view_new (self);
@@ -233,8 +242,6 @@ gtk_adi_init (GtkAdi *self)
 	gtk_widget_ref(self->win_view);
 
 	self->cur_view = self->box_view;
-	gtk_adi_cur_view_add (self);
-	gtk_widget_unref(self->cur_view);
 }
 
 GtkWidget* 
@@ -258,7 +265,7 @@ gtk_adi_set_cont_func (GtkAdi *self, GtkAdiCreateContFunc cont_func)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (GTK_IS_ADI (self));
 	
-	self->cont_func = cont_func;
+	self->cont_func = cont_func ? cont_func : self->def_cont_func;
 }
 
 void 
@@ -546,8 +553,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 	
 	/* 3. Add current view */
 	if (self->cur_view) {
-		gtk_adi_cur_view_add (self);
-		gtk_widget_unref(self->cur_view);
+//		gtk_adi_cur_view_add (self);
+//		gtk_widget_unref(self->cur_view);
 	}
 
 	/* 4. Move child windows */	
@@ -690,39 +697,55 @@ gtk_adi_add_child_notify (GtkAdi *self,
                           const gchar *title,
                           GtkAdiLayout layout)
 {	
-	gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(self->cur_view),
-	                                   widget, icon, title, layout);
+    gtk_adi_view_add_child_with_layout(GTK_ADI_VIEW(self->cur_view),
+                                       widget, icon, title, layout);
 }
 
-/*
-static void
-gtk_adi_create_window (GtkAdi *self)
-{
-	if (!self->container) {
-		GtkWidget* parent = gtk_widget_get_toplevel (GTK_WIDGET(self));
-		if (GTK_IS_WINDOW(parent)) {
-			// 1. Check own window 
-			self->container = gtk_widget_get_parent (GTK_WIDGET(self));
-			self->window = parent;
-		}
-		else if (gtk_adi_view_need_window (GTK_ADI_VIEW(self->cur_view)) && self->win_func) {
-			// 2. Create window with container
-			self->container = self->win_func (self);
-			self->window = gtk_widget_get_toplevel (self->container);
-			if (self->window) {
-				gtk_widget_show(self->window);
-			}
-		}
-	}
-}
-*/
 
-static void
-gtk_adi_cur_view_add (GtkAdi *self)
+static GtkAdi * glob_signal_adi = NULL;
+static gboolean
+gtk_adi_cont_event_focus_in (GtkWidget *window,
+#ifdef NEWHILDON_SUPPORT
+                             GParamSpec *event,
+#else
+                             GdkEventFocus *event,
+#endif
+                             GtkWidget *data)
 {
+    g_return_val_if_fail (window, FALSE);
+    g_return_val_if_fail (data, FALSE);
+    ADI_TRACE("Focus - W1: %p", window);
+    g_signal_emit_by_name(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
+    return FALSE;
 }
 
-static void
-gtk_adi_cur_view_remove (GtkAdi *self)
+static GtkWidget*
+gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget)
 {
+    GtkWidget* window = NULL;
+    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window, widget);
+    if(window == NULL)
+    {
+#ifdef NEWHILDON_SUPPORT
+        window = GTK_WIDGET(hildon_window_new());
+#else
+        window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+#endif
+    }
+
+    glob_signal_adi = adi;
+    if (glob_signal_adi && glob_signal_adi->cur_view != glob_signal_adi->win_view)
+        return window;
+
+#ifdef NEWHILDON_SUPPORT
+    g_signal_connect (window, "notify::is-topmost",
+                      G_CALLBACK (gtk_adi_cont_event_focus_in),
+                      adi);
+#else
+    g_signal_connect (window, "focus-in-event",
+                      G_CALLBACK (gtk_adi_cont_event_focus_in),
+                      widget);
+#endif
+    return window;
 }
+

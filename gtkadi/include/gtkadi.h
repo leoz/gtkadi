@@ -63,6 +63,7 @@ struct _GtkAdi {
 	/*< public >*/
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateContFunc  cont_func;
+	GtkAdiCreateContFunc  def_cont_func;
 	GtkAdiCreateIconFunc  icon_func;
 	GtkAdiCreateTitleFunc title_func;
 #ifndef NO_WIDGETS

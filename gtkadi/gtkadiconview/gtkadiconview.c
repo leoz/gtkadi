@@ -304,14 +304,6 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 				g_signal_connect (c->window, "destroy",
 							  G_CALLBACK (gtk_adi_con_view_child_event_destroy),
 							  self);
-				//if (old_window) {
-					/* 3. Get window size. */
-				//	gint width = 0;
-				//	gint height = 0;
-				//	gtk_window_get_size (GTK_WINDOW (old_window), &width, &height);
-					/* 4. Set window size. */
-				//	gtk_widget_set_size_request (c->window, width, height);
-				//}
 				/* 5. Set window icon. */
 				gtk_window_set_icon (GTK_WINDOW (c->window), icon);
 				if (title) {
