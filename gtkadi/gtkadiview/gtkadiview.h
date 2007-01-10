@@ -90,6 +90,7 @@ struct _GtkAdiViewIface {
 								    gboolean enabled);
 	void (*set_child_tab) (GtkAdiView *self, GtkWidget *widget,
 								    gboolean enabled);
+	GtkWidget* (*get_child_container) (GtkAdiView *self, GtkWidget *widget);
 	gint (*get_childs_count) (GtkAdiView *self);
 	gboolean (*need_window) (GtkAdiView *self);
 };
@@ -138,6 +139,7 @@ void gtk_adi_view_set_child_close_button (GtkAdiView *self, GtkWidget *widget,
 								          gboolean enabled);
 void gtk_adi_view_set_child_tab (GtkAdiView *self, GtkWidget *widget,
 								          gboolean enabled);
+GtkWidget * gtk_adi_view_get_child_container (GtkAdiView *self, GtkWidget *widget);
 gint gtk_adi_view_get_childs_count (GtkAdiView *self);
 gboolean gtk_adi_view_need_window (GtkAdiView *self);
 

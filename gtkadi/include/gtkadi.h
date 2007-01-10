@@ -140,6 +140,8 @@ void gtk_adi_set_child_close_button (GtkAdi *self, GtkWidget *widget,
 void gtk_adi_set_child_tab (GtkAdi *self, GtkWidget *widget,
 								     gboolean enabled);
 
+GtkWidget *gtk_adi_get_child_container (GtkAdi *self, GtkWidget *widget);
+
 void gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout);
 
 gint gtk_adi_get_childs_count (GtkAdi *self);

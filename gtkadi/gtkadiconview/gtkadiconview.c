@@ -175,6 +175,7 @@ gtk_adi_con_view_iface_init (GtkAdiViewIface *iface)
 	iface->set_child_icon = gtk_adi_con_view_set_child_icon;
 	iface->set_child_close_button = gtk_adi_con_view_set_child_close_button;
 	iface->set_child_tab = gtk_adi_con_view_set_child_tab;
+	iface->get_child_container = gtk_adi_con_view_get_child_container;
 	iface->get_childs_count = gtk_adi_con_view_get_childs_count;
 	iface->need_window = gtk_adi_con_view_need_window;
 }
@@ -612,6 +613,25 @@ gtk_adi_con_view_get_child_data (GtkAdiChildData *data,
 		data->layout = c->layout;
 		data->show_close = c->show_close;
 	}
+}
+
+GtkWidget*
+gtk_adi_con_view_get_child_container (GtkAdiView *self, GtkWidget *widget)
+{
+    g_return_val_if_fail (self != NULL, 0);
+    g_return_val_if_fail (GTK_IS_ADI_VIEW (self), 0);
+    g_return_val_if_fail (widget != NULL, 0);
+    GList* list = NULL;
+    GtkAdiContainer *child;
+
+    list = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+                           widget,
+			   gtk_adi_con_view_find_widget);
+    if (list != NULL)
+    {
+	child = (GtkAdiContainer *) (list->data);
+    }    
+    return child->container;
 }
 
 gint
