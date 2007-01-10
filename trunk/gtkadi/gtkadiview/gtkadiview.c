@@ -232,6 +232,12 @@ gtk_adi_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboolean enable
 	GTK_ADI_VIEW_GET_CLASS (self)->set_child_tab (self, widget, enabled);
 }
 
+GtkWidget*
+gtk_adi_view_get_child_container (GtkAdiView *self, GtkWidget *widget)
+{
+    return GTK_ADI_VIEW_GET_CLASS (self)->get_child_container (self, widget);
+}
+
 gint
 gtk_adi_view_get_childs_count (GtkAdiView *self)
 {

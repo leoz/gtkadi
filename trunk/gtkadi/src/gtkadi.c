@@ -681,6 +681,16 @@ gtk_adi_set_layout (GtkAdi *self, GtkAdiLayout layout)
 	gtk_adi_view_set_layout (GTK_ADI_VIEW(self->cur_view), layout);
 }
 
+GtkWidget*
+gtk_adi_get_child_container (GtkAdi *self, GtkWidget *widget)
+{
+    g_return_val_if_fail (self != NULL, 0);
+    g_return_val_if_fail (GTK_IS_ADI (self), 0);
+    g_return_val_if_fail (widget != NULL, 0);
+
+    return gtk_adi_view_get_child_container (GTK_ADI_VIEW(self->cur_view), widget);
+}
+
 gint
 gtk_adi_get_childs_count (GtkAdi *self)
 {
