@@ -725,7 +725,10 @@ gtk_adi_cont_event_focus_in (GtkWidget *window,
     g_return_val_if_fail (window, FALSE);
     g_return_val_if_fail (data, FALSE);
     ADI_TRACE("Focus - W1: %p", window);
-    g_signal_emit_by_name(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
+#ifdef NEWHILDON_SUPPORT
+    if(hildon_window_get_is_topmost(window))
+#endif
+        g_signal_emit_by_name(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
     return FALSE;
 }
 
