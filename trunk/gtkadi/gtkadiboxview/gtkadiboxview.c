@@ -691,7 +691,7 @@ gtk_adi_box_view_set_current_child (GtkAdiView *self, GtkWidget *child)
     g_return_if_fail (GTK_IS_ADI_VIEW (self));
     GTK_ADI_BOX_VIEW(self)->cur_child = child;
     if (child)
-        g_signal_emit_by_name(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_FOCUS_CHILD_S , GTK_ADI_CHILD(child)->widget);
+	gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_FOCUS_CHILD_S , GTK_ADI_CHILD(child)->widget);
 }
 
 void
@@ -1088,7 +1088,7 @@ static void
 gtk_adi_box_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-    g_signal_emit_by_name(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_CLOSE_CHILD_S, GTK_ADI_CHILD(child)->widget);
+    gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_CLOSE_CHILD_S, GTK_ADI_CHILD(child)->widget);
 }
 
 gint

@@ -226,6 +226,7 @@ gtk_adi_init (GtkAdi *self)
 	self->def_cont_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
+	self->__internal_work = FALSE;
 #ifndef NO_WIDGETS
 	self->cmd = NULL;
 #endif
@@ -535,6 +536,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		return;
 	}
 	
+	self->__internal_work = TRUE;
+	
 	/* 1. Hide current view */
 	if (self->cur_view) {
 		gtk_widget_hide(self->cur_view);
@@ -596,6 +599,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 			                                current);
 		}
 	}
+	
+	self->__internal_work = FALSE;
 
 	ADI_TRACE_MSG("Exit change view.")
 	
@@ -720,7 +725,6 @@ gtk_adi_add_child_notify (GtkAdi *self,
                                        widget, icon, title, layout);
 }
 
-
 static GtkAdi * glob_signal_adi = NULL;
 static gboolean
 gtk_adi_cont_event_focus_in (GtkWidget *window,
@@ -737,7 +741,7 @@ gtk_adi_cont_event_focus_in (GtkWidget *window,
 #ifdef NEWHILDON_SUPPORT
     if(hildon_window_get_is_topmost(window))
 #endif
-        g_signal_emit_by_name(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
+	gtk_adi_internal_send_signal(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
     return FALSE;
 }
 

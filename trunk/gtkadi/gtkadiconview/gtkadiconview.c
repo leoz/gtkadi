@@ -259,7 +259,9 @@ gtk_adi_con_view_child_event_destroy (GtkWidget *window, GtkAdiView *self)
     if (last && last->data)
     {
         if(((GtkAdiContainer*)last->data)->widget)
-            g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
+	{
+	    gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
+	}
     }
 }
 

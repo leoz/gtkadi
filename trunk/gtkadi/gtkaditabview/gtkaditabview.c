@@ -33,6 +33,7 @@
 
 #include "gtkaditabview.h"
 #include "gtkadititle.h"
+#include "gtkadiutils.h"
 
 enum {
     ADI_FOCUS_CHILD,
@@ -122,7 +123,7 @@ gtk_adi_tab_view_class_init (GtkAdiTabViewClass *c)
 void
 on_switch_page(GtkAdiTabView *self, GtkNotebookPage *page, gint page_num, gpointer adi)
 {
-    g_signal_emit_by_name(G_OBJECT(adi), ADI_FOCUS_CHILD_S , gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
+    gtk_adi_internal_send_signal(adi, ADI_FOCUS_CHILD_S, gtk_notebook_get_nth_page(GTK_NOTEBOOK(self), page_num));
 }
 
 static void
@@ -548,7 +549,7 @@ static void
 gtk_adi_tab_view_remove_child_notify (GtkAdiView *self,
                                       GtkWidget *child)
 {
-    g_signal_emit_by_name(G_OBJECT(GTK_ADI_TAB_VIEW(self)->adi), ADI_CLOSE_CHILD_S, child);
+    gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_TAB_VIEW(self)->adi), ADI_CLOSE_CHILD_S, child);
 }
 
 gint
