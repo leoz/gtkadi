@@ -43,7 +43,6 @@ G_BEGIN_DECLS
 
 #define ADI_CLOSE_CHILD_S "adi-close-child"
 #define ADI_FOCUS_CHILD_S "adi-focus-child"
-#define ADI_CLOSE_CHILD_S "adi-close-child"
 #define ADI_GET_CONT_S "adi-get-cont"
 #define ADI_FREE_CONT_S "adi-free-cont"
 /*
@@ -61,6 +60,7 @@ typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 
 struct _GtkAdi {
 	GtkEventBox __parent__;
+	gboolean __internal_work;
 	/*< public >*/
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateContFunc  cont_func;

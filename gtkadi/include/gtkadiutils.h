@@ -21,6 +21,7 @@
  */
  
 #include <glib/gprintf.h>
+#include "gtkadi.h"
 
 #ifndef __GTK_ADI_UTILS_H__
 #define __GTK_ADI_UTILS_H__
@@ -41,6 +42,9 @@ GLIB_VAR const guint gtk_adi_micro_version;
 #define ADI_TRACE(msg,...)
 #define ADI_TRACE_MSG(msg)
 #endif /* ADI_DO_TRACE */
+
+void
+gtk_adi_internal_send_signal (GtkAdi* adi, gchar *signame, GtkWidget *widget);
 
 G_END_DECLS
 
