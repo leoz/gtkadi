@@ -733,19 +733,6 @@ gtk_adi_cont_event_focus_in (GtkWidget *window,
 }
 
 static GtkWidget*
-gtk_adi_find_last_parent_widget(GtkWidget *widget)
-{
-    GtkWidget *ptr = widget;
-    GtkWidget *ptr_prev = NULL;
-    while(ptr)
-    {
-	ptr_prev = ptr;
-	ptr = gtk_widget_get_parent(ptr);
-    }
-    return ptr_prev;
-}
-
-static GtkWidget*
 gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget)
 {
     GtkWidget* container = NULL;
@@ -766,12 +753,12 @@ gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget)
         return container;
 
 #ifdef NEWHILDON_SUPPORT
-    window = GTK_WIDGET(HILDON_WINDOW(gtk_adi_find_last_parent_widget(container)));
+    window = GTK_WIDGET(HILDON_WINDOW(gtk_widget_get_toplevel(container)));
     g_signal_connect (window, "notify::is-topmost",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
                       widget);
 #else
-    window = GTK_WIDGET(GTK_WINDOW(gtk_adi_find_last_parent_widget(container)));
+    window = GTK_WIDGET(GTK_WINDOW(gtk_widget_get_toplevel(container)));
     g_signal_connect (window, "focus-in-event",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
                       widget);
