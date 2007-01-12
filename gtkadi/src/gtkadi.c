@@ -733,32 +733,49 @@ gtk_adi_cont_event_focus_in (GtkWidget *window,
 }
 
 static GtkWidget*
+gtk_adi_find_last_parent_widget(GtkWidget *widget)
+{
+    GtkWidget *ptr = widget;
+    GtkWidget *ptr_prev = NULL;
+    while(ptr)
+    {
+	ptr_prev = ptr;
+	ptr = gtk_widget_get_parent(ptr);
+    }
+    return ptr_prev;
+}
+
+static GtkWidget*
 gtk_adi_create_window (GtkAdi* adi, GtkWidget *widget)
 {
+    GtkWidget* container = NULL;
     GtkWidget* window = NULL;
-    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &window, widget);
-    if(window == NULL)
+    g_signal_emit_by_name(G_OBJECT(adi), ADI_GET_CONT_S, &container, widget);
+    if(container == NULL)
     {
 #ifdef NEWHILDON_SUPPORT
         window = GTK_WIDGET(hildon_window_new());
 #else
         window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 #endif
+        container = window;
     }
 
     glob_signal_adi = adi;
     if (glob_signal_adi && glob_signal_adi->cur_view != glob_signal_adi->win_view)
-        return window;
+        return container;
 
 #ifdef NEWHILDON_SUPPORT
+    window = GTK_WIDGET(HILDON_WINDOW(gtk_adi_find_last_parent_widget(container)));
     g_signal_connect (window, "notify::is-topmost",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
                       widget);
 #else
+    window = GTK_WIDGET(GTK_WINDOW(gtk_adi_find_last_parent_widget(container)));
     g_signal_connect (window, "focus-in-event",
                       G_CALLBACK (gtk_adi_cont_event_focus_in),
                       widget);
 #endif
-    return window;
+    return container;
 }
 
