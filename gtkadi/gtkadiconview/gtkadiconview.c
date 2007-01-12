@@ -302,10 +302,11 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 							  G_CALLBACK (gtk_adi_con_view_child_event_destroy),
 							  self);
 				/* 5. Set window icon. */
-				gtk_window_set_icon (GTK_WINDOW (c->window), icon);
+				if (icon)
+			            gtk_window_set_icon (GTK_WINDOW (c->window), icon);
 				if (title) {
 					/* 6. Set window title. */
-					gtk_window_set_title (GTK_WINDOW (c->window), title);
+				    gtk_window_set_title (GTK_WINDOW (c->window), title);
 				}
 				/* 7. Add child. */
 				c->widget = widget;

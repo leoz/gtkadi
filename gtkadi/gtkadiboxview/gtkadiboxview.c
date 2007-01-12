@@ -613,9 +613,10 @@ gtk_adi_box_view_add_child_with_layout (GtkAdiView *self,
         )
     {
         GtkWidget *temp_win = (GtkWidget*)( GTK_ADI(GTK_ADI_BOX_VIEW(self)->adi)->cont_func (GTK_ADI_BOX_VIEW(self)->adi, widget));
-        gtk_window_set_icon (GTK_WINDOW (temp_win), icon);
+	if (icon)
+    	    gtk_window_set_icon (GTK_WINDOW (gtk_widget_get_toplevel(temp_win)), icon);
         if (title)
-            gtk_window_set_title (GTK_WINDOW (temp_win), title);
+            gtk_window_set_title (GTK_WINDOW (gtk_widget_get_toplevel(temp_win)), title);
         gtk_container_add (GTK_CONTAINER(temp_win), GTK_WIDGET(self));
         gtk_widget_show_all (temp_win);
     }
@@ -1055,20 +1056,7 @@ gtk_adi_box_view_set_child_icon (GtkAdiView *self, GtkWidget *widget,
 
     gtk_adi_child_set_icon(GTK_ADI_CHILD(GTK_ADI_BOX_VIEW(self)->cur_child), icon);
 
-    parent = gtk_widget_get_parent(widget);
-
-    g_return_if_fail(parent);
-
-    while(!GTK_IS_WINDOW(parent))
-    {
-        parent = gtk_widget_get_parent(parent);
-        g_return_if_fail(parent);
-    }
-
-    if (GTK_IS_WINDOW(parent))
-    {
-        gtk_window_set_icon(GTK_WINDOW(parent), (GdkPixbuf*) icon);
-    }
+    gtk_window_set_icon(GTK_WINDOW(gtk_widget_get_toplevel(widget)), (GdkPixbuf*) icon);
 }
 
 
