@@ -379,7 +379,10 @@ gtk_adi_con_view_remove_child (GtkAdiView *self,
 		if(!destroy) {
 			gtk_container_remove ( GTK_CONTAINER(((GtkAdiContainer*) c)->container), ((GtkAdiContainer*) c)->widget );
 		}
-		gtk_widget_destroy ( ((GtkAdiContainer*) c)->window);
+		gboolean handle = FALSE;
+		g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_FREE_CONT_S, ((GtkAdiContainer*) c)->container, &handle);
+		if (!handle)
+		    gtk_widget_destroy ( ((GtkAdiContainer*) c)->container);
 		g_free (c);
 		c = NULL;
 	}

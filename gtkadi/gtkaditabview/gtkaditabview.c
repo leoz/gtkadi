@@ -246,6 +246,7 @@ gtk_adi_tab_view_add_child_with_layout (GtkAdiView * self, GtkWidget * widget, G
             gtk_window_set_title (GTK_WINDOW (gtk_widget_get_toplevel(temp_win)), title);
         gtk_container_add (GTK_CONTAINER(temp_win), GTK_WIDGET(self));
         gtk_widget_show_all (temp_win);
+//	gtk_adi_internal_send_signal(GTK_ADI_TAB_VIEW(self)->adi, ADI_FOCUS_CHILD_S, widget);
     }
 
     page_num = -1;
@@ -298,7 +299,10 @@ gtk_adi_tab_view_remove_child (GtkAdiView *self,
         g_object_ref(GTK_ADI_TAB_VIEW(self));
         GtkWidget * parent = gtk_widget_get_parent(GTK_WIDGET(self));
         gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(self));
-        gtk_widget_unrealize(GTK_WIDGET(parent));
+        gboolean handle = FALSE;
+        g_signal_emit_by_name(G_OBJECT(GTK_ADI_TAB_VIEW(self)->adi), ADI_FREE_CONT_S, parent, &handle);
+        if (!handle)
+	    gtk_widget_destroy(GTK_WIDGET(parent));
     }
 }
 

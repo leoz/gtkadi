@@ -60,7 +60,6 @@ typedef gchar*     (*GtkAdiCreateTitleFunc) (void);
 
 struct _GtkAdi {
 	GtkEventBox __parent__;
-	gboolean __internal_work;
 	/*< public >*/
 	GtkAdiCreateChildFunc child_func;
 	GtkAdiCreateContFunc  cont_func;

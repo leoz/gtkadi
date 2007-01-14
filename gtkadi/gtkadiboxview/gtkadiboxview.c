@@ -690,7 +690,7 @@ gtk_adi_box_view_set_current_child (GtkAdiView *self, GtkWidget *child)
     g_return_if_fail (self != NULL);
     g_return_if_fail (GTK_IS_ADI_VIEW (self));
     GTK_ADI_BOX_VIEW(self)->cur_child = child;
-    if (child)
+    if (child && GTK_ADI_CHILD(child)->widget)
 	gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_FOCUS_CHILD_S , GTK_ADI_CHILD(child)->widget);
 }
 
@@ -784,7 +784,7 @@ gtk_adi_box_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean dest
 
         gtk_container_remove (GTK_CONTAINER (container), old_child);
 
-        gtk_widget_destroy (container);
+        gtk_widget_destroy ( container );
 
         gtk_adi_box_view_set_child (old_container, old_child,
                                     GTK_ADI_BOX_VIEW(self)->mode, n);
@@ -797,7 +797,10 @@ gtk_adi_box_view_remove_child (GtkAdiView *self, GtkWidget *child, gboolean dest
         g_object_ref(GTK_ADI_BOX_VIEW(self));
         GtkWidget * parent = gtk_widget_get_parent(GTK_WIDGET(self));
         gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(self));
-        gtk_widget_unrealize(GTK_WIDGET(parent));
+        gboolean handle = FALSE;
+        g_signal_emit_by_name(G_OBJECT(GTK_ADI_BOX_VIEW(self)->adi), ADI_FREE_CONT_S, parent, &handle);
+        if (!handle)
+            gtk_widget_destroy(GTK_WIDGET(parent));
     }
 }
 

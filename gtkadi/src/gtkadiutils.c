@@ -35,7 +35,6 @@ const guint gtk_adi_micro_version = GTK_ADI_MICRO_VERSION;
 void
 gtk_adi_internal_send_signal (GtkAdi* adi, gchar *signame, GtkWidget *widget)
 {
-    if (!adi->__internal_work)
-	g_signal_emit_by_name(G_OBJECT(adi), signame,  widget);
+    g_signal_emit_by_name(G_OBJECT(adi), signame,  widget);
 }
 
