@@ -226,7 +226,6 @@ gtk_adi_init (GtkAdi *self)
 	self->def_cont_func   = NULL;
 	self->icon_func  = NULL;
 	self->title_func = NULL;
-	self->__internal_work = FALSE;
 #ifndef NO_WIDGETS
 	self->cmd = NULL;
 #endif
@@ -536,8 +535,6 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		return;
 	}
 	
-	self->__internal_work = TRUE;
-	
 	/* 1. Hide current view */
 	if (self->cur_view) {
 		gtk_widget_hide(self->cur_view);
@@ -585,7 +582,8 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 			ADI_TRACE_MSG("Change view - iteration.\n------------\n")
 			gtk_widget_ref (data.widget);
 			data.title = g_strdup(data.title);
-			data.icon = gdk_pixbuf_copy(data.icon);
+			if (data.icon)
+			    data.icon = gdk_pixbuf_copy(data.icon);
 			gtk_adi_view_remove_child(GTK_ADI_VIEW(old_view), data.child, FALSE);
 			gtk_adi_view_add_child_with_data(GTK_ADI_VIEW(self->cur_view),
 			                                              &data);
@@ -600,8 +598,6 @@ gtk_adi_change_view (GtkAdi *self, GtkAdiViewType view)
 		}
 	}
 	
-	self->__internal_work = FALSE;
-
 	ADI_TRACE_MSG("Exit change view.")
 	
 }
@@ -738,10 +734,13 @@ gtk_adi_cont_event_focus_in (GtkWidget *window,
     g_return_val_if_fail (window, FALSE);
     g_return_val_if_fail (data, FALSE);
     ADI_TRACE("Focus - W1: %p", window);
+    if (!GTK_IS_WIDGET(data))
+	return FALSE;
 #ifdef NEWHILDON_SUPPORT
     if(hildon_window_get_is_topmost(window))
 #endif
-	gtk_adi_internal_send_signal(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
+	if (GTK_IS_WIDGET(data))
+	    gtk_adi_internal_send_signal(G_OBJECT(glob_signal_adi), ADI_FOCUS_CHILD_S,  data);
     return FALSE;
 }
 
