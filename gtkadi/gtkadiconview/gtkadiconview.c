@@ -259,9 +259,7 @@ gtk_adi_con_view_child_event_destroy (GtkWidget *window, GtkAdiView *self)
     if (last && last->data)
     {
         if(((GtkAdiContainer*)last->data)->widget)
-	{
-	    gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
-	}
+            g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
     }
 }
 
@@ -304,11 +302,10 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 							  G_CALLBACK (gtk_adi_con_view_child_event_destroy),
 							  self);
 				/* 5. Set window icon. */
-				if (icon)
-			            gtk_window_set_icon (GTK_WINDOW (c->window), icon);
+				gtk_window_set_icon (GTK_WINDOW (c->window), icon);
 				if (title) {
 					/* 6. Set window title. */
-				    gtk_window_set_title (GTK_WINDOW (c->window), title);
+					gtk_window_set_title (GTK_WINDOW (c->window), title);
 				}
 				/* 7. Add child. */
 				c->widget = widget;
@@ -379,10 +376,7 @@ gtk_adi_con_view_remove_child (GtkAdiView *self,
 		if(!destroy) {
 			gtk_container_remove ( GTK_CONTAINER(((GtkAdiContainer*) c)->container), ((GtkAdiContainer*) c)->widget );
 		}
-		gboolean handle = FALSE;
-		g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_FREE_CONT_S, ((GtkAdiContainer*) c)->container, &handle);
-		if (!handle)
-		    gtk_widget_destroy ( ((GtkAdiContainer*) c)->container);
+		gtk_widget_destroy ( ((GtkAdiContainer*) c)->window);
 		g_free (c);
 		c = NULL;
 	}

@@ -31,10 +31,3 @@
 const guint gtk_adi_major_version = GTK_ADI_MAJOR_VERSION;
 const guint gtk_adi_minor_version = GTK_ADI_MINOR_VERSION;
 const guint gtk_adi_micro_version = GTK_ADI_MICRO_VERSION;
-
-void
-gtk_adi_internal_send_signal (GtkAdi* adi, gchar *signame, GtkWidget *widget)
-{
-    g_signal_emit_by_name(G_OBJECT(adi), signame,  widget);
-}
-
