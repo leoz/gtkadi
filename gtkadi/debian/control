@@ -14,7 +14,7 @@ Description: GTK ADI Library. development
  ADI is Advanced Document Interface: yet another approach to MDI - Multi Document Interface.
 
 Package: libgtkadi1
-Section: libs
+Section: user/libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GTK ADI Library. 
