@@ -1,3 +1,17 @@
+libgtkadi (0.7.0-1) unstable; urgency=low
+
+  * Fixed for install/updated with application manager
+  * Fixed connecting to proper parent window
+  * Removed previous commited new function, because it already exists in
+    Simpsons...
+  * Added some fixes for getting parent window
+  * Added ADI_FREE_CONT signal for sending notification before free asked
+    previously container
+  * Added possibility to control all signal sendings from Layouts
+  * Adapted to new Hildon API changes.
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Wed, 11 Apr 2007 17:03:49 +0300
+
 libgtkadi (0.6.6-1) unstable; urgency=low
 
   * Removed parent_window from the code
