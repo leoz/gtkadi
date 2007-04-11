@@ -41,12 +41,12 @@
 #include <memory.h>
 
 #ifdef HILDON_SUPPORT
-#include <hildon-widgets/hildon-app.h>
 #ifdef NEWHILDON_SUPPORT
 #ifdef MAEMO_CHANGES
 #include<hildon/hildon-window.h>
 #include<hildon/hildon-program.h>
 #else
+#include <hildon-widgets/hildon-app.h>
 #include<hildon-widgets/hildon-window.h>
 #include<hildon-widgets/hildon-program.h>
 #endif
