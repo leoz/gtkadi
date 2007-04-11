@@ -146,14 +146,22 @@ gtk_adi_color_init_gtk (GtkAdiColor * self)
 	item  = gtk_menu_item_new ();
 
 	gtk_widget_ensure_style (invis);
+#ifdef MAEMO_CHANGES
+	g_object_ref_sink (GTK_OBJECT (invis));
+#else
 	gtk_object_sink (GTK_OBJECT (invis));
+#endif
 	invis_style = gtk_widget_get_style(invis);
 	self->text[GTK_ADI_STATE_INACTIVE]=invis_style->bg[GTK_STATE_NORMAL];
 	self->text[GTK_ADI_STATE_ACTIVE]=invis_style->text[GTK_STATE_SELECTED];
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_ensure_style (item);
+#ifdef MAEMO_CHANGES
+	g_object_ref_sink (GTK_OBJECT (item));
+#else
 	gtk_object_sink (GTK_OBJECT (item));
+#endif
 	title_style = gtk_widget_get_style(item);
 	self->title[GTK_ADI_STATE_INACTIVE]=title_style->text[GTK_STATE_INSENSITIVE];
 	self->title[GTK_ADI_STATE_ACTIVE]=title_style->bg[GTK_STATE_PRELIGHT];

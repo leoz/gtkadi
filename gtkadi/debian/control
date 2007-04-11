@@ -1,7 +1,7 @@
 Source: libgtkadi
 Priority: optional
 Maintainer: Oleg Romashin <romaxa@gmail.com>
-Build-Depends: debhelper (>= 4.0.0), libgtk2.0-dev
+Build-Depends: debhelper (>= 4.0.0), libgtk2.0-dev, libhildon1-dev | hildon-libs-dev
 Standards-Version: 3.6.0
 
 Package: libgtkadi-dev
