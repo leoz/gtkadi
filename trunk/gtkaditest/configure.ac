@@ -1,12 +1,3 @@
-dnl GTK ADI Library Test
-dnl
-dnl Copyright (C) 2003 - 2006, Leonid Zolotarev <leonid.zolotarev@gmail.com>
-dnl
-dnl Licensed under the terms of the BSD license, see file COPYING
-dnl for details.
-dnl
-dnl $Id$
-dnl
 
 AC_INIT(configure.ac)
 AM_INIT_AUTOMAKE(gtkaditest, 0.1.2)
