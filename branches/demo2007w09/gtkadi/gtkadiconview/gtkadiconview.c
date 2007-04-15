@@ -256,17 +256,21 @@ gtk_adi_con_view_child_event_delete (GtkWidget *window,
                                      GdkEvent *event,
                                      GtkAdiView *self)
 {
-    GList* last = NULL;
     g_return_val_if_fail (self != NULL, FALSE);
     g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
-    
-    return FALSE;
+
+    gboolean ret = TRUE;
+    g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_ASK_CHILD_CLOSE_S, &ret);
+    return !ret;
 }
 
 static void
 gtk_adi_con_view_child_event_destroy (GtkWidget *window, GtkAdiView *self)
 {
+    g_return_if_fail (self != NULL);
+    g_return_if_fail (GTK_IS_ADI_VIEW (self));
     GList* last = NULL;
+            
     last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
                                 window,
                                 gtk_adi_con_view_find_window);
