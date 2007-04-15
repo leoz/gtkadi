@@ -72,6 +72,7 @@ enum {
     ADI_FOCUS_CHILD,    
     ADI_CLOSE_CHILD,
     ADI_FREE_CONT,
+    ADI_ASK_CHILD_CLOSE,
     LAST_SIGNAL
 };
 
@@ -224,6 +225,15 @@ gtk_adi_class_init (GtkAdiClass * c)
 			NULL, NULL,
 			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, GTK_TYPE_POINTER);
+        
+  gtk_adi_signals[ADI_ASK_CHILD_CLOSE]
+      = g_signal_new (ADI_ASK_CHILD_CLOSE_S,
+              G_TYPE_FROM_CLASS (c),
+              G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+              G_STRUCT_OFFSET (GtkAdiClass, ask_child_close),
+              NULL, NULL,
+			        g_cclosure_marshal_VOID__POINTER,
+              G_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
 	gtk_adi_signals[ADI_FREE_CONT]
 		= g_signal_new (ADI_FREE_CONT_S,
