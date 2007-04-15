@@ -56,6 +56,7 @@ G_BEGIN_DECLS
 #define GTK_ADI_GET_CLASS(obj)	G_TYPE_INSTANCE_GET_CLASS((obj), gtk_adi_get_type(), GtkAdiClass)
 
 #define ADI_CLOSE_CHILD_S "adi-close-child"
+#define ADI_ASK_CHILD_CLOSE_S "adi-ask-chlid-close"
 #define ADI_FOCUS_CHILD_S "adi-focus-child"
 #define ADI_GET_CONT_S "adi-get-cont"
 #define ADI_FREE_CONT_S "adi-free-cont"
@@ -99,6 +100,7 @@ struct _GtkAdiClass {
 	void (* get_cont) (GtkAdi * adi);
 	void (* focus_child) (GtkAdi * adi);
 	void (* remove_child) (GtkAdi * adi);
+	void (* ask_child_close) (GtkAdi * adi);
 };
 
 
