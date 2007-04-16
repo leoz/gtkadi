@@ -1,3 +1,9 @@
+libgtkadi (0.6.8-1) unstable; urgency=low
+
+  * Added new signal adi-ask-chlid-close
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Mon, 16 Apr 2007 10:26:07 +0300
+
 libgtkadi (0.6.7-1) unstable; urgency=low
 
   * Added MP Licensing
