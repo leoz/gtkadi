@@ -1,0 +1,16 @@
+LIBRARY    gtkadi
+EXPORTS
+    gtk_adi_get_type
+	gtk_adi_change_view
+	gtk_adi_can_exit
+	gtk_adi_change_color
+	gtk_adi_menu_get_submenu
+	gtk_adi_menu_get_type
+	gtk_adi_create_menu
+	gtk_adi_set_title_func
+	gtk_adi_set_icon_func
+	gtk_adi_set_child_func
+	gtk_adi_set_win_func
+	gtk_adi_new
+	gtk_adi_create_toolbar
+	gtk_adi_user_add_child
