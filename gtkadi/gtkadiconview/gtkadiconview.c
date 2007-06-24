@@ -51,7 +51,7 @@
 
 
 #include "gtkadiconview.h"
-#define ADI_DO_TRACE
+/* #define ADI_DO_TRACE */
 #include "gtkadiutils.h"
 
 enum {
