@@ -37,20 +37,25 @@ AC_ARG_ENABLE(newhildon, [ --enable-newhildon=[yes|no] ], [newhildon_support=$en
 if test "$hildon_support" != "no"; then
 	
     PKG_CHECK_MODULES(HILDON, [hildon-1],
-    [
-        use_hildon="yes"
-	AC_DEFINE(MAEMO_CHANGES, 1,"Set to 1 if enable-newhildon is yes")
-    ],
-    [
-	PKG_CHECK_MODULES(HILDON, [hildon-libs],
-   	[
-            use_hildon="yes"
-    	],
-    	[
-	    use_hildon="no"
-    	]
-	)
-    ]
+      [
+          use_hildon="yes"
+          newhildon_support="yes"
+          AC_DEFINE(MAEMO_CHANGES, 1,"Set to 1 if enable-newhildon is yes")
+      ],
+      [
+          PKG_CHECK_MODULES(HILDON, [hildon-libs],
+            [
+                newhildon_support="yes"
+                hildon_support="yes"
+                use_hildon="yes"
+            ],
+            [
+                use_hildon="no"
+                newhildon_support="no"
+                hildon_support="no"
+            ]
+          )
+      ]
     )
 
     if test "$hildon_support" = "yes"; then
