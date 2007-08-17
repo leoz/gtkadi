@@ -1,3 +1,10 @@
+libgtkadi (0.7.4-1) unstable; urgency=low
+
+  * Changed section name(user/libs to libs) in Debian control
+    file. Fixes: NB#65784
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 17 Aug 2007 19:25:33 +0300
+
 libgtkadi (0.7.3-1) unstable; urgency=low
 
   * Fixed building in different environments 
