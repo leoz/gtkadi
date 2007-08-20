@@ -279,13 +279,12 @@ gtk_adi_con_view_child_event_destroy (GtkWidget *window, GtkAdiView *self)
     last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
                                 window,
                                 gtk_adi_con_view_find_window);
-    if (last && last->data)
-    {
-        if(((GtkAdiContainer*)last->data)->widget)
-	{
-	    gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
-	}
+    if (last && last->data) {
+        if (GTK_IS_WIDGET(((GtkAdiContainer*)last->data)->widget)) {
+            gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
+        }
     }
+    GTK_ADI_CON_VIEW(self)->containers = g_list_remove(GTK_ADI_CON_VIEW(self)->containers, last->data);
 }
 
 void 
