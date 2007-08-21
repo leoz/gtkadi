@@ -279,12 +279,13 @@ gtk_adi_con_view_child_event_destroy (GtkWidget *window, GtkAdiView *self)
     last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
                                 window,
                                 gtk_adi_con_view_find_window);
-    if (last && last->data) {
-        if (GTK_IS_WIDGET(((GtkAdiContainer*)last->data)->widget)) {
-            gtk_adi_internal_send_signal(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_CLOSE_CHILD_S, ((GtkAdiContainer*)last->data)->widget);
-        }
-    }
-    GTK_ADI_CON_VIEW(self)->containers = g_list_remove(GTK_ADI_CON_VIEW(self)->containers, last->data);
+    if (!last) return;
+    
+    GtkAdiContainer * cont = (GtkAdiContainer*)last->data;
+    if (cont && GTK_IS_WIDGET(cont->widget))
+        gtk_adi_internal_send_signal(GTK_ADI_CON_VIEW(self)->adi, ADI_CLOSE_CHILD_S, (gpointer)cont->widget);
+    
+    GTK_ADI_CON_VIEW(self)->containers = g_list_remove(GTK_ADI_CON_VIEW(self)->containers, cont);
 }
 
 void 
@@ -646,7 +647,7 @@ gtk_adi_con_view_get_child_container (GtkAdiView *self, GtkWidget *widget)
     g_return_val_if_fail (GTK_IS_ADI_VIEW (self), 0);
     g_return_val_if_fail (widget != NULL, 0);
     GList* list = NULL;
-    GtkAdiContainer *child;
+    GtkAdiContainer *child = NULL;
 
     list = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
                            widget,
