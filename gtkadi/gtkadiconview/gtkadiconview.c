@@ -391,10 +391,10 @@ gtk_adi_con_view_remove_child (GtkAdiView *self,
 	if ( c == GTK_ADI_CON_VIEW(self)->current ) {
 		last = g_list_last (GTK_ADI_CON_VIEW(self)->containers);
 		if ( last != NULL ) {
-			gtk_adi_con_view_set_current_container (self, (GtkAdiContainer*) last->data);
+      GTK_ADI_CON_VIEW(self)->current = (GtkAdiContainer*) last->data;
 		}
 		else {
-			gtk_adi_con_view_set_current_container (self, NULL);
+      GTK_ADI_CON_VIEW(self)->current = NULL;
 		}
 	}
 	/* Close window and free data. */
