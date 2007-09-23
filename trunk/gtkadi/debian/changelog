@@ -1,3 +1,9 @@
+libgtkadi (0.7.7-1) unstable; urgency=low
+
+  * Fixed bug:Closing browser windows works in wrong way. Fixes: NB#62586
+
+ -- Oleg Romashin <oleg.romashin@nokia.com>  Sun, 23 Sep 2007 21:16:34 +0300
+
 libgtkadi (0.7.6-1) unstable; urgency=low
 
   * Fixed bug: Open/Close new window cause Browser crash. Fixes: NB#65157
