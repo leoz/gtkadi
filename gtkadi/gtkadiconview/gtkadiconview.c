@@ -654,13 +654,14 @@ gtk_adi_con_view_get_child_container (GtkAdiView *self, GtkWidget *widget)
     GtkAdiContainer *child = NULL;
 
     list = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
-                           widget,
-			   gtk_adi_con_view_find_widget);
+                               widget,
+                               gtk_adi_con_view_find_widget);
     if (list != NULL)
     {
-	child = (GtkAdiContainer *) (list->data);
-    }    
-    return child->container;
+        child = (GtkAdiContainer *) (list->data);
+        return child->container;
+    }
+    return NULL;
 }
 
 gint

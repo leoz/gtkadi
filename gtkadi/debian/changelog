@@ -1,3 +1,9 @@
+libgtkadi (0.7.8-2) unstable; urgency=low
+
+  * Fixes: NB#83376 browser crashed during page browsing
+
+ -- Oleg Romashin <oleg.romashin@nokia.com>  Tue, 01 Apr 2008 18:50:21 +0300
+
 libgtkadi (0.7.8-1) unstable; urgency=low
 
   * Fixed bug#78022:Minor leak in gtkadi
