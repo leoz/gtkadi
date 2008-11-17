@@ -346,8 +346,7 @@ gtk_adi_con_view_add_child_with_layout (GtkAdiView *self,
 				GTK_ADI_CON_VIEW(self)->containers = g_list_append(
 									GTK_ADI_CON_VIEW(self)->containers,
 									c);
-				if (!g_object_get_data(c->window, "autoshow_off"))
-				    gtk_widget_show_all (c->window);
+				gtk_widget_show_all (c->window);
 			}
 		}
 	}
@@ -737,7 +736,7 @@ gtk_adi_con_view_set_current_container (GtkAdiView *self, GtkAdiContainer* c)
 
 	GTK_ADI_CON_VIEW(self)->current = c;
 	
-	if (c && c->window && !g_object_get_data(c->window, "autoshow_off")) {
+	if (c && c->window) {
 		gtk_window_present(GTK_WINDOW(c->window));
 	}
 }
