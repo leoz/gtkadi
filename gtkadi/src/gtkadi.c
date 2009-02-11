@@ -232,8 +232,8 @@ gtk_adi_class_init (GtkAdiClass * c)
               G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
               G_STRUCT_OFFSET (GtkAdiClass, ask_child_close),
               NULL, NULL,
-			        g_cclosure_marshal_VOID__POINTER,
-              G_TYPE_NONE, 1, GTK_TYPE_POINTER);
+			        gtk_marshal_VOID__POINTER_POINTER,
+              G_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 
 	gtk_adi_signals[ADI_FREE_CONT]
 		= g_signal_new (ADI_FREE_CONT_S,
