@@ -264,8 +264,20 @@ gtk_adi_con_view_child_event_delete (GtkWidget *window,
     g_return_val_if_fail (self != NULL, FALSE);
     g_return_val_if_fail (GTK_IS_ADI_VIEW (self), FALSE);
     
+    GList* last = NULL;
     gboolean ret = TRUE;
-    g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_ASK_CHILD_CLOSE_S, &ret);
+
+    last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
+                                window,
+                                gtk_adi_con_view_find_window);
+    if (!last) return;
+    
+    GtkAdiContainer * cont = (GtkAdiContainer*)last->data;
+    if (cont) {
+       if (GTK_IS_WIDGET(cont->widget)) {
+           g_signal_emit_by_name(G_OBJECT(GTK_ADI_CON_VIEW(self)->adi), ADI_ASK_CHILD_CLOSE_S, (gpointer)cont->widget, &ret);
+       }
+    }
     return !ret;
 }
 
