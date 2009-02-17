@@ -270,7 +270,7 @@ gtk_adi_con_view_child_event_delete (GtkWidget *window,
     last = g_list_find_custom (GTK_ADI_CON_VIEW(self)->containers,
                                 window,
                                 gtk_adi_con_view_find_window);
-    if (!last) return;
+    if (!last) return FALSE;
     
     GtkAdiContainer * cont = (GtkAdiContainer*)last->data;
     if (cont) {
