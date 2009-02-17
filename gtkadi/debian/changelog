@@ -1,3 +1,9 @@
+libgtkadi (0.7.10-2) unstable; urgency=low
+
+  * Fixed compiler warning. 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Tue, 17 Feb 2009 10:27:06 +0200
+
 libgtkadi (0.7.10-1) unstable; urgency=low
 
   * Fixes: NB#100622
