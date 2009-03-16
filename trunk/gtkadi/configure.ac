@@ -114,6 +114,27 @@ dnl Languages which your application supports
 ALL_LINGUAS=""
 AM_GLIB_GNU_GETTEXT
 
+dnl Unit testing
+
+AC_ARG_ENABLE(tests, [ --enable-tests=[yes|no] ], [ ac_tests_enabled=$enableval ])
+if test x"$ac_tests_enabled" = xyes; then
+	COVERAGE_CFLAGS="-g -O0 -fprofile-arcs -ftest-coverage"
+	COVERAGE_LIBS="-lgcov"
+	AC_SUBST(COVERAGE_CFLAGS)
+	AC_SUBST(COVERAGE_LIBS)
+
+	PKG_CHECK_MODULES(CHECK, check)
+
+	AC_PATH_PROG(LCOV, lcov)
+	test -x "$LCOV" || AC_MSG_ERROR([lcov is needed for coverage analysis])
+	AC_SUBST(LCOV)
+
+	AC_PATH_PROG(GENHTML, genhtml)
+	test -x "$GENHTML" || AC_MSG_ERROR([genhtml is needed for coverage analysis])
+	AC_SUBST(GENHTML)
+fi
+AM_CONDITIONAL(TESTS_ENABLED, test x"$ac_tests_enabled" = xyes)
+
 AC_OUTPUT([
 gtkadi.pc
 Makefile
@@ -124,4 +145,5 @@ gtkaditabview/Makefile
 gtkadiconview/Makefile
 gtkadiwinview/Makefile
 src/Makefile
+tests/Makefile
 ])

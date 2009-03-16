@@ -8,7 +8,8 @@ libgtkadi_la_CPPFLAGS = \
 	-I$(top_srcdir)/gtkadiconview \
 	-I$(top_srcdir)/gtkadiwinview \
 	$(GTK_CFLAGS) \
-	$(HILDON_CFLAGS)
+	$(HILDON_CFLAGS) \
+	$(COVERAGE_CFLAGS)
 
 AM_CFLAGS = \
 	-DGTK_ADI_MAJOR_VERSION=$(GTK_ADI_MAJOR_VERSION) \
@@ -54,4 +55,5 @@ libgtkadi_la_LIBADD = \
 
 libgtkadi_la_LDFLAGS = \
 	$(GTK_LIBS) \
-	$(HILDON_LIBS)
+	$(HILDON_LIBS) \
+	$(COVERAGE_LIBS)
