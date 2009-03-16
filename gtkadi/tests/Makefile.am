@@ -12,8 +12,6 @@ check_PROGRAMS = check_adi \
 				 check_toolbar
 #TESTS=$(check_PROGRAMS)
 
-CLEANFILES = *.gcno *.gcda *.log *.lcov
-
 check-local: $(check_PROGRAMS)
 	af-sb-init.sh start
 	for x in $(check_PROGRAMS) ; do \
@@ -24,3 +22,9 @@ check-local: $(check_PROGRAMS)
 	done
 	$(GENHTML) --num-spaces=2 --show-details -k -t "GtkAdi" -o coverage *.lcov
 	af-sb-init.sh stop
+
+clean-local:
+	rm -rf $(check_PROGRAMS) *.o *.lo *.la *.i
+	rm -rf .debs .libs
+	rm -rf coverage *.gcno *.gcda *.lcov
+	rm -rf *.log
