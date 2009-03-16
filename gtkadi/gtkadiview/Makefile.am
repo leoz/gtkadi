@@ -1,7 +1,8 @@
 
 libgtkadiview_la_CPPFLAGS = \
 	-I$(top_srcdir)/include \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(COVERAGE_CFLAGS)
 
 AM_CFLAGS = \
 	-Wall \
@@ -20,4 +21,5 @@ noinst_HEADERS = \
 	gtkadiview.h
 
 libgtkadiview_la_LDFLAGS = \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(COVERAGE_LIBS)

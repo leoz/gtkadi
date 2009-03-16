@@ -11,6 +11,10 @@ export DH_OPTIONS
 DEB_HOST_GNU_TYPE	?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE	?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
+configopts =
+
+tests:=n
+
 objdir = $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
 
 CFLAGS = -Wall -g
@@ -35,6 +39,17 @@ endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
+ifneq (,$(findstring tests,$(DEB_BUILD_OPTIONS)))
+	tests:=y
+else
+	tests:=$(tests)
+endif
+
+ifeq ($(tests),y)
+	configopts += --enable-tests=yes
+else
+	configopts += --enable-tests=no
+endif
 
 configure: configure-stamp
 configure-stamp:
@@ -44,7 +59,7 @@ configure-stamp:
 
 	# change ../configure to ../autogen.sh for CVS build
 	./autogen.sh
-	CFLAGS="$(CFLAGS)" ./configure  --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=yes --enable-widgets=no --enable-newhildon=yes
+	CFLAGS="$(CFLAGS)" ./configure  --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) --prefix=/usr --enable-hildon=yes --enable-widgets=no --enable-newhildon=yes $(configopts)
 
 	touch configure-stamp
 
