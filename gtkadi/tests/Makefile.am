@@ -16,7 +16,7 @@ check-local: $(check_PROGRAMS)
 	af-sb-init.sh start
 	for x in $(check_PROGRAMS) ; do \
 		$(LCOV) -q -d $(top_builddir) -z; \
-		./$$x $$x.log; \
+		./$$x $$x.xml; \
 		$(LCOV) -q -d $(top_builddir) -o $$x.info -t $$x -c; \
 		{ lcov -l $$x.info | grep -v "`cd $(top_builddir) && pwd`"; \
 			lcov -l $$x.info | grep "`pwd`"; \
