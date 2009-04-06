@@ -17,8 +17,10 @@ check-local: $(check_PROGRAMS)
 	for x in $(check_PROGRAMS) ; do \
 		$(LCOV) -q -d $(top_builddir) -z; \
 		./$$x $$x.log; \
-		$(LCOV) -q -d $(top_builddir) -o $$x-info.lcov -t $$x -c; \
-		$(LCOV) -q -o $$x-info.lcov -r $$x-info.lcov *gtkadi/tests*; \
+		$(LCOV) -q -d $(top_builddir) -o $$x.info -t $$x -c; \
+		{ lcov -l $$x.info | grep -v "`cd $(top_builddir) && pwd`"; \
+			lcov -l $$x.info | grep "`pwd`"; \
+		} | cut -d: -f1 | xargs lcov -r $$x.info > $$x.lcov; \
 	done
 	$(GENHTML) --num-spaces=2 --show-details -k -t "GtkAdi" -o coverage *.lcov
 	af-sb-init.sh stop
