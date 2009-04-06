@@ -19,7 +19,6 @@ check-local: $(check_PROGRAMS)
 		./$$x $$x.xml; \
 		$(LCOV) -q -d $(top_builddir) -o $$x.info -t $$x -c; \
 		{ lcov -l $$x.info | grep -v "`cd $(top_builddir) && pwd`"; \
-			lcov -l $$x.info | grep "`pwd`"; \
 		} | cut -d: -f1 | xargs lcov -r $$x.info > $$x.lcov; \
 	done
 	$(GENHTML) --num-spaces=2 --show-details -k -t "GtkAdi" -o coverage *.lcov
