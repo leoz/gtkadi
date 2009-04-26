@@ -105,6 +105,7 @@ gtk_adi_box_view_iface_init (GtkAdiViewIface *iface)
     iface->set_child_tab = gtk_adi_box_view_set_child_tab;
     iface->get_childs_count = gtk_adi_box_view_get_childs_count;
     iface->need_window = gtk_adi_box_view_need_window;
+    iface->get_child_container = gtk_adi_box_view_get_child_container;
 }
 
 GType
@@ -1122,3 +1123,11 @@ gtk_adi_box_view_need_window (GtkAdiView *self)
 {
     return TRUE;
 }
+
+GtkWidget*
+gtk_adi_box_view_get_child_container (GtkAdiView *self, GtkWidget *widget)
+{
+    /* TBD */
+    return NULL;
+}
+
