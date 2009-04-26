@@ -134,6 +134,7 @@ void gtk_adi_tab_view_set_child_tab (GtkAdiView *self, GtkWidget *widget, gboole
 
 gint gtk_adi_tab_view_get_childs_count (GtkAdiView *self);
 gboolean gtk_adi_tab_view_need_window (GtkAdiView *self);
+GtkWidget * gtk_adi_tab_view_get_child_container (GtkAdiView *self, GtkWidget *widget);
 
 G_END_DECLS
 

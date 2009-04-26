@@ -1,3 +1,10 @@
+libgtkadi (0.7.11-1) unstable; urgency=low
+
+  * Fixes: NB#104089 - get_child_container interface function added for 
+    gtkadiboxview and gtkaditabview.
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Sun, 26 Apr 2009 18:21:32 +0300
+
 libgtkadi (0.7.10-5) unstable; urgency=low
 
   * Added tests folder to coverage results
