@@ -1,3 +1,9 @@
+libgtkadi (0.7.12-1) unstable; urgency=low
+
+  * Fixes: NB#136537 - Valgrind reports invalid read of size 4 in libgtkadi 
+
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Wed, 23 Sep 2009 10:51:05 +0300
+
 libgtkadi (0.7.11-1) unstable; urgency=low
 
   * Fixes: NB#104089 - get_child_container interface function added for 
