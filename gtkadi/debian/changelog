@@ -1,3 +1,9 @@
+libgtkadi (0.7.13-1) unstable; urgency=low
+
+  * Fixes: NB#154938 - gtk_adi_con_view_child_event_destroy not re-entrant
+ 
+ -- Sudarsana Nagineni <sudarsana.nagineni@gmail.com>  Fri, 29 Jan 2010 14:38:55 +0200
+
 libgtkadi (0.7.12-1) unstable; urgency=low
 
   * Fixes: NB#136537 - Valgrind reports invalid read of size 4 in libgtkadi 
