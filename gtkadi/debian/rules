@@ -34,6 +34,7 @@ ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0 -g3
 else
 	CFLAGS += -O2
+	CFLAGS += -DG_DISABLE_CAST_CHECKS
 endif
 endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
