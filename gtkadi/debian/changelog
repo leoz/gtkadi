@@ -2,7 +2,7 @@ libgtkadi (0.7.14-1) unstable; urgency=low
 
   * Fixes: NB#162688 - browser components recompilation with G_DISABLE_CAST_CHECKS
 
- -- Andrey Petrov <andrey.petrov@nokia.com>  Mon, 12 Apr 2010 15:06:32 +0300
+ -- Pekka Vanhoja <pekka.vanhoja@digia.com>  Mon, 12 Apr 2010 15:06:32 +0300
 
 libgtkadi (0.7.13-1) unstable; urgency=low
 
